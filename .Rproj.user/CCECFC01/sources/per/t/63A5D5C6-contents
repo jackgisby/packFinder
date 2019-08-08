@@ -1,0 +1,19 @@
+library(Biostrings)
+library(BSgenome.Athaliana.TAIR.TAIR9)
+library(stringdist)
+
+SubSeq <- DNAString("CACTACAAA")
+ArAth <- BSgenome.Athaliana.TAIR.TAIR9
+chrList <- seqnames(ArAth)
+Chr <- ArAth[[chrList[1]]]
+
+start = Sys.time()
+forwardMatches1 <- matchPattern(SubSeq, Chr, max.mismatch = 2)
+end = Sys.time()
+print(end-start)
+
+Chr <- ArAth[[chrList[1]]]
+start = Sys.time()
+forwardMatches2 <- agrep("abc", "abcabcabc", max.distance = 2)
+end = Sys.time()
+print(end-start)

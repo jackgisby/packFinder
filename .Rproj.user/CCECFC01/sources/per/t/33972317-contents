@@ -1,0 +1,12 @@
+library(Biostrings)
+library(BSgenome.Athaliana.TAIR.TAIR9)
+
+source("R/Pipeline.R")
+
+SubSeq <- DNAString("CACTACAAAAATATCATTTTA")
+ArAth <- BSgenome.Athaliana.TAIR.TAIR9
+
+start = Sys.time()
+Search_Visualise(SubSeq, ArAth, max.mismatch = 3, with.indels = TRUE, fixed = TRUE)
+end = Sys.time()
+print(end-start)
