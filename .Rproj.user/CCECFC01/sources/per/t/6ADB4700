@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565293379290.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1753572761",
+    "id" : "6ADB4700",
+    "lastKnownWriteTime" : 1562701260,
+    "last_content_update" : 1562701260,
+    "path" : "C:/Users/jackg/OneDrive/Documents/Work/Final Year 2019-2020/Transposon_Search/R/Pipeline.R",
+    "project_path" : "R/Pipeline.R",
+    "properties" : {
+        "cursorPosition" : "21,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

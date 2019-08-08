@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565293378066.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3013413381",
+    "id" : "62A1F359",
+    "lastKnownWriteTime" : 1562701250,
+    "last_content_update" : 1562701250,
+    "path" : "C:/Users/jackg/OneDrive/Documents/Work/Final Year 2019-2020/Transposon_Search/R/Search_Biostrings.R",
+    "project_path" : "R/Search_Biostrings.R",
+    "properties" : {
+        "cursorPosition" : "14,4",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

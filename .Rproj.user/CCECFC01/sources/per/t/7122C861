@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565294103663.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "7122C861",
+    "lastKnownWriteTime" : 7018113588300611584,
+    "last_content_update" : 1565294103663,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "a148d42652de4cf9bf0d82aac64d2ce0",
+        "name" : "Chr",
+        "title" : "Chr"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}
