@@ -14,7 +14,6 @@ initialise <- FALSE
 source("R/packSearch.R")
 
 start = Sys.time()
-#reverseMatches <- packSearch(subSeq, Genome, mismatch = 1, element.length = c(300, 5000))
-x <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, 1, c(300, 5000), 3)
+TIR_Matches <- packSearch(subSeq, Genome, mismatch = 1)
 end = Sys.time()
 print(end-start)
