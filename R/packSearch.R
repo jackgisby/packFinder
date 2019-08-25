@@ -14,14 +14,14 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   # a summary of the search, with match statistics
   
   #perform initial search for TIR matches
-  forwardMatches <- GRanges()
+  forwardMatches <- as.data.frame(GRanges())
   forwardMatches <- identifyTIRMatches(forwardMatches, subSeq, Genome, mismatch = mismatch, strand = "+")
   
-  reverseMatches <- GRanges()
+  reverseMatches <- as.data.frame(GRanges())
   reverseMatches <- identifyTIRMatches(reverseMatches, reverseComplement(subSeq), Genome, mismatch = mismatch, strand = "-")
   
   #determine potential transposable elements based on following elements
   #packElements <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length, TSD.length)
   
-  return(reverseMatches)
+  return(forwardMatches)
 }
