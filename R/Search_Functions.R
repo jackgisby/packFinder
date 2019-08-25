@@ -13,12 +13,18 @@ identifyTIRMatches <- function(TIR_Matches, subSeq, Genome, mismatch, strand = "
   return(TIR_Matches)
 }
 
-identifyPotentialPackElements <- function(subSeq, Genome, element.length, TIR_Matches) {
-  potTransposons <- TIR_Matches[strand(TIR_Matches) == "+"]
-  reverseMatchess <- TIR_Matches[strand(TIR_Matches) == "-"]
+identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length) {
   
-  for(forwardMatch in 1:length(potTransposons)) {
-    print("yay")
+  for(forwardMatch in 1:length(forwardMatches)) {
+    searchRange <- forwardMatches[forwardMatch]@ranges@start
+    searchRange <- c(searchRange + element.length[1], searchRange + element.length[2])
+    
+    forwardRepeat <- forwardMatches[forwardMatch]
+    reverseRepeats <- reverseMatches[seqnames(reverseMatches) == seqnames(forwardRepeat)@values
+                                     & end(reverseMatches) > searchRange[1]
+                                     & end(reverseMatches) < searchRange[2]
+                                     & strand(reverseMatches) == "-"]
+    print(reverseRepeats)
   }
   
   return(potTransposons)
