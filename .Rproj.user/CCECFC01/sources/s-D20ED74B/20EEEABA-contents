@@ -1,18 +1,12 @@
-getMatches <- function(SearchString, Genome, chrList = NULL, max.mismatch = 0, with.indels = FALSE, fixed = TRUE) {
+getGenomeMatches <- function(subSeq, Genome, mismatch = 0, with.indels = TRUE, fixed = TRUE) {
   # takes genome, searchstring and matchPattern parameters for entire genome searching of a sequence
   # returns either "No matches found." or a list of two dataframes (one for the forward matches, one for the reverse)
-  
-  if(is.null(chrList)) {
-    chrList <- seqnames(Genome)
-  }
   
   forwardMatches <- data.frame(matrix(ncol = 3, nrow = 0))
   reverseMatches <- data.frame(matrix(ncol = 3, nrow = 0))
   colnames(forwardMatches) <- c("Chr", "Start", "End")
-  colnames(reverseMatches) <- c("Chr", "Start", "End")
   
-  for(i in 1:length(chrList)) { 
-    Chr <- ArAth[[chrList[i]]]
+  for(i in 1:length(Genome)) { 
     Matches <- (getMatchesChr(SearchString, Chr, chrList[i], max.mismatch = max.mismatch, with.indels = with.indels, fixed = fixed))
     if(!is.null(Matches[[1]])) {
       forwardMatches <- rbind(forwardMatches, Matches[[1]])
@@ -33,7 +27,7 @@ getMatches <- function(SearchString, Genome, chrList = NULL, max.mismatch = 0, w
   return(list("forwardMatches" = forwardMatches, "reverseMatches" = reverseMatches))
 }
 
-getMatchesChr <- function(SubSeqForward, Chr, chrName = NULL, max.mismatch = 0, with.indels = FALSE, fixed = TRUE){
+getSeqMatches <- function(SubSeqForward, Chr, chrName = NULL, max.mismatch = 0, with.indels = FALSE, fixed = TRUE){
   # takes subsequence and DNAString object to be searched with parameters for matchPattern string search
   # returns matches in the chromosome for the forward and reverse complement matches as a list of dataframes (or NULL in the event of no matches)
 

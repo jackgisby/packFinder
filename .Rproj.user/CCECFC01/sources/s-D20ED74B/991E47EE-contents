@@ -1,0 +1,19 @@
+library(Biostrings)
+
+source("Search_Functions.R")
+
+
+packSearch <- function(subSeq, Genome, mismatch = 0) {
+  # ---input---
+  # SearchString = DNAString object to be searched for
+  # Genome = DNAStringSet object to search
+  # mismatch = the maximum edit distance to be considered (indels + substitions)
+  #   
+  # ---returns---
+  # locations of matches as a dataframe
+  # a summary of the search, with match statistics
+  
+  initialMatches <- identifyGenomeMatches(subSeq, Genome, mismatch = mismatch)
+  
+  return(matches)
+}
