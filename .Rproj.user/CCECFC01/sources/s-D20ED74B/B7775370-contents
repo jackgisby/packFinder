@@ -1,0 +1,10 @@
+identifyGenomeMatches <- function(subSeq, Genome, mismatch) {
+  
+  matches = list()
+  
+  for(i in 1:length(Genome)) { 
+    matches[i] <- matchPattern(subSeq, Genome[[i]], max.mismatch = mismatch, with.indels = TRUE)
+  }
+  
+  return(matches)
+}
