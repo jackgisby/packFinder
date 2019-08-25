@@ -1,0 +1,19 @@
+if(initialise == TRUE) {
+  library(Biostrings)
+  library(biomartr)
+  library(GenomicRanges)
+  library(dplyr)
+
+  subSeq <- DNAString("CACTACAA")
+  Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
+  Genome <- Genome[1:5]
+}
+
+initialise <- FALSE
+
+source("R/packSearch.R")
+
+start = Sys.time()
+TIR_Matches <- packSearch(subSeq, Genome, mismatch = 1)
+end = Sys.time()
+print(end-start)

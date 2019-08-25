@@ -1,12 +1,20 @@
-library(Biostrings)
-library(BSgenome.Athaliana.TAIR.TAIR9)
+if(initialise == TRUE) {
+  library(Biostrings)
+  library(biomartr)
+  library(GenomicRanges)
+  library(dplyr)
 
-source("R/Pipeline.R")
+  subSeq <- DNAString("CACTACAA")
+  Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
+  Genome <- Genome[1:5]
+}
 
-SubSeq <- "CACTACAAAAATATCATTTTA"
-ArAth <- BSgenome.Athaliana.TAIR.TAIR9
+initialise <- FALSE
+
+source("R/packSearch.R")
 
 start = Sys.time()
-#Search_Visualise(SubSeq, ArAth, max.mismatch = 2, with.indels = FALSE, fixed = TRUE)
+#reverseMatches <- packSearch(subSeq, Genome, mismatch = 1, element.length = c(300, 5000))
+x <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, 1, c(300, 5000), 3)
 end = Sys.time()
 print(end-start)
