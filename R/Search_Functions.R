@@ -52,8 +52,3 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq
   }
   return(potTransposons)
 }
-
-start <- Sys.time()
-potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, 1, c(300, 5000), 3)
-end <- Sys.time()
-end-start

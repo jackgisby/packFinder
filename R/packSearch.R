@@ -21,7 +21,7 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   reverseMatches <- identifyTIRMatches(reverseMatches, reverseComplement(subSeq), Genome, mismatch = mismatch, strand = "-")
   
   #determine potential transposable elements based on following elements
-  #packElements <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length, TSD.length)
+  potentialPack <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length, TSD.length)
   
-  return(forwardMatches)
+  return(potentialPack)
 }
