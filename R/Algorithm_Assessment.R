@@ -4,9 +4,9 @@ initialise <- function() {
   library(GenomicRanges)
   library(dplyr)
 
-  subSeq <- DNAString("CACTACAA-AAA")
+  
   Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
-  Genome <- Genome[1:5]
+  return(Genome[1:5])
 }
 
 algorithmAssessment <- function(transposonList, Genome) {
@@ -24,11 +24,12 @@ algorithmAssessment <- function(transposonList, Genome) {
   print(paste0("Algorithm error rate: ", (1-(sum(knownCACTA$Identified)/length(transposonList[,1])))))
 }
 
-#initialise()
+Genome <- initialise()
+subSeq <- DNAString("CACTACAA-AAA") #CACTACAA-AAATAT
 source("R/packSearch.R")
 
 start = Sys.time()
-potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 5000))
+potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 5000), TSD.length = 3)
 algorithmAssessment(potentialPacks, Genome)
 end = Sys.time()
 print(end-start)

@@ -2,7 +2,7 @@ library(Biostrings)
 
 source("R/Search_Functions.R")
 
-
+#overall pipeline for pack finding algorithm
 packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length) {
   # ---input---
   # SearchString = DNAString object to be searched for
