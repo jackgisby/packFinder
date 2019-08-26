@@ -52,3 +52,16 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq
   }
   return(potTransposons)
 }
+
+getTSDs <- function(TIR_Matches, Genome, TSD.length, direction) {
+  
+  if(direction == "+") {
+    return(TIR_Matches %>% mutate(
+      TSD = Genome[Genome@ranges@NAMES == seqnames][[1]][(start - TSD.length):(start - 1)])
+      )
+  } else if(direction == "-") {
+    return(TIR_Matches %>% mutate(
+      TSD = Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + TSD.length)])
+    )
+  }
+}
