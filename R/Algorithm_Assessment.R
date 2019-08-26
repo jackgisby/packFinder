@@ -1,4 +1,19 @@
+#Genome <- initialise()
+subSeq <- DNAString("CACTACAA-AAATAT") #CACTACAA-AAATAT
+source("R/packSearch.R")
+
+start = Sys.time()
+potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 3000), TSD.length = 3)
+identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
+end = Sys.time()
+print(end-start)
+
+
 initialise <- function() {
+  "
+  loads the ArAth genome and required packages for testing
+  "
+  
   library(Biostrings)
   library(biomartr)
   library(GenomicRanges)
@@ -10,26 +25,19 @@ initialise <- function() {
 }
 
 algorithmAssessment <- function(transposonList, Genome) {
-  knownCACTA <- read.csv("Input/knownCACTA.csv", sep = ";")
-  knownCACTA <- knownCACTA[,1:8]
-  x <- data.frame(name = Genome@ranges@NAMES)
+  chrNames <- data.frame(name = Genome@ranges@NAMES)
   
-  for(i in 1:length(knownCACTA$Chr)) {
-    knownCACTA$chrName[i] <- as.character(x$name[knownCACTA$Chr[i]])
-  }
+  knownCACTA <- read.csv("Input/knownCACTA.csv", sep = ";")[,1:8] %>% mutate(
+    identified = (start %in% transposonList$start & end %in% transposonList$end)
+  )
   
-  knownCACTA$Identified <- knownCACTA$start %in% transposonList$start
+  identifiedCACTA <- filter(transposonList, 
+                            transposonList$start %in% knownCACTA$start &
+                            transposonList$end %in% knownCACTA$end) #does not consider chromosome
   
-  print(paste0("Correct packCACTA identified in Arabidopsis thalania: ", sum(knownCACTA$Identified)))
-  print(paste0("Algorithm error rate: ", (1-(sum(knownCACTA$Identified)/length(transposonList[,1])))))
+  print(paste0("Correct packCACTA identified in Arabidopsis thalania: ", length(identifiedCACTA[,1])))
+  print(paste0("Algorithm error rate: ", (1-(length(identifiedCACTA[,1])/length(transposonList[,1])))))
+  
+  return(identifiedCACTA)
 }
 
-Genome <- initialise()
-subSeq <- DNAString("CACTACAA-AAA") #CACTACAA-AAATAT
-source("R/packSearch.R")
-
-start = Sys.time()
-potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 5000), TSD.length = 3)
-algorithmAssessment(potentialPacks, Genome)
-end = Sys.time()
-print(end-start)
