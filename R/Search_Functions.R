@@ -33,7 +33,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq
                                      & reverseMatches$end < searchRange[2]
                                      & reverseMatches$strand == "-",]
 
-    if(length(reverseRepeats[,1]) > 0) {
+    if(length(reverseRepeats[,1]) > 0) { #can replace this looping with df filtering
       fTSD <- (forwardRepeat$start - TSD.length):(forwardRepeat$start - 1) #todo: will cause a bug if flank is out of bounds
       
       for(reverseMatch in 1:length(reverseRepeats[,1])) {
