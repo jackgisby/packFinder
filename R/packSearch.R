@@ -23,5 +23,5 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   #determine potential transposable elements based on following elements
   potentialPack <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length, TSD.length)
   
-  return(potentialPack)
+  return(potentialPack)#potentialPack
 }

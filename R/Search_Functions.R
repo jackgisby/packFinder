@@ -1,6 +1,6 @@
 identifyTIRMatches <- function(TIR_Matches, subSeq, Genome, mismatch, strand = "*") {
   
-  for(i in 1:length(Genome)) {
+  for(i in 1:length(Genome)) { #refactor without Granges?
     matchData <- GRanges(seqnames = names(Genome)[i], 
                          ranges = as(matchPattern(subSeq, Genome[[i]], max.mismatch = mismatch, with.indels = TRUE), "IRanges"),
                          strand = strand)
@@ -17,21 +17,21 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq
   
   potTransposons <- as.data.frame(GRanges())
   
-  for(forwardMatch in 1:length(forwardMatches[,1])) {
+  for(forwardMatch in 1:length(forwardMatches[,1])) { #for each forward match
     
     forwardRepeat <- forwardMatches[forwardMatch,]
     chr <- as.character(forwardRepeat[[1]])
-    searchRange <- forwardRepeat$start
-    searchRange <- c(searchRange + element.length[1], searchRange + element.length[2])
+    searchRange <- c(forwardRepeat$start + element.length[1], forwardRepeat$start + element.length[2])
     
     if(searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
       searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
     }
     
-    reverseRepeats <- reverseMatches[reverseMatches$seqnames == forwardRepeat$seqnames
-                                     & reverseMatches$end > searchRange[1]
-                                     & reverseMatches$end < searchRange[2]
-                                     & reverseMatches$strand == "-",]
+    reverseRepeats <- filter(reverseMatches,
+                             seqnames == forwardRepeat$seqnames & 
+                             end > searchRange[1] & 
+                             end < searchRange[2] & 
+                             strand == "-")
 
     if(length(reverseRepeats[,1]) > 0) { #can replace this looping with df filtering
       fTSD <- (forwardRepeat$start - TSD.length):(forwardRepeat$start - 1) #todo: will cause a bug if flank is out of bounds
