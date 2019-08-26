@@ -3,7 +3,7 @@ subSeq <- DNAString("CACTACAA-AAATAT") #CACTACAA-AAATAT
 source("R/packSearch.R")
 
 start = Sys.time()
-potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 3000), TSD.length = 3)
+forwardMatches <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 3000), TSD.length = 3)
 identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
 end = Sys.time()
 print(end-start)
