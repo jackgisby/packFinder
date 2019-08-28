@@ -3,13 +3,13 @@ subSeq <- DNAString("CACTACAA-AAATAT") #CACTACAA-AAATAT
 source("R/packSearch.R")
 
 start = Sys.time()
-forwardMatches <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 3000), TSD.length = 3)
-identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
+potentialPacks <- packSearch(subSeq, Genome, mismatch = 2, element.length = c(300, 3000), TSD.length = 3)
 end = Sys.time()
+identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
 print(end-start)
 
 
-initialise <- function() {
+-initialise <- function() {
   "
   loads the ArAth genome and required packages for testing
   "

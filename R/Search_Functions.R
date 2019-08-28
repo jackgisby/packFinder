@@ -31,22 +31,16 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, subSeq
                              seqnames == forwardRepeat$seqnames & 
                              end > searchRange[1] & 
                              end < searchRange[2] & 
-                             strand == "-")
+                             strand == "-"  &
+                             TSD == forwardRepeat$TSD)
 
-    if(length(reverseRepeats[,1]) > 0) { #can replace this looping with df filtering
-      fTSD <- (forwardRepeat$start - TSD.length):(forwardRepeat$start - 1) #todo: will cause a bug if flank is out of bounds
-      
+    if(length(reverseRepeats[,1]) > 0) { #replacing previous loop with df filtering
       for(reverseMatch in 1:length(reverseRepeats[,1])) {
-        rTSD <- (reverseRepeats[reverseMatch,]$end + 1):(reverseRepeats[reverseMatch,]$end + TSD.length) #todo: will cause a bug if flank is out of bounds
-
-        if(Genome[Genome@ranges@NAMES == chr][[1]][fTSD] == Genome[Genome@ranges@NAMES == chr][[1]][rTSD]) {
-          
-          potTransposons <- rbind(potTransposons, data.frame(seqnames = forwardRepeat$seqnames,
+        potTransposons <- rbind(potTransposons, data.frame(seqnames = forwardRepeat$seqnames,
                                                              start = forwardRepeat$start,
                                                              end = reverseRepeats[reverseMatch,]$end,
                                                              width = reverseRepeats[reverseMatch,]$end - forwardRepeat$start,
                                                              strand = "*"))
-        }
       }
     }
   }
@@ -57,11 +51,18 @@ getTSDs <- function(TIR_Matches, Genome, TSD.length, direction) {
   
   if(direction == "+") {
     return(TIR_Matches %>% mutate(
-      TSD = Genome[Genome@ranges@NAMES == seqnames][[1]][(start - TSD.length):(start - 1)])
-      )
+      TSD = mapply(function(seqnames, start, TSD.length, Genome) {
+        return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - TSD.length):(start - 1)]))},
+        seqnames,
+        start,
+        MoreArgs = list(TSD.length = TSD.length, Genome = Genome))
+    ))
   } else if(direction == "-") {
     return(TIR_Matches %>% mutate(
-      TSD = Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + TSD.length)])
-    )
+      TSD = mapply(function(seqnames, end, TSD.length, Genome) {
+        return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + TSD.length)]))},
+        seqnames,
+        end,
+        MoreArgs = list(TSD.length = TSD.length, Genome = Genome))))
   }
 }
