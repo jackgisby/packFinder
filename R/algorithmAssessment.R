@@ -8,11 +8,11 @@ end = Sys.time()
 identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
 print(end-start)
 
-
 initialise <- function() {
-  "
-  loads the ArAth genome and required packages for testing
-  "
+  # Loads the ArAth genome and required packages for testing
+  #
+  # ---returns---
+  # Arabidopsis thalania genome (as Biostrings::DNAStringSet)
   
   library(Biostrings)
   library(biomartr)
@@ -25,6 +25,16 @@ initialise <- function() {
 }
 
 algorithmAssessment <- function(transposonList, Genome) {
+  # Assesses the error rate of the Pack-TYPE transposon finding algorithm
+  #
+  # ---input---
+  # transposonList: a list of identified potential transposons
+  # Genome: a DNAStringSet object containing the genome being searched
+  #
+  # ---returns---
+  # prints: error rate of algorithm based on known transposons
+  # returns: a list of correctly identified transposons
+  
   chrNames <- data.frame(name = Genome@ranges@NAMES)
   
   knownCACTA <- read.csv("Input/knownCACTA.csv", sep = ";")[,1:8] %>% mutate(
@@ -40,4 +50,3 @@ algorithmAssessment <- function(transposonList, Genome) {
   
   return(identifiedCACTA)
 }
-
