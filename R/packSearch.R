@@ -1,17 +1,18 @@
 library(Biostrings)
 
-source("R/Search_Functions.R")
+source("R/searchFunctions.R")
 
-#overall pipeline for pack finding algorithm
 packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length) {
+  # General use pipeline function for the Pack-TYPE transposon finding algorithm
+  #
   # ---input---
-  # SearchString = DNAString object to be searched for
-  # Genome = DNAStringSet object to search
-  # mismatch = the maximum edit distance to be considered (indels + substitions)
+  # subSeq: DNAString object containing the TIR sequence
+  # Genome: DNAStringSet object to be searched
+  # mismatch: the maximum edit distance to be considered for TIR matches (indels + substitions)
+  # element.length: vector containing the minimum and maximum length of the Pack-TYPE transposons
   #   
   # ---returns---
-  # locations of matches as a dataframe
-  # a summary of the search, with match statistics
+  # a dataframe of potential Pack-TYPE transposons
   
   #perform initial search for TIR matches and get related TSD sequences
   print("Getting forward matches")
@@ -26,7 +27,7 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
 
   #determine potential transposable elements based on nearby elements and TSD sequences
   print("Filtering matches based on TSD sequences")
-  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, subSeq, Genome, mismatch, element.length, TSD.length)
+  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length)
   
   print("Filtering complete")
   return(potentialPacks)
