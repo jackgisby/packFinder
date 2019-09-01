@@ -9,7 +9,7 @@ identifiedCACTA <- algorithmAssessment(potentialPacks, Genome)
 print(end-start)
 
 
--initialise <- function() {
+initialise <- function() {
   "
   loads the ArAth genome and required packages for testing
   "
