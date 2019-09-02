@@ -56,38 +56,43 @@ getArAthCACTA <- function(Genome, integrityFilter = NULL) {
     }
 }
 
-algorithmAssessment <- function(potentialPacks, Genome) {
+algorithmAssessment <- function(potentialPacks, Genome, integrityFilter = "complete") {
   # Assesses the error rate of the Pack-TYPE transposon finding algorithm
   #
   # ---input---
   # potentialPacks: a list of identified potential transposons
   # Genome: a DNAStringSet object containing the genome being searched
+  # integrityFilter: (optional) string, filters knownCACTA - "complete" filters for 
+  # only complete matches whereas "not partial" filters for non-partial matches
+  # Genome: DNAStringSet object containing the ArAth genome
   #
   # ---returns---
   # prints: error rate of algorithm based on known transposons
   # returns: a list of correctly identified transposons
   
-  knownCACTA <- getArAthCACTA(Genome, "complete")
-  
-  identifiedCACTA <- filter(potentialPacks, 
-                            potentialPacks$start %in% knownCACTA$start &
-                              potentialPacks$end %in% knownCACTA$end) #does not consider chromosome
+  knownCACTA <- getArAthCACTA(Genome, integrityFilter) %>%
+    mutate(identified = start %in% potentialPacks$start & end %in% potentialPacks$end) #does not consider chromosome
+
   
   #number identified
   print(paste0("Correct packCACTA identified in Arabidopsis thalania: ", 
-               (length(identifiedCACTA[,1])),
+               (sum(knownCACTA$identified)),
                "/",
                length(knownCACTA[,1])))
   #detection rate
   print(paste0("packCACTA detection rate: ", 
-               round((length(identifiedCACTA[,1])/length(knownCACTA[,1])) * 100, 2),
+               round((sum(knownCACTA$identified)/length(knownCACTA[,1])) * 100, 2),
                "%"))
   #error rate
   print(paste0("Algorithm error rate: ", 
-               round((1-(length(identifiedCACTA[,1])/length(potentialPacks[,1]))) * 100, 2),
+               round((1-(knownCACTA$identified/length(potentialPacks[,1]))) * 100, 2),
                "%"))
   
-  return(identifiedCACTA)
+  return(knownCACTA)
+}
+
+getknownTIRs <- function(knownCACTA) {
+  return(DNAStringSet(c(knownCACTA$forwardTIR, knownCACTA$reverseTIR)))
 }
 
 assessSubSeq <- function(subSeq, knownTIRs, mismatch = 0) {
@@ -103,7 +108,7 @@ assessSubSeq <- function(subSeq, knownTIRs, mismatch = 0) {
 }
 
 getBadMatches <- function(knownCACTA, subSeq, mismatch) {
-  badMatches <- which(!assessSubSeq(subSeq, DNAStringSet(c(knownCACTA$forwardTIR, knownCACTA$reverseTIR)), mismatch))
+  badMatches <- which(!assessSubSeq(subSeq, getknownTIRs(knownCACTA), mismatch))
   badCACTA <- knownCACTA[0,]
   
   for(bad in 1:length(badMatches)) {
@@ -116,7 +121,26 @@ getBadMatches <- function(knownCACTA, subSeq, mismatch) {
   return(badCACTA)
 }
 
-getBadSeqs <- function(knownCACTA, subSeq, mismatch) {
-  badMatches <- which(!assessSubSeq(subSeq, DNAStringSet(c(knownCACTA$forwardTIR, knownCACTA$reverseTIR)), mismatch))
+
+
+getBadSeqs <- function(subSeq, mismatch) {
+  badMatches <- which(!assessSubSeq(subSeq, getknownTIRs(knownCACTA), mismatch))
   return(knownTIRs[badMatches])
+}
+
+saveReport <- function(potentialPacks, subSeq, Genome, integrityFilter = NULL, mismatch = 0) {
+  knownCACTA <- algorithmAssessment(potentialPacks, Genome, integrityFilter = integrityFilter) %>%
+    mutate(forwardTIR_Identified = assessSubSeq(subSeq, getknownTIRs(.), mismatch = mismatch)[1:10]) %>%
+    mutate(reverseTIR_Identified = assessSubSeq(subSeq, getknownTIRs(.), mismatch = mismatch)[11:20]) %>%
+    mutate(forwardTIR = mapply(function(forwardTIR) {
+      return(as.character(forwardTIR))},
+      forwardTIR)) %>% 
+    mutate(reverseTIR = mapply(function(reverseTIR) {
+      return(as.character(reverseTIR))},
+      reverseTIR)) %>%
+    rename(chr = Chr) %>%
+    select(-c(TAIR10.annotations, blast.best.hits, mobilization, chrNames))
+    
+  write.csv(knownCACTA, file = "Results/algorithmReport.csv")
+  return(knownCACTA)
 }
