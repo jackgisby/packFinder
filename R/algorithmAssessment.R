@@ -2,8 +2,8 @@ source("R/packSearch.R")
 source("R/devFunctions.R")
 
 #Genome <- initialise()
-subSeq <- DNAString("CACTACAA") #CACTACAA-AAATAT / DNAString(consensusString(knownTIRs))
-max.mismatch = 1
+subSeq <- DNAString("CACTACAA-AAATA") #CACTACAA-AAATAT / DNAString(consensusString(knownTIRs))
+max.mismatch = 2
 
 start <- Sys.time()
 potentialPacks <- packSearch(subSeq, Genome, mismatch = max.mismatch, element.length = c(300, 3500), TSD.length = 3)

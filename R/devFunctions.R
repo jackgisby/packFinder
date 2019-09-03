@@ -85,7 +85,7 @@ algorithmAssessment <- function(potentialPacks, Genome, integrityFilter = "compl
                "%"))
   #error rate
   print(paste0("Algorithm error rate: ", 
-               round((1-(knownCACTA$identified/length(potentialPacks[,1]))) * 100, 2),
+               round((1-(sum(knownCACTA$identified)/length(potentialPacks[,1]))) * 100, 2),
                "%"))
   
   return(knownCACTA)
