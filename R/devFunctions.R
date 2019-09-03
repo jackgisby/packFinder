@@ -11,6 +11,14 @@ initialise <- function() {
   library(biomartr)
   library(GenomicRanges)
   library(dplyr)
+  library(rBLAST)
+  
+  Sys.setenv(blastn = "D:/Transposon_Work/dbBLAST/blast-2.9.0+/bin")
+  Sys.setenv(makeblastdb = "D:/Transposon_Work/dbBLAST/blast-2.9.0+/bin")
+  #download.file("ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nt.gz",
+  #              "nt.gz", mode='wb')
+  #makeblastdb("C:\Users\jackg\Documents\R\nt_db\nt.gz", dbtype = "nucl") #download & format blast db
+  db <- blast(db="C:\Users\jackg\Documents\R\nt_db\nt.gz", type = "blastn")
   
   Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
   return(Genome[1:5])
