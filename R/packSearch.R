@@ -32,3 +32,7 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   print("Filtering complete")
   return(potentialPacks)
 }
+
+blastFilter <- function(potentialPacks) {
+  
+}
