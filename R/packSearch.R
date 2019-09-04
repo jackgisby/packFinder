@@ -33,6 +33,12 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   return(potentialPacks)
 }
 
-blastFilter <- function(potentialPacks) {
+packBlast <- function(potentialPacks) {
   blastMatches <- getBlastMatches(potentialPacks)
+}
+
+packFind <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length) {
+  packSearch(subSeq, Genome, mismatch, element.length, TSD.length) %>%
+    packBlast() %>%
+    return()
 }
