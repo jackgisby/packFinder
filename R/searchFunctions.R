@@ -99,3 +99,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
   }
   return(potTransposons)
 }
+
+getBlastMatches <- function(potentialPacks) {
+  
+}
