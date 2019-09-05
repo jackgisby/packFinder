@@ -13,7 +13,7 @@ initialise <- function() {
   library(dplyr)
   library(rBLAST)
 
-  db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt.nal", type = "blastn")
+  db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt", type = "blastn")
   
   Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
   return(Genome[1:5])
