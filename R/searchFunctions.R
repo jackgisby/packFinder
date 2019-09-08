@@ -100,6 +100,29 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
   return(potTransposons)
 }
 
-getBlastMatches <- function(potentialPacks) {
-  
+getBlastMatches <- function(potentialPacks, db, db.loc = "online") {
+  blastMatches <- list(length = length(potentialPacks))
+  if(db.loc == "online") {
+    for(i in 1:length(potentialPacks)) {
+      blastMatches[i] <- getBlastMatchesOnline(Genome[Genome@ranges@NAMES == potentialPacks$seqnames[i]][potentialPacks$start[i]:potentialPacks$end[i]],
+                                               db)
+    }
+  } else if(db.loc == "local") {
+    blastMatches[i] <- getBlastMatchesLocal(Genome[Genome@ranges@NAMES == potentialPacks$seqnames[i]][potentialPacks$start[i]:potentialPacks$end[i]],
+                                            db)
+  }
+  return(blastMatches)
+}
+
+getBlastMatchesLocal <- function(DNAStringSetQuery, db) {
+  predict(db, 
+          DNAStringSetQuery,
+          BLAST_args = "-num_threads 4") %>%
+    return()
+}
+
+getBlastMatchesOnline <- function(DNAStringSetQuery, db) {
+  blastSeq(DNAStringSetQuery,
+           database = db) %>%
+    return()
 }
