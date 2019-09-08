@@ -17,6 +17,11 @@ db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt", type = "blastn")
 
 #blast
 start <- Sys.time()
-getBlastMatches <- packBlast(potentialPacks, "nt")
+#BlastMatches <- packBlast(potentialPacks, "nt")
+#blastMatches <- blastSeq(DNAStringSet(Genome$`NC_003070.9 Arabidopsis thaliana chromosome 1 sequence`[13131404:13132121]),database = "nt")
+blastMatch <- predict(db, 
+                      DNAStringSet(Genome$`NC_003070.9 Arabidopsis thaliana chromosome 1 sequence`[13131404:13132121]), 
+                      BLAST_args = "-num_threads 4")
 end <- Sys.time()
 print(end-start)
+

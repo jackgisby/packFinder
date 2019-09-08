@@ -100,7 +100,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
   return(potTransposons)
 }
 
-getBlastMatches <- function(potentialPacks, db, db.loc = "online") {
+getBlastMatches <- function(potentialPacks, db) {
   blastMatches <- list(length = length(potentialPacks))
   if(db.loc == "online") {
     for(i in 1:length(potentialPacks)) {
@@ -118,11 +118,5 @@ getBlastMatchesLocal <- function(DNAStringSetQuery, db) {
   predict(db, 
           DNAStringSetQuery,
           BLAST_args = "-num_threads 4") %>%
-    return()
-}
-
-getBlastMatchesOnline <- function(DNAStringSetQuery, db) {
-  blastSeq(DNAStringSetQuery,
-           database = db) %>%
     return()
 }
