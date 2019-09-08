@@ -12,6 +12,7 @@ initialise <- function() {
   library(GenomicRanges)
   library(dplyr)
   library(rBLAST)
+  library(hoardeR)
   #Sys.setenv(PATH = paste(Sys.getenv("PATH"), "C:\\Users\\jackg\\Documents\\R\\nt_db\\ncbi-blast-2.9.0+\\bin", sep= .Platform$path.sep))
   db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt", type = "blastn")
   
@@ -141,9 +142,53 @@ saveReport <- function(potentialPacks, subSeq, Genome, integrityFilter = NULL, m
     mutate(reverseTIR = mapply(function(reverseTIR) {
       return(as.character(reverseTIR))},
       reverseTIR)) %>%
-    rename(chr = Chr) %>%
+    mutate(Chr = mapply(function(Chr) {
+      return(Genome@ranges@NAMES[Chr])},
+      Chr)) %>%
     select(-c(TAIR10.annotations, blast.best.hits, mobilization, chrNames))
     
   write.csv(knownCACTA, file = "Results/algorithmReport.csv")
   return(knownCACTA)
+}
+
+getRepeatMaps <- function(Genome) {
+  repeatMaps <- data.frame("Chromosome" = factor(),
+                           "Start" = integer(),
+                           "End" = integer(), 
+                           "Name" = character(), 
+                           "Rep_Start" = integer(), 
+                           "Rep_End" = integer(), 
+                           "Orientation" = factor(), 
+                           "Identity_(%)" = double())
+
+  chr <- c("I", "II", "III", "IV", "V")
+  
+  for(i in 1:length(Genome@ranges@NAMES)) {
+    repeatMap <- read.table(paste0("Input/AraTh_RepeatMap/ATmap", chr[[i]]))
+    colnames(repeatMap) <- c("Chromosome", "Start", "End", "Name", "Rep_Start", "Rep_End", "Orientation", "Identity_(%)")
+    repeatMap$Chromosome <- Genome@ranges@NAMES[i]
+    repeatMaps <- rbind(repeatMaps, repeatMap)
+  }
+  
+  repeatMaps %>%
+    filter(grepl("ENSPM", Name)) %>%
+    makeGRangesFromDataFrame(keep.extra.columns = TRUE) %>%
+    return()
+}
+
+filterElements <- function(potentialPacks, repeatMaps) {
+  isTransposon <- vector("list", length(potentialPacks[,1]))
+  potentialPacksGRanges <- makeGRangesFromDataFrame(potentialPacks)
+  
+  for(i in 1:length(isTransposon)) {
+    isTransposon[i] <- countOverlaps(potentialPacksGRanges[i], repeatMaps)
+    if(countOverlaps(potentialPacksGRanges[i], repeatMaps) > 0) {
+      isTransposon[i] <- TRUE
+    } else {
+      isTransposon[i] <- FALSE
+    }
+  }
+  
+  potentialPacks$isTransposon <- isTransposon
+  return(potentialPacks)
 }
