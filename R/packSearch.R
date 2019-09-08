@@ -33,8 +33,8 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   return(potentialPacks)
 }
 
-packBlast <- function(potentialPacks, db,  db.loc = "online") {
-  blastMatches <- getBlastMatches(potentialPacks, db, db.loc) %>%
+packBlast <- function(potentialPacks, db) {
+  blastMatches <- getBlastMatches(potentialPacks, db) %>%
     return()
 }
 

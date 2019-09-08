@@ -12,7 +12,7 @@ initialise <- function() {
   library(GenomicRanges)
   library(dplyr)
   library(rBLAST)
-
+  #Sys.setenv(PATH = paste(Sys.getenv("PATH"), "C:\\Users\\jackg\\Documents\\R\\nt_db\\ncbi-blast-2.9.0+\\bin", sep= .Platform$path.sep))
   db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt", type = "blastn")
   
   Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
