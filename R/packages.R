@@ -1,0 +1,6 @@
+library(Biostrings)
+library(biomartr)
+library(GenomicRanges)
+library(dplyr)
+library(rBLAST)
+library(hoardeR)
