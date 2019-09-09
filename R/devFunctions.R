@@ -1,23 +1,36 @@
-# useful functions for manipulating and assessing other functions within the pack-TYPE
-# transposon finding project
+# useful functions for manipulating and assessing other functions
 
-initialise <- function() {
+initialise <- function(genomeName = "Arabidopsis thaliana") {
   # Loads the ArAth genome and required packages for testing
   #
   # ---returns---
   # Arabidopsis thalania genome (as Biostrings::DNAStringSet)
   
-  library(Biostrings)
-  library(biomartr)
-  library(GenomicRanges)
-  library(dplyr)
-  library(rBLAST)
-  library(hoardeR)
-  #Sys.setenv(PATH = paste(Sys.getenv("PATH"), "C:\\Users\\jackg\\Documents\\R\\nt_db\\ncbi-blast-2.9.0+\\bin", sep= .Platform$path.sep))
-  db <- blast(db="C:/Users/jackg/Documents/R/nt_db/nt/nt", type = "blastn")
+  Genome <- read_genome(getGenome(db = "refseq", genomeName, path = "/Input"))
+  if(genomeName == "Arabidopsis thaliana") {
+    return(Genome[1:5])
+  } else {
+    return(Genome)
+  }
+}
+
+getPotentialPackList <- function(subSeqs, 
+                                 Genome, 
+                                 element.length, 
+                                 TSD.length) {
+  # gets potentialPack dataframe list for DNAStringSet
   
-  Genome <- read_genome(getGenome(db = "refseq", "Arabidopsis thaliana", path = "/Input"))
-  return(Genome[1:5])
+  potentialPackList <- vector("list", length = length(subSeqs))
+  
+  for(subSeq in 1:length(subSeqs)) {
+    potentialPackList[subSeq] <- packSearch(subSeq = subSeqs[subSeq], 
+                                            Genome, 
+                                            mismatch = subSeqs@ranges@NAMES[subSeq], 
+                                            element.length = element.length, 
+                                            TSD.length = TSD.length)
+  }
+  
+  return(potentialPackList)
 }
 
 getArAthCACTA <- function(Genome, integrityFilter = NULL) {
@@ -30,8 +43,6 @@ getArAthCACTA <- function(Genome, integrityFilter = NULL) {
   #
   # ---returns---
   # dataframe containing sequence information from the known ArAth CACTA sequences
-
-
   
   knownCACTA <- read.csv("Input/knownCACTA.csv", sep = ";") %>%
     mutate(TSD = gsub("\\*", "", TSD)) %>%
@@ -95,43 +106,6 @@ algorithmAssessment <- function(potentialPacks, Genome, integrityFilter = "compl
   return(knownCACTA)
 }
 
-getknownTIRs <- function(knownCACTA) {
-  return(DNAStringSet(c(knownCACTA$forwardTIR, knownCACTA$reverseTIR)))
-}
-
-assessSubSeq <- function(subSeq, knownTIRs, mismatch = 0) {
-  successfulMatches <- vector(mode = "logical", length = length(knownTIRs))
-  
-  for(i in 1:length(knownTIRs)) {
-    if(countPattern(subSeq, knownTIRs[[i]], max.mismatch = mismatch, with.indels = TRUE) > 0) {
-      successfulMatches[i] <- TRUE
-    }
-  }
-  
-  return(successfulMatches)
-}
-
-getBadMatches <- function(knownCACTA, subSeq, mismatch) {
-  badMatches <- which(!assessSubSeq(subSeq, getknownTIRs(knownCACTA), mismatch))
-  badCACTA <- knownCACTA[0,]
-  
-  for(bad in 1:length(badMatches)) {
-    if(badMatches[bad] > 10) {
-      badMatches[bad] <- badMatches[bad] - 10
-    }
-    
-    badCACTA <- rbind(badCACTA, knownCACTA[badMatches[bad],])
-  }
-  return(badCACTA)
-}
-
-
-
-getBadSeqs <- function(subSeq, mismatch) {
-  badMatches <- which(!assessSubSeq(subSeq, getknownTIRs(knownCACTA), mismatch))
-  return(knownTIRs[badMatches])
-}
-
 saveReport <- function(potentialPacks, subSeq, Genome, integrityFilter = NULL, mismatch = 0) {
   knownCACTA <- algorithmAssessment(potentialPacks, Genome, integrityFilter = integrityFilter) %>%
     mutate(forwardTIR_Identified = assessSubSeq(subSeq, getknownTIRs(.), mismatch = mismatch)[1:10]) %>%
@@ -146,9 +120,29 @@ saveReport <- function(potentialPacks, subSeq, Genome, integrityFilter = NULL, m
       return(Genome@ranges@NAMES[Chr])},
       Chr)) %>%
     select(-c(TAIR10.annotations, blast.best.hits, mobilization, chrNames))
-    
+  
   write.csv(knownCACTA, file = "Results/algorithmReport.csv")
   return(knownCACTA)
+}
+
+getknownTIRs <- function(knownCACTA) {
+  # gets the TIRs of the known CACTA sequences as a DNAStringSet
+  
+  return(DNAStringSet(c(knownCACTA$forwardTIR, knownCACTA$reverseTIR)))
+}
+
+assessSubSeq <- function(subSeq, knownTIRs, mismatch = 0) {
+  # assesses a given subSeq for recognition of the known TIR sequences
+  
+  successfulMatches <- vector(mode = "logical", length = length(knownTIRs))
+  
+  for(i in 1:length(knownTIRs)) {
+    if(countPattern(subSeq, knownTIRs[[i]], max.mismatch = mismatch, with.indels = TRUE) > 0) {
+      successfulMatches[i] <- TRUE
+    }
+  }
+  
+  return(successfulMatches)
 }
 
 getRepeatMaps <- function(Genome) {
@@ -160,7 +154,7 @@ getRepeatMaps <- function(Genome) {
                            "Rep_End" = integer(), 
                            "Orientation" = factor(), 
                            "Identity_(%)" = double())
-
+  
   chr <- c("I", "II", "III", "IV", "V")
   
   for(i in 1:length(Genome@ranges@NAMES)) {
@@ -176,19 +170,4 @@ getRepeatMaps <- function(Genome) {
     return()
 }
 
-filterElements <- function(potentialPacks, repeatMaps) {
-  isTransposon <- vector("list", length(potentialPacks[,1]))
-  potentialPacksGRanges <- makeGRangesFromDataFrame(potentialPacks)
-  
-  for(i in 1:length(isTransposon)) {
-    isTransposon[i] <- countOverlaps(potentialPacksGRanges[i], repeatMaps)
-    if(countOverlaps(potentialPacksGRanges[i], repeatMaps) > 0) {
-      isTransposon[i] <- TRUE
-    } else {
-      isTransposon[i] <- FALSE
-    }
-  }
-  
-  potentialPacks$isTransposon <- isTransposon
-  return(potentialPacks)
-}
+
