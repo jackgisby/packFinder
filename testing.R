@@ -1,4 +1,4 @@
-source("R/packages.R")
+source("packages.R")
 
 #get Arath genome
 Genome <- initialise(genomeName = "Arabidopsis thaliana")

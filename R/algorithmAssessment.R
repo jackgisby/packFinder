@@ -1,10 +1,22 @@
-#functions to assess algorithm/filtering performance
+#pipeline functions to assess algorithm/filtering performance
 
-assessPotentialPackList <- function(subSeqs, Genome, element.length, TSD.length) {
+assessPotentialPackList <- function(subSeqs, Genome, element.length, TSD.length, mode = "normal") {
   # assesses each item of a potentialPackList
   
   potentialPackList <- getPotentialPackList(subSeqs, Genome, element.length, TSD.length)
+  
+  unlink("Data/Output/algorithmAssessment/", recursive = TRUE)
+  
+  savePotentialPacks(potentialPackList)
+  
+  if(mode == "Arath") {
+    saveKnownCacta()
+    saveOverallReport(mode = "Arath")
+  } else {
+    saveOverallReport(mode = "normal")
+  }
 }
+
 
 assessRepeatMapFilter <- function() {
   # assesses a potentialPackList using a repeat map filtering stage
