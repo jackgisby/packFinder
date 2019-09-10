@@ -1,0 +1,4 @@
+"Search_ID","Search_Sequence","Allowable_Mismatch","Run_Time","Detect_Rate","Error_Rate"
+1,"CACTACAA-AAATAT","1",4.91543197631836,"5/10","0/5"
+2,"CACTACAA-AAATAT","2",13.3403081893921,"5/10","3/8"
+3,"CACTACAA","0",17.548369884491,"6/10","23/29"
