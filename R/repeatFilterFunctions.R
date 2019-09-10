@@ -14,3 +14,11 @@ filterElements <- function(potentialPacks, repeatMaps) {
   potentialPacks$isTransposon <- isTransposon
   return(potentialPacks)
 }
+
+#filter using repeatmap
+# repeatMaps <- getRepeatMaps(Genome)
+# potentialPacks <- filterElements(potentialPacks, repeatMaps)
+# 
+# knownCACTA <- saveReport(potentialPacks, subSeq, Genome, integrityFilter = NULL, mismatch = max.mismatch)
+# knownCACTA <- saveReport(filter(potentialPacks, isTransposon == FALSE), subSeq, Genome, integrityFilter = NULL, mismatch = max.mismatch)
+# print(end-start)
