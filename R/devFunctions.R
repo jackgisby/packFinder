@@ -23,9 +23,9 @@ getPotentialPackList <- function(subSeqs,
   potentialPackList <- vector("list", length = length(subSeqs))
   
   for(subSeq in 1:length(subSeqs)) {
-    potentialPackList[subSeq] <- packSearch(subSeq = subSeqs[subSeq], 
+    potentialPackList[subSeq] <- packSearch(subSeq = subSeqs[[subSeq]], 
                                             Genome, 
-                                            mismatch = subSeqs@ranges@NAMES[subSeq], 
+                                            mismatch = as.integer(subSeqs@ranges@NAMES[subSeq]), 
                                             element.length = element.length, 
                                             TSD.length = TSD.length)
   }
@@ -170,4 +170,9 @@ getRepeatMaps <- function(Genome) {
     return()
 }
 
-
+getFastaFromDataFrame <- function(dataframe, Genome, filepath) {
+  getDNAStringSetFromDataFrame(dataframe, Genome) %>%
+    writeXStringSet(filepath)
+  
+  print(paste0("FASTA file successfully written to: ", filepath))
+}
