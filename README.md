@@ -5,9 +5,7 @@
 - Implement stage 2 of algorithm (BLAST to identify autonomous transposable elements)
 - Improve error and false-negative rate
 - Add unit test
-- Improve reporter functions
-
-## Next tasks
-- Improve implementation output and documentation
-- Re-write assessment/report creation
-- Continue with stage 2 implementation
+- Investigate potential new elements
+- Implement sequence clustering
+- Apply tool to larger Genomes
+- Improve documentation
