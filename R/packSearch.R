@@ -1,7 +1,3 @@
-source("R/searchFunctions.R")
-source("R/blastFunctions.R")
-source("R/repeatFilterFunctions.R")
-
 packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length) {
   # General use pipeline function for the Pack-TYPE transposon finding algorithm
   #
@@ -27,7 +23,9 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
 
   #determine potential transposable elements based on nearby elements and TSD sequences
   print("Filtering matches based on TSD sequences")
-  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length)
+  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length) %>%
+    getTSDs(Genome, TSD.length, "+") %>%
+    getTIRs()
   
   print("Initial filtering complete")
   return(potentialPacks)
@@ -36,10 +34,6 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
 packBlast <- function(potentialPacks, db, db.loc = "local", Genome) {
   blastMatches <- getBlastMatches(potentialPacks, db, db.loc) %>%
     return()
-}
-
-packFilter <- function() {
-  
 }
 
 packPipeline <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length, db.loc = "online") {

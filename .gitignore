@@ -1,2 +1,4 @@
 *Data/Data/AraTh_RepeatMap
 *.Rproj.user
+*.RData
+.Rproj.user

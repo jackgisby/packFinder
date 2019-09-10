@@ -99,3 +99,18 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
   }
   return(potTransposons)
 }
+
+getTIRs <- function(potentialPacks, Genome) {
+  potentialPacks %>%
+    mutate(forward_TIR = mapply(function(start, seqnames, Genome) {
+      return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][start:(start+25)]))},
+    start,
+    seqnames,
+    MoreArgs = list(Genome = Genome))) %>%
+    mutate(reverse_TIR = mapply(function(end, seqnames, Genome) {
+      return(as.character(reverseComplement(Genome[Genome@ranges@NAMES == seqnames][[1]][(end-25):end])))},
+      end,
+      seqnames,
+      MoreArgs = list(Genome = Genome))) %>%
+    return()
+}
