@@ -29,7 +29,7 @@ getPotentialPackList <- function(subSeqs,
               runTimes = runTimes))
 }
 
-saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorRate = NULL) {
+saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorRate = NULL, errorTotal = NULL) {
   # saves overall report
   
   if(mode == "Arath") {
@@ -37,8 +37,9 @@ saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorR
                                 Search_Sequence = as.character(subSeqs),
                                 Allowable_Mismatch = subSeqs@ranges@NAMES,
                                 Run_Time = unlist(runTimes),
-                                Detect_Rate = detectRate,
-                                Error_Rate = errorRate)
+                                Detected = detectRate,
+                                Errors = errorRate,
+                                Total_Matches = errorTotal)
   } else {
     overallReport <- data.frame(Search_ID = 1:length(subSeqs),
                                 Search_Sequence = as.character(subSeqs),
@@ -55,6 +56,7 @@ saveKnownCacta <- function(subSeqs, potentialPackList, Genome, runTimes, integri
   knownCactas <- NULL
   detectRate <- vector("character", length(subSeqs))
   errorRate <- vector("character", length(subSeqs))
+  errorTotal <- vector("character", length(subSeqs))
   
   for(subSeq in 1:length(subSeqs)) {
     potentialPacks <- filter(potentialPackList, stringID == subSeq)
@@ -82,17 +84,14 @@ saveKnownCacta <- function(subSeqs, potentialPackList, Genome, runTimes, integri
       knownCactas <- knownCACTA
     }
     
-    detectRate[subSeq] <-paste0((sum(knownCACTA$identified)),
-                           "/",
-                           length(knownCACTA[,1]))
-    errorRate[subSeq] <- paste0((length(potentialPacks[,1])-(sum(knownCACTA$identified))),
-                           "/",
-                           length(potentialPacks[,1]))
+    detectRate[subSeq] <-sum(knownCACTA$identified)
+    errorRate[subSeq] <- length(potentialPacks[,1]) - sum(knownCACTA$identified)
+    errorTotal[subSeq] <- length(potentialPacks[,1])
   }
   
   write.csv(knownCactas, "Data/Output/algorithmAssessment/knownCACTA.csv", row.names = FALSE)
   
-  saveOverallReport(subSeqs, runTimes, mode = "Arath", detectRate, errorRate)
+  saveOverallReport(subSeqs, runTimes, mode = "Arath", detectRate, errorRate, errorTotal)
 }
 
 getArathCACTA <- function(Genome, integrityFilter = NULL) {
