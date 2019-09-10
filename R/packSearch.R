@@ -1,7 +1,3 @@
-library(Biostrings)
-
-source("R/searchFunctions.R")
-
 packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length) {
   # General use pipeline function for the Pack-TYPE transposon finding algorithm
   #
@@ -27,8 +23,21 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
 
   #determine potential transposable elements based on nearby elements and TSD sequences
   print("Filtering matches based on TSD sequences")
-  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length)
+  potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length) %>%
+    getTSDs(Genome, TSD.length, "+") %>%
+    getTIRs(Genome)
   
-  print("Filtering complete")
+  print("Initial filtering complete")
   return(potentialPacks)
+}
+
+packBlast <- function(potentialPacks, db, db.loc = "local", Genome) {
+  blastMatches <- getBlastMatches(potentialPacks, db, db.loc) %>%
+    return()
+}
+
+packPipeline <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length, db.loc = "online") {
+  packSearch(subSeq, Genome, mismatch, element.length, TSD.length) %>%
+    packBlast() %>%
+    return()
 }

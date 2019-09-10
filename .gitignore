@@ -1,5 +1,4 @@
-*.RHistory
-*.Rproj.user\
+*Data/Data/AraTh_RepeatMap
 *.Rproj.user
-*.Rproj.user*
+*.RData
 .Rproj.user
