@@ -3,17 +3,23 @@
 assessPotentialPackList <- function(subSeqs, Genome, element.length, TSD.length, mode = "normal") {
   # assesses each item of a potentialPackList
   
-  potentialPackList <- getPotentialPackList(subSeqs, Genome, element.length, TSD.length)
-  
+  potentialPackListRuntimes <- getPotentialPackList(subSeqs = subSeqs, 
+                                            Genome = Genome, 
+                                            element.length = element.length, 
+                                            TSD.length = TSD.length)
+  potentialPackList <- potentialPackListRuntimes[[1]]
+  runTimes <- potentialPackListRuntimes[[2]]
   unlink("Data/Output/algorithmAssessment/", recursive = TRUE)
-  
-  savePotentialPacks(potentialPackList)
+  write.csv(potentialPackList, "Data/Output/algorithmAssessment/potentialPacks.csv", row.names = FALSE)
+  print("potentialPack report saved")
   
   if(mode == "Arath") {
-    saveKnownCacta()
-    saveOverallReport(mode = "Arath")
+    saveKnownCacta(subSeqs, potentialPackList, Genome, runTimes)
+    print("knownCACTA report saved")
+    print("Overall report saved")
   } else {
-    saveOverallReport(mode = "normal")
+    saveOverallReport(subSeqs, runTimes, mode = "normal")
+    print("Overall report saved")
   }
 }
 

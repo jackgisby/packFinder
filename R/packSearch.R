@@ -25,7 +25,7 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   print("Filtering matches based on TSD sequences")
   potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length) %>%
     getTSDs(Genome, TSD.length, "+") %>%
-    getTIRs()
+    getTIRs(Genome)
   
   print("Initial filtering complete")
   return(potentialPacks)

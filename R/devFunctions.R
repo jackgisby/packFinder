@@ -1,12 +1,12 @@
 # useful functions for manipulating and assessing other functions
 
-getGenome <- function(genomeName = "Arabidopsis thaliana") {
+getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", genomePath = "Input/") {
   # Loads the ArAth genome and required packages for testing
   #
   # ---returns---
   # Arabidopsis thalania genome (as Biostrings::DNAStringSet)
   
-  Genome <- read_genome(getGenome(db = "refseq", genomeName, path = "/Input"))
+  Genome <- read_genome(getGenome(db = "refseq", genomeName, path = genomePath))
   if(genomeName == "Arabidopsis thaliana") {
     return(Genome[1:5])
   } else {
@@ -15,6 +15,8 @@ getGenome <- function(genomeName = "Arabidopsis thaliana") {
 }
 
 getRepeatMaps <- function(Genome) {
+  # gets map of Arath repeats
+  
   repeatMaps <- data.frame("Chromosome" = factor(),
                            "Start" = integer(),
                            "End" = integer(), 
@@ -40,6 +42,8 @@ getRepeatMaps <- function(Genome) {
 }
 
 getFastaFromDataFrame <- function(dataframe, Genome, filepath) {
+  # saves dataframe as fasta file
+  
   getDNAStringSetFromDataFrame(dataframe, Genome) %>%
     writeXStringSet(filepath)
   
