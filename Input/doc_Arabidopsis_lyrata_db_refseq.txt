@@ -1,0 +1,16 @@
+File Name: Arabidopsis_lyrata_genomic_refseq.fna.gz
+Organism Name: Arabidopsis_lyrata
+Database: NCBI refseq
+URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/004/255/GCF_000004255.2_v.1.0/GCF_000004255.2_v.1.0_genomic.fna.gz
+Download_Date: Wed Sep 11 00:31:30 2019
+refseq_category: representative genome
+assembly_accession: GCF_000004255.2
+bioproject: PRJNA49545
+biosample: SAMN02981250
+taxid: 81972
+infraspecific_name: NA
+version_status: latest
+release_type: Minor
+genome_rep: Full
+seq_rel_date: 2016-11-26
+submitter: US DOE Joint Genome Institute (JGI-PGF)

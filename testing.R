@@ -1,7 +1,12 @@
 source("packages.R")
 
 #get genome
-Genome <- getGenomeDnaStringSet(genomeName = "Arabidopsis lyrata")
+Genome <- getGenomeDnaStringSet(genomeName = "Brassica rapa")[1:10]
+
+#Arath
+#Arabidopsis lyrata
+#Arabidopsis halleri - no refseq?
+#Brassica rapa
 
 #find packs
 assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",
@@ -15,7 +20,7 @@ assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",
 
 #clustering
 potentialPacks <- read.csv("Data/Output/algorithmAssessment/potentialPacks.csv") %>%
-  filter(stringID == 7) %>%
+  filter(stringID == 5) %>%
   mutate(forward_TIR = as.character(forward_TIR)) %>%
   mutate(reverse_TIR = as.character(reverse_TIR))
 
