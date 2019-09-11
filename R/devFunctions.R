@@ -1,17 +1,19 @@
 # useful functions for manipulating and assessing other functions
 
-getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", genomePath = "Input/") {
+getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", 
+                                  genomePath = "Input/",
+                                  db = "refseq") {
   # Loads the ArAth genome and required packages for testing
   #
   # ---returns---
   # Arabidopsis thalania genome (as Biostrings::DNAStringSet)
   
-  Genome <- read_genome(getGenome(db = "refseq", genomeName, path = genomePath))
-  if(genomeName == "Arabidopsis thaliana") {
-    return(Genome[1:5])
-  } else {
-    return(Genome)
-  }
+  Genome <- read_genome(getGenome(db = db, genomeName, path = genomePath, reference = TRUE))
+  # if(genomeName == "Arabidopsis thaliana") {
+  #   return(Genome[1:5])
+  # } else {
+  #   return(Genome)
+  # }
 }
 
 getRepeatMaps <- function(Genome) {

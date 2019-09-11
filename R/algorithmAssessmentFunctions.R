@@ -29,7 +29,7 @@ getPotentialPackList <- function(subSeqs,
               runTimes = runTimes))
 }
 
-saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorRate = NULL, errorTotal = NULL) {
+saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorRate = NULL, errorTotal) {
   # saves overall report
   
   if(mode == "Arath") {
@@ -44,7 +44,8 @@ saveOverallReport <- function(subSeqs, runTimes, mode, detectRate = NULL, errorR
     overallReport <- data.frame(Search_ID = 1:length(subSeqs),
                                 Search_Sequence = as.character(subSeqs),
                                 Allowable_Mismatch = subSeqs@ranges@NAMES,
-                                Run_Time = unlist(runTimes))
+                                Run_Time = unlist(runTimes),
+                                Total_Matches = errorTotal)
   }
   
   write.csv(overallReport, "Data/Output/algorithmAssessment/overallReport.csv", row.names = FALSE)
@@ -54,9 +55,9 @@ saveKnownCacta <- function(subSeqs, potentialPackList, Genome, runTimes, integri
   # saves known cacta as report and makes specialised overall report
   
   knownCactas <- NULL
-  detectRate <- vector("character", length(subSeqs))
-  errorRate <- vector("character", length(subSeqs))
-  errorTotal <- vector("character", length(subSeqs))
+  detectRate <- vector("integer", length(subSeqs))
+  errorRate <- vector("integer", length(subSeqs))
+  errorTotal <- vector("integer", length(subSeqs))
   
   for(subSeq in 1:length(subSeqs)) {
     potentialPacks <- filter(potentialPackList, stringID == subSeq)

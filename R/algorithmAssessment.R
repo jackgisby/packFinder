@@ -18,7 +18,14 @@ assessPotentialPackList <- function(subSeqs, Genome, element.length, TSD.length,
     print("knownCACTA report saved")
     print("Overall report saved")
   } else {
-    saveOverallReport(subSeqs, runTimes, mode = "normal")
+    errorTotal <- vector("integer", length(subSeqs))
+    for(i in 1:max(potentialPackList$stringID)) {
+      errorTotal[i] <- filter(potentialPackList, stringID == i) %>%
+        select(stringID) %>%
+        unlist() %>%
+        length()
+    }
+    saveOverallReport(subSeqs, runTimes, mode = "normal", errorTotal = errorTotal)
     print("Overall report saved")
   }
 }
