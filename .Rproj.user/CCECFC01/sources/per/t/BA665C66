@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1567430655831.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2879116284",
+    "id" : "BA665C66",
+    "lastKnownWriteTime" : 1567430858,
+    "last_content_update" : 1567430856883,
+    "path" : "E:/Transposon_Work/Transposon_Search/R/devFunctions.R",
+    "project_path" : "R/devFunctions.R",
+    "properties" : {
+        "cursorPosition" : "87,24",
+        "scrollLine" : "68"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

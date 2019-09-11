@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568206464697.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "532260751",
+    "id" : "2A9B518A",
+    "lastKnownWriteTime" : 1568202374,
+    "last_content_update" : 1568202374,
+    "path" : "D:/Transposon_Work/Transposon_Search/R/packSearch.R",
+    "project_path" : "R/packSearch.R",
+    "properties" : {
+        "cursorPosition" : "14,43",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

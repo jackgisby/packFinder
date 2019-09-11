@@ -1,12 +1,12 @@
 source("packages.R")
 
-#get genome
-Genome <- getGenomeDnaStringSet(genomeName = "Brassica rapa")[1:10]
+genomeName <- c("Arabidopsis thaliana", "Arabidopsis lyrata", "Arabidopsis halleri", "Brassica rapa")
+db <- c("refseq", "refseq", "genbank", "refseq")
 
-#Arath
-#Arabidopsis lyrata
-#Arabidopsis halleri - no refseq?
-#Brassica rapa
+#get genome
+i <- 4
+Genome <- getGenomeDnaStringSet(genomeName = genomeName[i], db = db[i])
+
 
 #find packs
 assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",

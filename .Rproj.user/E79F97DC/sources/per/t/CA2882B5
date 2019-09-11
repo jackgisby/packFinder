@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568204862428.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3069065881",
+    "id" : "CA2882B5",
+    "lastKnownWriteTime" : 1568206782,
+    "last_content_update" : 1568206780583,
+    "path" : "D:/Transposon_Work/Transposon_Search/R/searchFunctions.R",
+    "project_path" : "R/searchFunctions.R",
+    "properties" : {
+        "cursorPosition" : "57,42",
+        "scrollLine" : "36"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
