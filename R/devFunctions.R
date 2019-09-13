@@ -51,3 +51,25 @@ getFastaFromDataFrame <- function(dataframe, Genome, filepath) {
   
   print(paste0("FASTA file successfully written to: ", filepath))
 }
+
+
+getFiles <- function() {
+  #get previously generated data from folders
+  files <- vector("list", length(list.files("Data/Output/algorithmAssessment/")))
+  
+  for(file in 1:length(list.files("Data/Output/algorithmAssessment/"))) {
+    files[[file]] <- read.csv(paste0("Data/Output/algorithmAssessment/",
+                                     list.files("Data/Output/algorithmAssessment/")[file],
+                                     "/potentialPacks.csv"))
+    
+    files[[file]]$Genome <- list.files("Data/Output/algorithmAssessment/")[file]
+    
+  }
+  
+  rbind(files[[1]],
+        files[[2]],
+        files[[3]],
+        files[[4]]) %>%
+    filter(TSD != "NNN") %>%
+    return()
+}
