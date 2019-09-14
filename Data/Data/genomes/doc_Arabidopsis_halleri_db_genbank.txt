@@ -2,7 +2,7 @@ File Name: Arabidopsis_halleri_genomic_genbank.fna.gz
 Organism Name: Arabidopsis_halleri
 Database: NCBI genbank
 URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/900/078/215/GCA_900078215.1_Ahal2.2/GCA_900078215.1_Ahal2.2_genomic.fna.gz
-Download_Date: Wed Sep 11 14:01:38 2019
+Download_Date: Sat Sep 14 20:30:40 2019
 refseq_category: representative genome
 assembly_accession: GCA_900078215.1
 bioproject: PRJEB12914
