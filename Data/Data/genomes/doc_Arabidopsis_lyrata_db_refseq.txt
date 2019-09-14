@@ -2,7 +2,7 @@ File Name: Arabidopsis_lyrata_genomic_refseq.fna.gz
 Organism Name: Arabidopsis_lyrata
 Database: NCBI refseq
 URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/004/255/GCF_000004255.2_v.1.0/GCF_000004255.2_v.1.0_genomic.fna.gz
-Download_Date: Wed Sep 11 19:17:34 2019
+Download_Date: Sat Sep 14 20:27:12 2019
 refseq_category: representative genome
 assembly_accession: GCF_000004255.2
 bioproject: PRJNA49545

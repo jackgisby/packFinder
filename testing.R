@@ -6,7 +6,7 @@ db <- c("refseq", "refseq", "genbank", "refseq")
 #get genome
 i <- 4
 Genome <- getGenomeDnaStringSet(genomeName = genomeName[i], db = db[i])
-
+sum(Genome@ranges@width)
 
 #find packs
 assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",
