@@ -1,7 +1,7 @@
 # useful functions for manipulating and assessing other functions
 
 getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", 
-                                  genomePath = "Input/",
+                                  genomePath = "Data/Data/genomes/",
                                   db = "refseq") {
   # Loads the ArAth genome and required packages for testing
   #
