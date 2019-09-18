@@ -1,36 +1,4 @@
-getTirHClust <- function(potentialPacks, model = "K80") {
-  # gets clusters from the TIRs in potentialPacks and the model specified by user (see ape::dist.dna)
-  
-  TIRs <- DNAStringSet(c(as.character(potentialPacks$forward_TIR), as.character(potentialPacks$reverse_TIR)))
-  TIRs@ranges@NAMES <- c(paste0("f", row.names(potentialPacks)), paste0("r", row.names(potentialPacks)))
-  
-  dend <- as.DNAbin(TIRs) %>%
-    dist.dna(model = model) %>% 
-    hclust() %>%
-    as.dendrogram() %>%
-    highlight_branches_col()
-
-  #idCols <- mapply(function(x) {return(as.integer(substr(x, 2, 3)))}, labels(dend), SIMPLIFY = TRUE)
-  dirCols <- ifelse(grepl("f", labels(dend)), 3, 4)
-  labels_colors(dend) <- dirCols
-  organismCols <- mapply(function(name, uniqueNames) {
-    return(which(uniqueNames == name) + 2)},
-    organism,
-    MoreArgs = list(unique(organism)))
-  
-
-  png("Data/Output/Plots/TIR_Relationships.png", width = 1000, height = 500)
-  plot(dend, main = "TIR Relationships")
-  colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
-  dev.off()
-
-  plot(dend, main = "TIR Relationships")
-  colored_bars(colors = cbind(dirCols, organismCols), dend=dend, sort_by_labels_order = FALSE, rowLabels = c("direction", "organism"))
-
-  return(cbind(dirCols, organismCols))
-}
-
-getOrganismHClust <- function(potentialPacks, genomeList, model = "K80") {
+tirHClust <- function(potentialPacks, genomeList, plot = FALSE, model = "K80") {
   # gets clusters from the TIRs in potentialPacks and the model specified by user (see ape::dist.dna)
   # requires additional info on the genome of origin
   
