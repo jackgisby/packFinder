@@ -4,6 +4,7 @@ library(GenomicRanges)
 library(dplyr)
 library(rBLAST)
 library(hoardeR)
+library(kmer)
 library(ape)
 library(dendextend)
 
