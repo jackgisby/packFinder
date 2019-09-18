@@ -1,0 +1,2 @@
+file_name	organism	url	database	path	refseq_category	assembly_accession	bioproject	biosample	taxid	infraspecific_name	version_status	release_type	genome_rep	seq_rel_date	submitter
+Arabidopsis_lyrata_genomic_refseq.fna.gz	Arabidopsis_lyrata	ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/004/255/GCF_000004255.2_v.1.0/GCF_000004255.2_v.1.0_genomic.fna.gz	refseq	Data/Data/genomes/	representative genome	GCF_000004255.2	PRJNA49545	SAMN02981250	81972	NA	latest	Minor	Full	2016-11-26	US DOE Joint Genome Institute (JGI-PGF)

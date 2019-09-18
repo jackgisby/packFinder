@@ -12,13 +12,15 @@ identifyTIRMatches <- function(TIR_Matches, subSeq, Genome, mismatch, strand = "
   # TIR_Matches: dataframe of previously identified matches and matches identified during this search
   
   
-  for(i in 1:length(Genome)) { #refactor without Granges?
-    matchData <- GRanges(seqnames = names(Genome)[i], 
-                         ranges = as(matchPattern(subSeq, Genome[[i]], max.mismatch = mismatch, with.indels = TRUE), "IRanges"),
-                         strand = strand)
+  for(i in 1:length(Genome)) { 
+    matches <- matchPattern(subSeq, Genome[[i]], max.mismatch = mismatch, with.indels = TRUE)
     
-    if(!is.null(matchData)) {
-      TIR_Matches <- rbind(TIR_Matches, as.data.frame(matchData))
+    if(length(matches) > 0) {
+      TIR_Matches <- rbind(TIR_Matches, data.frame(seqnames = names(Genome)[i], 
+                                                   start = matches@ranges@start, 
+                                                   end = matches@ranges@start + matches@ranges@width - 1, 
+                                                   width = matches@ranges@width, 
+                                                   strand = strand))
     }
   }
   
@@ -38,20 +40,28 @@ getTSDs <- function(TIR_Matches, Genome, TSD.length, direction) {
   # TIR_Matches dataframe with an additional column for each TIR's associated TSD sequence as a string
   
   if(direction == "+") {
-    return(TIR_Matches %>% mutate(
-      TSD = mapply(function(seqnames, start, TSD.length, Genome) {
+    return(TIR_Matches %>% 
+             filter(start > TSD.length) %>%
+             mutate(TSD = mapply(function(seqnames, start, TSD.length, Genome) {
         return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - TSD.length):(start - 1)]))},
         seqnames,
         start,
         MoreArgs = list(TSD.length = TSD.length, Genome = Genome))
     ))
   } else if(direction == "-") {
-    return(TIR_Matches %>% mutate(
-      TSD = mapply(function(seqnames, end, TSD.length, Genome) {
-        return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + TSD.length)]))},
-        seqnames,
-        end,
-        MoreArgs = list(TSD.length = TSD.length, Genome = Genome))))
+      return(TIR_Matches %>% 
+               mutate(removeMatch = mapply(function(end, seqnames, TSD.length, Genome)  {
+                 return((end + TSD.length) > Genome[Genome@ranges@NAMES == seqnames][[1]]@length)},
+                 end,
+                 seqnames,
+                 MoreArgs = list(TSD.length, Genome))) %>%
+               filter(removeMatch == FALSE) %>%
+               select(-c(removeMatch)) %>%
+               mutate(TSD = mapply(function(seqnames, end, TSD.length, Genome) {
+                 return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + TSD.length)]))},
+                 seqnames,
+                 end,
+                 MoreArgs = list(TSD.length = TSD.length, Genome = Genome))))
   }
 }
 
@@ -68,7 +78,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
   # ---returns---
   # dataframe of potential Pack-TYPE transposable elements
   
-  potTransposons <- as.data.frame(GRanges())
+  potTransposons <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
   
   for(forwardMatch in 1:length(forwardMatches[,1])) {
     
@@ -81,11 +91,11 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome
     }
     
     reverseRepeats <- filter(reverseMatches,
-                             seqnames == forwardRepeat$seqnames & 
+                             seqnames == as.character(forwardRepeat$seqnames) & 
                              end > searchRange[1] & 
                              end < searchRange[2] & 
                              strand == "-"  &
-                             TSD == forwardRepeat$TSD)
+                             TSD == as.character(forwardRepeat$TSD))
 
     if(length(reverseRepeats[,1]) > 0) {
       for(reverseMatch in 1:length(reverseRepeats[,1])) {
