@@ -67,7 +67,7 @@ getOrganismHClust <- function(potentialPacks, genomeList, model = "K80") {
   colored_bars(colors = organismCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "organism")
   legend("topright", legend = unique(genomeList), fill = 5:(length(unique(genomeList))+5))
   
-  return(clust)
+  return(dend)
 }
 
 getOrganismKClust <- function(potentialPacks, genomeList, model = "K80") {
@@ -97,6 +97,24 @@ getOrganismKClust <- function(potentialPacks, genomeList, model = "K80") {
     return()
 }
 
-
+getClusterConsensus <- function(potentialPacks, dend, h) {
+  # takes dendrogram and separates into clusters to produce consensus sequences of TIRs
+  clust <- cutree(dend, h = h)
+  consensusSeqs <- vector("list", length = length(unique(clust)))
+  
+  for(i in 1:length(unique(clust))) {
+    seqNames <- names(clust[clust == unique(clust)[i]])
+    dir <- grepl("f", seqNames) 
+    
+    consensusSeqs[[i]] <-
+      c(DNAStringSet(potentialPacks$forward_TIR[as.integer(subseq(seqNames[dir==TRUE], start = 3))]),
+      DNAStringSet(potentialPacks$reverse_TIR[as.integer(subseq(seqNames[dir==FALSE], start = 3))])) %>%
+      consensusString()
+    
+    names(consensusSeqs)[i] <- paste(seqNames, collapse = ', ')
+  }
+  
+  return(consensusSeqs)
+}
 
   

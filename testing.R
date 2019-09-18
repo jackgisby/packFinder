@@ -20,12 +20,10 @@ assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",
 
 Genome <- getGenomeDnaStringSet()
 knownCACTA <- getArathCACTA(Genome)
-CACTACAA_Data <- read.csv("Data/Output/algorithmAssessment/Full_CACTACAA_Data")
+CACTACAA_Data <- read.csv("Data/Output/algorithmAssessment/Full_CACTACAA_Data.csv")
 
 #clustering
-clust <- CACTACAA_Data %>% 
-  #filter(Genome != unique(Genome)[[2]]) %>%
-  getOrganismKClust(.$Genome) %>%
+consensusSeqs <- CACTACAA_Data %>% 
+  filter(Genome == unique(Genome)[[1]]) %>%
+  getClusterConsensus(getOrganismHClust(., .$Genome), h = 0.69) %>% 
   print()
-  
-
