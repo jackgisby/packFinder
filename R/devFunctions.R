@@ -73,3 +73,15 @@ getFiles <- function() {
     filter(TSD != "NNN") %>%
     return()
 }
+
+knownCactaToPotentialPacks <- function(knownCACTA) {
+  data.frame(seqnames = knownCACTA$name,
+             start = knownCACTA$start,
+             end = knownCACTA$end,
+             width = knownCACTA$length,
+             strand = "*",
+             TSD = "N/A",
+             forward_TIR = as.character(DNAStringSet(knownCACTA$forwardTIR)),
+             reverse_TIR = as.character(DNAStringSet(knownCACTA$reverseTIR))) %>%
+    return()
+}
