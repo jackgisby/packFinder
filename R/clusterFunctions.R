@@ -1,11 +1,7 @@
-tirHClust <- function(potentialPacks, genomeList, plot = FALSE, model = "K80") {
+tirHClust <- function(potentialPacks, Genome, model = "K80", plotDendrogram = TRUE) {
   # gets clusters from the TIRs in potentialPacks and the model specified by user (see ape::dist.dna)
   # requires additional info on the genome of origin
   
-  potentialPacks$Genome <- mapply(function(name, uniqueNames) {
-    return(which(uniqueNames == name) + 4)},
-    genomeList,
-    MoreArgs = list(unique(genomeList)))
   TIRs <- DNAStringSet(c(as.character(potentialPacks$forward_TIR), as.character(potentialPacks$reverse_TIR)))
   TIRs@ranges@NAMES <- c(paste0(potentialPacks$Genome, "f", row.names(potentialPacks)), paste0(potentialPacks$Genome, "r", row.names(potentialPacks)))
 
@@ -14,58 +10,29 @@ tirHClust <- function(potentialPacks, genomeList, plot = FALSE, model = "K80") {
     kdistance(k=7)
   clust[is.na(clust)] <- 0
   clust[is.nan(clust)] <- 0
-  clust[is.infinite(clust)] <- 1
+  clust[is.infinite(clust)] <- 0.75
   
   dend <- clust %>%
     hclust() %>%
     as.dendrogram() %>%
     highlight_branches_col()
   
-  #idCols <- mapply(function(x) {return(as.integer(substr(x, 2, 3)))}, labels(dend), SIMPLIFY = TRUE)
   dirCols <- ifelse(grepl("f", labels(dend)), 3, 4)
   labels_colors(dend) <- dirCols
-  organismCols <- lapply(labels(dend), function(x) subseq(x, start=1, end=1))
   
-  png("Data/Output/Plots/TIR_Relationships.png", width = 1000, height = 500)
-  plot(dend, main = "TIR Relationships")
-  colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
-  dev.off()
-  
-  plot(dend, main = "TIR Relationships")
-  colored_bars(colors = organismCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "organism")
-  legend("topright", legend = unique(genomeList), fill = 5:(length(unique(genomeList))+5))
-  
+  if(plotDendrogram == TRUE) {
+    png("Data/Output/Plots/TIR_Relationships.png", width = 1000, height = 500)
+    plot(dend, main = "TIR Relationships")
+    colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
+    dev.off()
+    
+    plot(dend, main = "TIR Relationships")
+    colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
+  }
   return(dend)
 }
 
-getOrganismKClust <- function(potentialPacks, genomeList, model = "K80") {
-  # gets clusters from the TIRs in potentialPacks and the model specified by user (see ape::dist.dna)
-  # requires additional info on the genome of origin
-  
-  potentialPacks$Genome <- mapply(function(name, uniqueNames) {
-    return(which(uniqueNames == name) + 4)},
-    genomeList,
-    MoreArgs = list(unique(genomeList)))
-  TIRs <- DNAStringSet(c(as.character(potentialPacks$forward_TIR), as.character(potentialPacks$reverse_TIR)))
-  TIRs@ranges@NAMES <- c(paste0("f", row.names(potentialPacks)), paste0("r", row.names(potentialPacks)))
-  
-  clust <- as.DNAbin(TIRs) %>%
-    #dist.dna(model = model)
-    kdistance()
-  
-  cmdscale(clust, eig=TRUE) %>%
-    fortify() %>%
-    setNames(c("MDS1", "MDS2")) %>%
-    ggplot(aes(MDS1, MDS2, colour = as.character(rep(potentialPacks$Genome, 2)),
-               label = TIRs@ranges@NAMES)) +
-    geom_point() + 
-    # geom_text(aes(label = TIRs@ranges@NAMES), position = position_nudge(x = 0.02), colour = "black") +
-    # scale_color_manual(labels = "black") +
-    scale_colour_discrete(name = "Organism", labels = unlist(unique(genomeList))) %>%
-    return()
-}
-
-getClusterConsensus <- function(potentialPacks, dend, h) {
+getTirConsensus <- function(potentialPacks, dend, h) {
   # takes dendrogram and separates into clusters to produce consensus sequences of TIRs
   clust <- cutree(dend, h = h)
   consensusSeqs <- vector("list", length = length(unique(clust)))
@@ -84,5 +51,3 @@ getClusterConsensus <- function(potentialPacks, dend, h) {
   
   return(consensusSeqs)
 }
-
-  
