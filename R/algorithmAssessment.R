@@ -1,5 +1,4 @@
 #pipeline functions to assess algorithm/filtering performance
-
 assessPotentialPackList <- function(subSeqs, Genome, element.length, TSD.length, mode = "normal") {
   # assesses each item of a potentialPackList
   
