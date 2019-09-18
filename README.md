@@ -7,5 +7,4 @@
 - Add unit test
 - Investigate potential new elements
 - Implement sequence clustering
-- Apply tool to larger Genomes
 - Improve documentation

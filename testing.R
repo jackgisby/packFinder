@@ -1,27 +1,25 @@
 source("packages.R")
 
-#get Arath genome
-Genome <- getGenomeDnaStringSet(genomeName = "Arabidopsis thaliana")
+genomeName <- c("Arabidopsis thaliana", "Arabidopsis lyrata", "Arabidopsis halleri", "Brassica rapa")
+db <- c("refseq", "refseq", "genbank", "refseq")
+
+#get genome
+i <- 1
+Genome <- getGenomeDnaStringSet(genomeName = genomeName[i], db = db[i])
+sum(Genome@ranges@width)
 
 #find packs
-assessPotentialPackList(subSeqs = DNAStringSet(c("1" = "CACTACAA-AAATAT",
-                                                 "2" = "CACTACAA-AAATAT",
-                                                 "3" = "CACTACAA-AAATAT",
-                                                 "1" = "CACTACAA-AAATA",
-                                                 "1" = "CACTACAA-AAA",
-                                                 "1" = "CACTACAA",
-                                                 "0" = "CACTACAA")),
-                        Genome = Genome,
-                        element.length = c(300, 3500),
-                        TSD.length = 3, 
-                        mode = "Arath")
+# assessPotentialPackList(subSeqs = DNAStringSet(c("0" = "CACTACAA")),
+#                         Genome = Genome,
+#                         element.length = c(300, 3500),
+#                         TSD.length = 3)
 
-#filter using repeatmap
-repeatMaps <- getRepeatMaps(Genome)
-potentialPacks <- filterElements(potentialPacks, repeatMaps)
+Genome <- getGenomeDnaStringSet()
+knownCACTA <- getArathCACTA(Genome)
+CACTACAA_Data <- read.csv("Data/Output/algorithmAssessment/Full_CACTACAA_Data.csv")
 
-knownCACTA <- saveReport(potentialPacks, subSeq, Genome, integrityFilter = NULL, mismatch = max.mismatch)
-knownCACTA <- saveReport(filter(potentialPacks, isTransposon == FALSE), subSeq, Genome, integrityFilter = NULL, mismatch = max.mismatch)
-print(end-start)
-
-#filter using blast
+#clustering
+consensusSeqs <- CACTACAA_Data %>% 
+  filter(Genome == unique(Genome)[[1]]) %>%
+  getClusterConsensus(getOrganismHClust(., .$Genome), h = 0.69) %>% 
+  print()

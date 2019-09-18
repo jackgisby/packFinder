@@ -1,0 +1,16 @@
+File Name: Brassica_rapa_genomic_refseq.fna.gz
+Organism Name: Brassica_rapa
+Database: NCBI refseq
+URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/309/985/GCF_000309985.1_Brapa_1.0/GCF_000309985.1_Brapa_1.0_genomic.fna.gz
+Download_Date: Sat Sep 14 20:31:46 2019
+refseq_category: representative genome
+assembly_accession: GCF_000309985.1
+bioproject: PRJNA249065
+biosample: SAMN02981293
+taxid: 3711
+infraspecific_name: cultivar=Chiifu-401-42
+version_status: latest
+release_type: Major
+genome_rep: Full
+seq_rel_date: 2012-11-07
+submitter: Brassica rapa genome sequencing project, BraGSP

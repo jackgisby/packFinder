@@ -12,15 +12,20 @@ packSearch <- function(subSeq, Genome, mismatch = 0, element.length, TSD.length)
   
   #perform initial search for TIR matches and get related TSD sequences
   print("Getting forward matches")
-  forwardMatches <- as.data.frame(GRanges()) %>%
+  forwardMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character()) %>%
     identifyTIRMatches(subSeq, Genome, mismatch = mismatch, strand = "+") %>%
     getTSDs(Genome, TSD.length, direction = "+")
   
   print("Getting reverse matches")
-  reverseMatches <- as.data.frame(GRanges()) %>%
+  reverseMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character()) %>%
     identifyTIRMatches(reverseComplement(subSeq), Genome, mismatch = mismatch, strand = "-") %>%
     getTSDs(Genome, TSD.length, direction = "-")
-
+  
+  #case: no matches
+  if(length(forwardMatches[,1]) == 0 | length(reverseMatches[,1]) == 0) {
+    return(None)
+  }
+  
   #determine potential transposable elements based on nearby elements and TSD sequences
   print("Filtering matches based on TSD sequences")
   potentialPacks <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, element.length) %>%

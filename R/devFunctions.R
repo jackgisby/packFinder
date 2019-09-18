@@ -1,17 +1,19 @@
 # useful functions for manipulating and assessing other functions
 
-getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", genomePath = "Input/") {
+getGenomeDnaStringSet <- function(genomeName = "Arabidopsis thaliana", 
+                                  genomePath = "Data/Data/genomes/",
+                                  db = "refseq") {
   # Loads the ArAth genome and required packages for testing
   #
   # ---returns---
   # Arabidopsis thalania genome (as Biostrings::DNAStringSet)
   
-  Genome <- read_genome(getGenome(db = "refseq", genomeName, path = genomePath))
-  if(genomeName == "Arabidopsis thaliana") {
-    return(Genome[1:5])
-  } else {
-    return(Genome)
-  }
+  Genome <- read_genome(getGenome(db = db, genomeName, path = genomePath, reference = TRUE))
+  # if(genomeName == "Arabidopsis thaliana") {
+  #   return(Genome[1:5])
+  # } else {
+  #   return(Genome)
+  # }
 }
 
 getRepeatMaps <- function(Genome) {
@@ -48,4 +50,26 @@ getFastaFromDataFrame <- function(dataframe, Genome, filepath) {
     writeXStringSet(filepath)
   
   print(paste0("FASTA file successfully written to: ", filepath))
+}
+
+
+getFiles <- function() {
+  #get previously generated data from folders
+  files <- vector("list", length(list.files("Data/Output/algorithmAssessment/")))
+  
+  for(file in 1:length(list.files("Data/Output/algorithmAssessment/"))) {
+    files[[file]] <- read.csv(paste0("Data/Output/algorithmAssessment/",
+                                     list.files("Data/Output/algorithmAssessment/")[file],
+                                     "/potentialPacks.csv"))
+    
+    files[[file]]$Genome <- list.files("Data/Output/algorithmAssessment/")[file]
+    
+  }
+  
+  rbind(files[[1]],
+        files[[2]],
+        files[[3]],
+        files[[4]]) %>%
+    filter(TSD != "NNN") %>%
+    return()
 }
