@@ -1,2 +1,0 @@
-file_name	organism	url	database	path	refseq_category	assembly_accession	bioproject	biosample	taxid	infraspecific_name	version_status	release_type	genome_rep	seq_rel_date	submitter
-Arabidopsis_halleri_genomic_refseq.fna.gz	Arabidopsis_halleri	ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/725/875/GCF_001725875.1_ViralMultiSegProj342649/GCF_001725875.1_ViralMultiSegProj342649_genomic.fna.gz	refseq	Input/	na	GCF_001725875.1	PRJNA485481	NA	1849335	NA	latest	Major	Full	2016-09-12	NA
