@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568848322957.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "89141720",
+    "lastKnownWriteTime" : 1568857166,
+    "last_content_update" : 1568857164457,
+    "path" : "D:/Transposon_Work/Transposon_Search/R/clusterFunctions.R",
+    "project_path" : "R/clusterFunctions.R",
+    "properties" : {
+        "cursorPosition" : "23,0",
+        "scrollLine" : "16",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

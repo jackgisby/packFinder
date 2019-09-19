@@ -2,8 +2,5 @@
  Initial transposon search work Pack-CACTA
 
 ## To-Do
-- Re-organise project
-- Implement transposon clustering
-- Implement blast filtering step
-- Add extra bits
-- Re-implement as a package
+- Add extra helper functions
+- Re-write as package

@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568380119317.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FC4E61D",
+    "lastKnownWriteTime" : 32370094774485106,
+    "last_content_update" : 1568380119317,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "E04F77F4",
+        "caption" : "potentialPacks",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=potentialPacks&cache_key=E04F77F4",
+        "displayedObservations" : 8888,
+        "environment" : "",
+        "object" : "potentialPacks",
+        "preview" : 0,
+        "totalObservations" : 8888,
+        "variables" : 10
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
