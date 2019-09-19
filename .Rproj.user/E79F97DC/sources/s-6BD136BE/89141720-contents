@@ -1,0 +1,89 @@
+findKClusts <- function(packMatches, Genome, kmer = 5, h = 0.2, plotDendrogram = TRUE) {
+  # gets clusters from the seqs in packMatches and the model specified by user (see ape::dist.dna)
+  # requires additional info on the genome of origin
+  
+  seqs <- DNAStringSet(as.character(packMatches$seq))
+  seqs@ranges@NAMES <- row.names(packMatches)
+  
+  dend <- as.DNAbin(seqs) %>%
+    kdistance(k = kmer) %>%
+    hclust() %>%
+    as.dendrogram() %>%
+    highlight_branches_col()
+  
+  if(plotDendrogram == TRUE) {
+    png("Data/Output/Plots/transposonRelationships.png", width = 1000, height = 500)
+    plot(dend, main = "Transposon Relationships")
+    dev.off()
+    
+    plot(dend, main = "Transposon Relationships")
+  }
+  return(cutree(dend, h = h))
+}
+
+packClust <- function(packMatches, 
+                        Genome, 
+                        identity = 0.5, 
+                        threads = 1, 
+                        strand = "both", 
+                        saveFolder = "Data/Output/vSearch/", 
+                        vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe") {
+  
+  
+  packMatchesFile <- "Data/Data/packMatches.fa"
+  packMatchesSet <- DNAStringSet(packMatches$seq)
+  packMatchesSet@ranges@NAMES <- as.character(1:length(packMatches[1,]))
+  writeXStringSet(packMatchesSet, packMatchesFile)
+  
+  system2(
+    command = vSearchPath,
+    args = paste0(
+      "--cluster_fast ",
+      packMatchesFile,
+      " \ ",
+      "--qmask none \ ",
+      "--uc ",
+      file.path(saveFolder, paste0("packMatches", ".uc")),
+      " \ ",
+      "--id ",
+      identity,
+      " \ ",
+      "--threads ",
+      threads,
+      " \ ",
+      "--clusterout_sort \ ",
+      "--clusterout_id \ ",
+      "--strand ",
+      strand,
+      " \ ",
+      "--log ",
+      file.path(saveFolder, paste0("packMatches", ".log")),
+      " \ ",
+      "--blast6out ",
+      file.path(saveFolder, paste0("packMatches", ".blast6out")),
+      " \ ",
+      "--sizeout"
+    )
+  )
+  
+  packClusts <- read.uc(file.path(saveFolder, paste0("packMatches", ".uc")))
+  
+  return(packClusts)
+}
+
+read.uc <- function(savePath) {
+  packClusts <- read.table(savePath, sep = "\t") 
+  colnames(packClusts) <- c("Type",
+                            "Cluster",
+                            "Length",
+                            "Identity",
+                            "Strand",
+                            "*",
+                            "*",
+                            "CIGAR_Alignment",
+                            "Query",
+                            "Target"
+  )
+  
+  return(packClusts)
+}

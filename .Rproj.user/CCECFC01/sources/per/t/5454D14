@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568376180777.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4096800909",
+    "id" : "5454D14",
+    "lastKnownWriteTime" : 1568380090,
+    "last_content_update" : 1568380089744,
+    "path" : "E:/Transposon_Work/Transposon_Search/testing.R",
+    "project_path" : "testing.R",
+    "properties" : {
+        "cursorPosition" : "37,23",
+        "scrollLine" : "20"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

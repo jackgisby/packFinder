@@ -1,6 +1,6 @@
 vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
 D:\VSEARC~1.1-W\vsearch.exe --cluster_smallmem packFinderData/Data/packMatches.fa --qmask none --uc packFinderData/Output/vSearch//packMatches.uc --id 0.5 --threads 1 --clusterout_sort --clusterout_id --strand both --log packFinderData/Output/vSearch//packMatches.log --blast6out packFinderData/Output/vSearch//packMatches.blast6out --sizeout
-Started  09/19/19 05:51:25
+Started  09/19/19 05:59:58
 18846 nt in 10 seqs, min 486, max 2945, avg 1885
 
 
@@ -18,6 +18,6 @@ Clusters: 4 Size min 1, max 5, avg 2.5
 Singletons: 1, 10.0% of seqs, 25.0% of clusters
 
 
-Finished 09/19/19 05:51:25
+Finished 09/19/19 05:59:58
 Elapsed time 00:00
 Max memory 124.5MB
