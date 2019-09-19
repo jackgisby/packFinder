@@ -74,14 +74,15 @@ getFiles <- function() {
     return()
 }
 
-knownCactaToPotentialPacks <- function(knownCACTA) {
-  data.frame(seqnames = knownCACTA$name,
-             start = knownCACTA$start,
+knownCacta <- function(Genome) {
+  knownCACTA <- read.csv("Data/Data/knownCACTA.csv", stringsAsFactors = FALSE, sep = ";")
+  
+  data.frame(start = knownCACTA$start,
              end = knownCACTA$end,
-             width = knownCACTA$length,
-             strand = "*",
-             TSD = "N/A",
-             forward_TIR = as.character(DNAStringSet(knownCACTA$forwardTIR)),
-             reverse_TIR = as.character(DNAStringSet(knownCACTA$reverseTIR))) %>%
+             width = knownCACTA$end - knownCACTA$start,
+             strand = "*") %>%
+    mutate(seqnames = Genome@ranges@NAMES[as.integer(knownCACTA$Chr)]) %>%
+    getTSDs(Genome, direction = "+", tsdLength = 3) %>%
+    getSeqs(Genome) %>%
     return()
 }

@@ -2,7 +2,7 @@ File Name: Arabidopsis_thaliana_genomic_refseq.fna.gz
 Organism Name: Arabidopsis_thaliana
 Database: NCBI refseq
 URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz
-Download_Date: Thu Sep 19 05:43:11 2019
+Download_Date: Thu Sep 19 00:05:47 2019
 refseq_category: reference genome
 assembly_accession: GCF_000001735.4
 bioproject: PRJNA116

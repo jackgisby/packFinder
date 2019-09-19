@@ -1,52 +1,131 @@
-tirHClust <- function(potentialPacks, Genome, model = "K80", plotDendrogram = TRUE) {
-  # gets clusters from the TIRs in potentialPacks and the model specified by user (see ape::dist.dna)
-  # requires additional info on the genome of origin
+packClust <- function(packMatches, 
+                        Genome, 
+                        identity = 0.6, 
+                        threads = 1, 
+                        strand = "both", 
+                        saveFolder = "packFinderData/Output/vSearch/", 
+                        vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe") {
   
-  TIRs <- DNAStringSet(c(as.character(potentialPacks$forward_TIR), as.character(potentialPacks$reverse_TIR)))
-  TIRs@ranges@NAMES <- c(paste0(potentialPacks$Genome, "f", row.names(potentialPacks)), paste0(potentialPacks$Genome, "r", row.names(potentialPacks)))
-
-  clust <- as.DNAbin(TIRs) %>%
-    #dist.dna(model = model)
-    kdistance(k=7)
-  clust[is.na(clust)] <- 0
-  clust[is.nan(clust)] <- 0
-  clust[is.infinite(clust)] <- 0.75
   
-  dend <- clust %>%
-    hclust() %>%
-    as.dendrogram() %>%
-    highlight_branches_col()
+  packMatchesFile <- "packFinderData/Data/packMatches.fa"
+  packMatches <- packMatches %>% 
+    mutate(ID = 1:length(packMatches[,1])) %>%
+    arrange(desc(width))
   
-  dirCols <- ifelse(grepl("f", labels(dend)), 3, 4)
-  labels_colors(dend) <- dirCols
+  packMatchesSet <- DNAStringSet(packMatches$seq)
+  packMatchesSet@ranges@NAMES <- as.character(packMatches$ID)
+  writeXStringSet(packMatchesSet, packMatchesFile)
   
-  if(plotDendrogram == TRUE) {
-    png("Data/Output/Plots/TIR_Relationships.png", width = 1000, height = 500)
-    plot(dend, main = "TIR Relationships")
-    colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
-    dev.off()
-    
-    plot(dend, main = "TIR Relationships")
-    colored_bars(colors = dirCols, dend=dend, sort_by_labels_order = FALSE, rowLabels = "direction")
-  }
-  return(dend)
+  system2(
+    command = vSearchPath,
+    args = paste0(
+      "--cluster_smallmem ",
+      packMatchesFile,
+      " \ ",
+      "--qmask none \ ",
+      "--uc ",
+      file.path(saveFolder, paste0("packMatches", ".uc")),
+      " \ ",
+      "--id ",
+      identity,
+      " \ ",
+      "--threads ",
+      threads,
+      " \ ",
+      "--clusterout_sort \ ",
+      "--clusterout_id \ ",
+      "--strand ",
+      strand,
+      " \ ",
+      "--log ",
+      file.path(saveFolder, paste0("packMatches", ".log")),
+      " \ ",
+      "--blast6out ",
+      file.path(saveFolder, paste0("packMatches", ".blast6out")),
+      " \ ",
+      "--sizeout"
+    )
+  )
+  
+  vSearchClusts <- read.uc(file.path(saveFolder, paste0("packMatches", ".uc"))) %>%
+    filter(type != "C") %>%
+    arrange(query)
+  packMatches %>%
+    mutate(strand = mapply(function(strand) {
+      if(strand == "*") {
+        return("+")
+      } else {
+        return(strand)
+      }
+    },
+    strand = as.character(vSearchClusts$strand))) %>%
+    mutate(cluster = vSearchClusts$cluster) %>%
+      return()
 }
 
-getTirConsensus <- function(potentialPacks, dend, h) {
-  # takes dendrogram and separates into clusters to produce consensus sequences of TIRs
-  clust <- cutree(dend, h = h)
-  consensusSeqs <- vector("list", length = length(unique(clust)))
+read.uc <- function(savePath) {
+  packClusts <- read.table(savePath, sep = "\t") 
+  colnames(packClusts) <- c("type",
+                            "cluster",
+                            "width",
+                            "identity",
+                            "strand",
+                            "6",
+                            "7",
+                            "cigarAlignment",
+                            "query",
+                            "target"
+  )
   
-  for(i in 1:length(unique(clust))) {
-    seqNames <- names(clust[clust == unique(clust)[i]])
-    dir <- grepl("f", seqNames) 
+  packClusts %>%
+    select(-c("6", "7")) %>%
+    return()
+}
+
+tirClust <- function(packMatches, plot = TRUE, plotSavePath = NULL, k = 5, tirLength = 25) {
+  fConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
+  rConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
+  
+  for(c in 1:length(unique(packMatches$cluster))) {
+    clustID <- unique(packMatches$cluster)[c]
+    clust <- filter(packMatches, cluster == clustID)
+    forwardTirs <- vector("list", length = length(clust[,1]))
+    reverseTirs <- vector("list", length = length(clust[,1]))
+
+    for(i in 1:length(clust[,1])) {
+      if(clust$strand[i] == "+") {
+        forwardTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i]+tirLength)]
+        reverseTirs[[i]] <- reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i]-tirLength):clust$end[i]])
+      } else if(clust$strand[i] == "-") {
+        forwardTirs[[i]] <- reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i]-tirLength):clust$end[i]])
+        reverseTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i]+tirLength)]
+      }
+    }
+
+    fConsensusSeqs[[c]] <- consensusString((DNAStringSet(forwardTirs)))
+    rConsensusSeqs[[c]] <- consensusString((DNAStringSet(reverseTirs)))
+  }
+  
+  fConsensusSeqs <- DNAStringSet(unlist(fConsensusSeqs))
+  rConsensusSeqs <- DNAStringSet(unlist(rConsensusSeqs))
+  fConsensusSeqs@ranges@NAMES <- paste0("f", as.character(unique(packMatches$cluster)))
+  rConsensusSeqs@ranges@NAMES <- paste0("r", as.character(unique(packMatches$cluster)))
+  consensusSeqs <- c(fConsensusSeqs, rConsensusSeqs)
+  
+  if(plot == TRUE) {
+    dend <- as.DNAbin(consensusSeqs) %>%
+      kdistance(k=k) %>%
+      hclust() %>%
+      as.dendrogram() %>%
+      highlight_branches_col()
     
-    consensusSeqs[[i]] <-
-      c(DNAStringSet(potentialPacks$forward_TIR[as.integer(subseq(seqNames[dir==TRUE], start = 3))]),
-      DNAStringSet(potentialPacks$reverse_TIR[as.integer(subseq(seqNames[dir==FALSE], start = 3))])) %>%
-      consensusString()
-    
-    names(consensusSeqs)[i] <- paste(seqNames, collapse = ', ')
+    plot(dend, main = "Clustered Transposon TIR Relationships")
+  }
+  
+  if(!is.null(plotSavePath)) {
+    png(plotSavePath, width = 1000, height = 600)
+    plot(dend, main = "Clustered Transposon TIR Relationships")
+    dev.off()
   }
   
   return(consensusSeqs)
