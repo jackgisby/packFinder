@@ -11,7 +11,7 @@ packSearch(subSeq, Genome, mismatch = 0, elementLength, tsdLength)
 
 \item{Genome}{A DNAStringSet object to be searched.}
 
-\item{mismatch}{The maximum edit distance to be considered for TIR matches (indels + substitions). See \code{biostrings::matchPattern}.}
+\item{mismatch}{The maximum edit distance to be considered for TIR matches (indels + substitions). See \code{\link[Biostrings]{matchPattern}}.}
 
 \item{elementLength}{The maximum element length to be considered, as a vector of two integers. E.g. \code{c(300, 3500)}}
 
@@ -25,7 +25,7 @@ General use pipeline function for the Pack-TYPE transposon finding algorithm.
 }
 \details{
 Finds potential pack-TYPE elements based on:
-\itemize {
+\itemize{
   \item Similarity of TIR sequence to \code{subSeq}
   \item Proximity of potential TIR sequences
   \item Directionality of TIR sequences

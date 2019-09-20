@@ -10,28 +10,37 @@
 #' @return If \code{output == "consensus"}, returns a list of consensus sequences for each cluster specified in \code{packMatches}. Else if \code{output == "dendrogram"}, returns a dendrogram object used to create hierarchical clustering diagrams.
 #' @export
 
-tirClust <- function(packMatches, plot = TRUE, plotSavePath = NULL, k = 5, tirLength = 25, output = "consensus") {
-  fConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
-  rConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
+tirClust <- function(packMatches,
+                     plot = TRUE,
+                     plotSavePath = NULL,
+                     k = 5,
+                     tirLength = 25,
+                     output = "consensus") {
+  fConsensusSeqs <- vector("list",
+    length = length(unique(packMatches$clustID))
+  )
+  rConsensusSeqs <- vector("list",
+    length = length(unique(packMatches$clustID))
+  )
 
-  for(c in 1:length(unique(packMatches$cluster))) {
+  for (c in 1:length(unique(packMatches$cluster))) {
     clustID <- unique(packMatches$cluster)[c]
     clust <- dplyr::filter(packMatches, cluster == clustID)
-    forwardTirs <- vector("list", length = length(clust[,1]))
-    reverseTirs <- vector("list", length = length(clust[,1]))
+    forwardTirs <- vector("list", length = length(clust[, 1]))
+    reverseTirs <- vector("list", length = length(clust[, 1]))
 
-    for(i in 1:length(clust[,1])) {
-      if(clust$strand[i] == "+") {
-        forwardTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i]+tirLength)]
-        reverseTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i]-tirLength):clust$end[i]])
-      } else if(clust$strand[i] == "-") {
-        forwardTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i]-tirLength):clust$end[i]])
-        reverseTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i]+tirLength)]
+    for (i in 1:length(clust[, 1])) {
+      if (clust$strand[i] == "+") {
+        forwardTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
+        reverseTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
+      } else if (clust$strand[i] == "-") {
+        forwardTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
+        reverseTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
       }
     }
 
-    fConsensusSeqs[[c]] <- Biostrings::consensusString((DNAStringSet(forwardTirs)))
-    rConsensusSeqs[[c]] <- Biostrings::consensusString((DNAStringSet(reverseTirs)))
+    fConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(forwardTirs)))
+    rConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(reverseTirs)))
   }
 
   fConsensusSeqs <- Biostrings::DNAStringSet(unlist(fConsensusSeqs))
@@ -40,16 +49,14 @@ tirClust <- function(packMatches, plot = TRUE, plotSavePath = NULL, k = 5, tirLe
   rConsensusSeqs@ranges@NAMES <- paste0("r", as.character(unique(packMatches$cluster)))
   consensusSeqs <- c(fConsensusSeqs, rConsensusSeqs)
 
-  dend <- ape::as.DNAbin(consensusSeqs) %>%
-    kmer::kdistance(k=k) %>%
-    stats::hclust() %>%
-    stats::as.dendrogram()
+  dend <- stats::as.dendrogram(stats::hclust(kmer::kdistance(ape::as.DNAbin(consensusSeqs), k = k)))
 
-  if(plot == TRUE) {
+
+  if (plot == TRUE) {
     plot(dend, main = "Clustered Transposon TIR Relationships")
   }
 
-  if(!is.null(plotSavePath)) {
+  if (!is.null(plotSavePath)) {
     grDevices::png(plotSavePath, width = 1000, height = 600)
     plot(dend, main = "Clustered Transposon TIR Relationships")
     grDevices::dev.off()
@@ -60,5 +67,4 @@ tirClust <- function(packMatches, plot = TRUE, plotSavePath = NULL, k = 5, tirLe
   } else {
     return(consensusSeqs)
   }
-
 }
