@@ -1,2 +1,0 @@
-file_name	organism	url	database	path	refseq_category	assembly_accession	bioproject	biosample	taxid	infraspecific_name	version_status	release_type	genome_rep	seq_rel_date	submitter
-Arabidopsis_thaliana_genomic_refseq.fna.gz	Arabidopsis_thaliana	ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz	refseq	Data/Data/genomes/	reference genome	GCF_000001735.4	PRJNA116	SAMN03081427	3702	ecotype=Columbia	latest	Minor	Full	2018-03-15	The Arabidopsis Information Resource (TAIR)

@@ -1,13 +1,22 @@
+#' Clustering of potential transposable elements using VSEARCH.
+#' @param packMatches A dataframe of potential transposable elements. Will be saved as a FASTA file for VSEARCH.
+#' @param identity The sequence identity of two transposable elements in \code{packMatches} required to be grouped into a cluster.
+#' @param threads The number of threads to be used by VSEARCH.
+#' @param strand The strand direction (+, - or *) to be clustered.
+#' @param saveFolder The folder to save output files (uc, blast6out, FASTA)
+#' @param vSearchPath The location of the VSEARCH executable file.
+#' @return Saves cluster information, including a \code{uc} and \code{blast6out} file, to the specified location. Returns the given \code{packMatches} dataframe with an additional column, \code{cluster}, containing cluster IDs.
+#' @export
+
 packClust <- function(packMatches,
-                      Genome,
                       identity = 0.6,
                       threads = 1,
                       strand = "both",
-                      saveFolder = "packFinderData/Output/vSearch/",
-                      vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe") {
+                      saveFolder = "packFinder/vSearch/",
+                      vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
 
 
-  packMatchesFile <- "packFinderData/Data/packMatches.fa"
+  packMatchesFile <- saveFolder
   packMatches <- packMatches %>%
     mutate(ID = 1:length(packMatches[,1])) %>%
     arrange(desc(width))

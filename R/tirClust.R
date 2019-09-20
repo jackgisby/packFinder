@@ -1,6 +1,11 @@
-
-
-
+#' Analysis of TIR sequence by cluster.
+#' @param packMatches Dataframe containing potential packTYPE elements and cluster information.
+#' @param plot Argument specifying whether the TIR consensus sequences should be plottted as a dendrogram.
+#' @param plotSavePath File path for the dendrogram plot. If unspecified, the dendrogram plot is not saved.
+#' @param k The k-mer size to be used for calculating a distance matrix between TIR consensus sequences. See \code{kdistance::kmer}.
+#' @param tirLength The TIR size to be considered. Consensus sequences will be generated based on the first and last \code{tirLength} bases.
+#' @return A list of consensus sequences for each cluster specified in \code{packMatches}.
+#' @export
 
 tirClust <- function(packMatches, plot = TRUE, plotSavePath = NULL, k = 5, tirLength = 25) {
   fConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))

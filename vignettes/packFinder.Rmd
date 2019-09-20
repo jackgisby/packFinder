@@ -1,0 +1,21 @@
+---
+title: "packFinder"
+author: "Jack Gisby"
+date: "20/SEP/2019"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{packFinder}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(packFinder)
+```
