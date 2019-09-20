@@ -5,7 +5,9 @@
 #' @return The dataframe \code{packMatches} with an additional \code{seq} feature containing extracted sequences as characters.
 #' @export
 
-getSeqs <- function(packMatches, Genome) {
+getSeqs <- function(packMatches,
+                    Genome) {
+
   packMatches %>%
     mutate(seq = mapply(function(start, end, seqnames, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][start:end]))},

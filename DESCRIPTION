@@ -1,0 +1,24 @@
+Package: packFinder
+Title: A Tool for de novo Annotation of Pack-TYPE Non-Autonomous Transposons.
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jack",
+           family = "Gisby",
+           role = c("aut", "cre"),
+           email = "jackgisby@gmail.com")
+Description: Algorithm and tools for in silico pack-TYPE transposon discovery. Filters a given genome for properties unique to transposons and provides tools for the investigation of returned sequences. 
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    Biostrings,
+    GenomicRanges,
+    dplyr,
+    kmer,
+    dendextend
+Suggests:
+    biomartr,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

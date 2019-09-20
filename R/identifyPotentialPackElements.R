@@ -8,18 +8,10 @@
 
 
 
-identifyPotentialPackElements <- function(forwardMatches, reverseMatches, Genome, elementLength) {
-  # identifies potential Pack-TYPE transposons by identifying neighbouring forward and reverse sequences
-  # and matching them together given similar neighbouring TSD sequences
-  #
-  # ---input---
-  # forwardMatches: dataframe containing potential forward TIR sequences
-  # reverseMatches: dataframe containing potential reverse TIR sequences
-  # Genome: DNAStringSet object containing the genome being searched
-  # elementLength: vector of minimum and maximum length of Pack-TYPE transposons being searched for
-  #
-  # ---returns---
-  # dataframe of potential Pack-TYPE transposable elements
+identifyPotentialPackElements <- function(forwardMatches,
+                                          reverseMatches,
+                                          Genome,
+                                          elementLength) {
 
   packMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
 

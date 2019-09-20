@@ -7,7 +7,11 @@
 #' @export
 
 
-getTSDs <- function(tirMatches, Genome, tsdLength, direction) {
+getTSDs <- function(tirMatches,
+                    Genome,
+                    tsdLength,
+                    direction) {
+
   if(direction == "+") {
     return(tirMatches %>%
              filter(start > tsdLength) %>%

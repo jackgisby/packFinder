@@ -1,5 +1,0 @@
-devtools::use_package(Biostrings)
-devtools::use_package(GenomicRanges)
-devtools::use_package(dplyr)
-devtools::use_package(kmer)
-devtools::use_package(dendextend)
