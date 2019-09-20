@@ -14,7 +14,7 @@ getTsds <- function(tirMatches,
                     tsdLength,
                     direction) {
   if (direction == "+") {
-    Tsds <- dplyr::filter(Tsds, start > tsdLength)
+    Tsds <- dplyr::filter(tirMatches, start > tsdLength)
     Tsds <- dplyr::mutate(Tsds, TSD = mapply(function(seqnames, start, tsdLength, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - tsdLength):(start - 1)]))
     },
