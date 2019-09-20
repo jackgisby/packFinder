@@ -27,7 +27,7 @@ packSearch <- function(subSeq,
   print("Getting forward matches")
   forwardMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
   forwardMatches <- identifyTirMatches(forwardMatches, subSeq, Genome, mismatch = mismatch, strand = "+")
-  forwardMatches <- getTSDs(forwardMatches, Genome, tsdLength, direction = "+")
+  forwardMatches <- getTsds(forwardMatches, Genome, tsdLength, direction = "+")
 
   print("Getting reverse matches")
   reverseMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
@@ -43,8 +43,8 @@ packSearch <- function(subSeq,
   # determine potential transposable elements based on nearby elements and TSD sequences
   print("Filtering matches based on TSD sequences")
   packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, elementLength)
-  packMatches <- getTsds(Genome, tsdLength, "+")
-  packMatches <- getSeqs(Genome)
+  packMatches <- getTsds(packMatches, Genome, tsdLength, "+")
+  packMatches <- getSeqs(packMatches, Genome)
 
   print("Initial filtering complete")
   return(packMatches)

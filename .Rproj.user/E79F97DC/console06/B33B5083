@@ -1,140 +1,0 @@
-[0m[0K]0;:/d/Transposon_Work/Transposon_Search[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0m[0K
-$[0K[3G[?25h[?25l[2A                                                                                [0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work[0K/
-Transposon_Search[0m                     $[0K
-[0K[1A[41G[?25h[?25l$[0K
-[0K[1A[3G[?25h[?25l$ g[0K
-[0K[1A[4G[?25h[?25l$ gi[0K
-[0K[1A[5G[?25h[?25l$ git[0K
-[0K[1A[6G[?25h[?25l
-[?25hbash: git: command not found[0K[?25l
-[0K
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Kl[0Kl[0K[?25l
-bash: git: command not found[0K
-[0K
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0m[0K
-]0;:/d/Transposon_Work/Transposon_Search[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0;36m (development)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[3G[?25h[4G[?25l$ gi[0K[?25ht[0K[7G[?25l$ git s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l
-[0K[?25hOn branch development[0K[?25l
-Your branch is up to date with 'origin/development'.[0K
-[0K
-Changes not staged for commit:[0K
-  (use "git add <file>..." to update what will be committed)[0K
-  (use "git checkout -- <file>..." to discard changes in working directory)[0K
-[0K
-        [0;31mmodified:   .RData[0m[0K
-        [0;31mmodified:   .Rhistory[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/console06/B33B5083[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/console06/INDEX001[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/files-pane.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/windowlayoutstate.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/workbench-pane.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/rmd-outputs[0m[0K
-        [0;31mmodified:   Input/doc_Arabidopsis_thaliana_db_refseq.txt[0m[0K
-        [0;31mmodified:   randSeqTest.Rmd[0m[0K
-        [0;31mmodified:   randSeqTest.nb.html[0m[0K
-[0K
-Untracked files:[0K
-  (use "git add <file>..." to include in what will be committed)[0K
-[0K
-        [0;31mrandSeqTest.html[0m[0K
-        [0;31mrandSeqTest_files/[0m[0K
-[0K
-no changes added to commit (use "git add" and/or "git commit -a")[0K
-[0K[?25h[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0;36m (development)[0m[0K
-$[0K[3G[?25h[?25l$ s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l$ statu[0K[?25h[?25l$ stat[0K[?25h[?25l$ sta[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l
-[0K[?25hOn branch development[0K[?25l
-Your branch is up to date with 'origin/development'.[0K
-[0K
-Changes not staged for commit:[0K
-  (use "git add/rm <file>..." to update what will be committed)[0K
-  (use "git checkout -- <file>..." to discard changes in working directory)[0K
-[0K
-        [0;31mmodified:   .RData[0m[0K
-        [0;31mmodified:   .Rhistory[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/console06/B33B5083[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/console06/INDEX001[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/files-pane.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/windowlayoutstate.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/pcs/workbench-pane.pper[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/rmd-outputs[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/sources/prop/3E646153[0m[0K
-        [0;31mmodified:   .Rproj.user/E79F97DC/sources/prop/8A391F94[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arabidopsis halleri/overallReport.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arabidopsis halleri/potentialPacks.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arabidopsis lyrata/overallReport.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arabidopsis lyrata/potentialPacks.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arath/Arath_Report.xlsx[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arath/knownCACTA.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arath/overallReport.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Arath/potentialPacks.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Brassica rapa/overallReport.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Brassica rapa/potentialPacks.csv[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Full_CACTACAA_Data - Copy[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Arahalleri_CACTACAA_scatter.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Arahalleri_hclust.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Aralyrata_CACTACAA_scatter.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Arath_CACTACAA_Scatter.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Arath_CACTACAA_hclust.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/Brassica_CACTACAA_scatter.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/CACTACAA_Scatter.png[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Plots/knownCACTA_hclust.png[0m[0K[9G[?25h[?25l
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/Summary.docx[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/13SEP19_Data/overallOverallReport.xlsx[0m[0K
-        [0;31mdeleted:    Data/Output/algorithmAssessment/Full_CACTACAA_Data[0m[0K
-        [0;31mdeleted:    Input/Arabidopsis_halleri_genomic_genbank.fna.gz[0m[0K
-        [0;31mdeleted:    Input/Arabidopsis_halleri_genomic_refseq.fna.gz[0m[0K
-        [0;31mdeleted:    Input/Arabidopsis_lyrata_genomic_refseq.fna.gz[0m[0K
-        [0;31mdeleted:    Input/Arabidopsis_thaliana_genomic_refseq.fna.gz[0m[0K
-        [0;31mdeleted:    Input/Brassica_rapa_genomic_refseq.fna.gz[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_genbank.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_genbank.txt[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_genbank_summary_statistics.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_refseq.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_refseq.txt[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_halleri_db_refseq_summary_statistics.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_lyrata_db_refseq.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_lyrata_db_refseq.txt[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_lyrata_db_refseq_summary_statistics.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_thaliana_db_refseq.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_thaliana_db_refseq.txt[0m[0K
-        [0;31mdeleted:    Input/doc_Arabidopsis_thaliana_db_refseq_summary_statistics.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Brassica_rapa_db_refseq.tsv[0m[0K
-        [0;31mdeleted:    Input/doc_Brassica_rapa_db_refseq.txt[0m[0K
-        [0;31mdeleted:    Input/doc_Brassica_rapa_db_refseq_summary_statistics.tsv[0m[0K
-        [0;31mmodified:   R/devFunctions.R[0m[0K
-        [0;31mdeleted:    randSeqTest.Rmd[0m[0K
-        [0;31mdeleted:    randSeqTest.nb.html[0m[0K
-[0K
-Untracked files:[0K
-  (use "git add <file>..." to include in what will be committed)[0K
-[0K
-        [0;31mData/Data/genomes/[0m[0K
-[0K
-no changes added to commit (use "git add" and/or "git commit -a")[0K
-[0K[?25h[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0;36m (development)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0Ka[0Kl[0Kl[0K[?25l
-[0K[?25hfatal: Unable to create 'D:/Transposon_Work/Transposon_Search/.git/index.lock': File exists.[0K[?25l
-[0K
-Another git process seems to be running in this repository, e.g.[0K
-an editor opened by 'git commit'. Please make sure all processes[0K
-are terminated then try again. If it still fails, a git process[0K
-may have crashed in this repository earlier:[0K
-remove the file manually to continue.[0K
-[0K[?25h[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0;36m (development)[0m[0K
-$[0K[3G[?25h[0m[0K]0;:/d/Transposon_Work/Transposon_Search[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/Transposon_Search[0;36m (development)[0m[0K
-]0;:/d/Transposon_Work/packFinder[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/packFinder[0;36m (development)[0m[0K
-]0;:/d/Transposon_Work/packFinder[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/packFinder[0;36m (development)[0m[0K
-]0;:/d/Transposon_Work/packFinder[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/packFinder[0;36m (development)[0m[0K
-]0;:/d/Transposon_Work/packFinder[?25l
-[0;32mjackg@DESKTOP-RHQFS86 [0;35m [0;33m/d/Transposon_Work/packFinder[0;36m (development)[0m[0K
-$[0K[3G[?25h

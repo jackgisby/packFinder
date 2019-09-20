@@ -20,12 +20,12 @@ packClust <- function(packMatches,
                       strand = "both",
                       saveFolder = "packFinder/vSearch/",
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
-  packMatchesFile <- saveFolder
-  packMatches <- dplyr::mutate(packMatches, ID = 1:length(packMatches[, 1]))
+  packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
+  packMatches$ID <- as.integer(rownames(packMatches))
   packMatches <- dplyr::arrange(packMatches, desc(width))
 
   packMatchesSet <- Biostrings::DNAStringSet(packMatches$seq)
-  packMatchesSet@ranges@NAMES <- as.character(packMatches$ID)
+  packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
   Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
 
   system2(
@@ -61,7 +61,7 @@ packClust <- function(packMatches,
 
   vSearchClusts <- readUc(file.path(saveFolder, paste0("packMatches", ".uc")))
   vSearchClusts <- dplyr::filter(vSearchClusts, type != "C")
-  vSearchClusts <- dplyr::arrange(vSearchClusts, query)
+
   packMatches <- dplyr::mutate(packMatches, strand = mapply(function(strand) {
     if (strand == "*") {
       return("+")
@@ -72,5 +72,8 @@ packClust <- function(packMatches,
   strand = as.character(vSearchClusts$strand)
   ))
   packMatches <- dplyr::mutate(packMatches, cluster = vSearchClusts$cluster)
+  rownames(packMatches) <- packMatches$ID
+  packMatches <- dplyr::arrange(packMatches, ID)
+  packMatches <- dplyr::select(packMatches, -c(ID))
   return(packMatches)
 }

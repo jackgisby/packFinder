@@ -9,8 +9,8 @@
 
 getSeqs <- function(packMatches,
                     Genome) {
-  return(packMatches(
-    dplyr::mutate(seq = mapply(function(start,
+  return(
+    dplyr::mutate(packMatches, seq = mapply(function(start,
                                             end,
                                             seqnames,
                                             Genome) {
@@ -21,5 +21,5 @@ getSeqs <- function(packMatches,
     seqnames,
     MoreArgs = list(Genome = Genome)
     ))
-  ))
+  )
 }
