@@ -1,5 +1,5 @@
 Package: packFinder
-Title: A Tool for de novo Annotation of Pack-TYPE Non-Autonomous Transposons.
+Title: A Tool for de novo Annotation of Pack-TYPE Non-Autonomous Transposons
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Jack",
@@ -10,6 +10,8 @@ Description: Algorithm and tools for in silico pack-TYPE transposon discovery. F
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 3.5) 
 Imports: 
     Biostrings,
     GenomicRanges,

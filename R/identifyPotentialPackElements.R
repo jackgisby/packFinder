@@ -15,41 +15,47 @@ identifyPotentialPackElements <- function(forwardMatches,
                                           reverseMatches,
                                           Genome,
                                           elementLength) {
+  packMatches <- data.frame(
+    seqnames = character(),
+    start = integer(),
+    end = integer(),
+    width = integer(),
+    strand = character()
+  )
 
-  packMatches <- data.frame(seqnames = character(),
-                            start = integer(),
-                            end = integer(),
-                            width = integer(),
-                            strand = character())
-
-  #for each forward match
-  for(forwardMatch in 1:length(forwardMatches[,1])) {
-
-    forwardRepeat <- forwardMatches[forwardMatch,]
+  # for each forward match
+  for (forwardMatch in 1:length(forwardMatches[, 1])) {
+    forwardRepeat <- forwardMatches[forwardMatch, ]
     chr <- as.character(forwardRepeat[[1]])
     searchRange <- c(forwardRepeat$start + elementLength[1], forwardRepeat$start + elementLength[2])
 
-    if(searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
+    if (searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
       searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
     }
 
-    #consider all reverse matches in range with matching TSD sequences
-    reverseRepeats <- dplyr::filter(reverseMatches,
-                                    seqnames == as.character(forwardRepeat$seqnames) &
-                                    end > searchRange[1] &
-                                    end < searchRange[2] &
-                                    strand == "-"  &
-                                    TSD == as.character(forwardRepeat$TSD))
+    # consider all reverse matches in range with matching TSD sequences
+    reverseRepeats <- dplyr::filter(
+      reverseMatches,
+      seqnames == as.character(forwardRepeat$seqnames) &
+        end > searchRange[1] &
+        end < searchRange[2] &
+        strand == "-" &
+        TSD == as.character(forwardRepeat$TSD)
+    )
 
-    #append matches to packMatches
-    if(length(reverseRepeats[,1]) > 0) {
-      for(reverseMatch in 1:length(reverseRepeats[,1])) {
-        packMatches <- rbind(packMatches,
-                             data.frame(seqnames = forwardRepeat$seqnames,
-                                                     start = forwardRepeat$start,
-                                                     end = reverseRepeats[reverseMatch,]$end,
-                                                     width = reverseRepeats[reverseMatch,]$end - forwardRepeat$start,
-                                                     strand = "*"))
+    # append matches to packMatches
+    if (length(reverseRepeats[, 1]) > 0) {
+      for (reverseMatch in 1:length(reverseRepeats[, 1])) {
+        packMatches <- rbind(
+          packMatches,
+          data.frame(
+            seqnames = forwardRepeat$seqnames,
+            start = forwardRepeat$start,
+            end = reverseRepeats[reverseMatch, ]$end,
+            width = reverseRepeats[reverseMatch, ]$end - forwardRepeat$start,
+            strand = "*"
+          )
+        )
       }
     }
   }

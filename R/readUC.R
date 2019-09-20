@@ -6,20 +6,19 @@
 #' @export
 
 readUc <- function(savePath) {
-  packClusts <- read.table(savePath, sep = "\t")
-  colnames(packClusts) <- c("type",
-                            "cluster",
-                            "width",
-                            "identity",
-                            "strand",
-                            "6",
-                            "7",
-                            "cigarAlignment",
-                            "query",
-                            "target"
+  packClusts <- utils::read.table(savePath, sep = "\t")
+  colnames(packClusts) <- c(
+    "type",
+    "cluster",
+    "width",
+    "identity",
+    "strand",
+    "6",
+    "7",
+    "cigarAlignment",
+    "query",
+    "target"
   )
 
-  packClusts %>%
-    dplyr::select(-c("6", "7")) %>%
-    return()
+  return(dplyr::select(packClusts, -c("6", "7")))
 }

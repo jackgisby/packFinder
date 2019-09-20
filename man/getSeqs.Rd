@@ -2,7 +2,7 @@
 % Please edit documentation in R/getSeqs.R
 \name{getSeqs}
 \alias{getSeqs}
-\title{Get Sequences from Ranges.}
+\title{Get Sequences from Ranges}
 \usage{
 getSeqs(packMatches, Genome)
 }
