@@ -1,4 +1,4 @@
-read.uc <- function(savePath) {
+readUc <- function(savePath) {
   packClusts <- read.table(savePath, sep = "\t")
   colnames(packClusts) <- c("type",
                             "cluster",
