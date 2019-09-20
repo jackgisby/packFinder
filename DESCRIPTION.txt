@@ -1,0 +1,7 @@
+Package: packFinder
+Version: 0.1.0
+Date: 19/09/19
+Title: packFinder
+Description: Tool for the de novo annotation of packTYPE transposable elements.
+Author: Jack Gisby <jackgisby@gmail.com>
+Maintainer: Jack Gisby <jackgisby@gmail.com>
