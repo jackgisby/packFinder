@@ -2,7 +2,7 @@
 % Please edit documentation in R/getSeqs.R
 \name{getSeqs}
 \alias{getSeqs}
-\title{Gets the sequences referred to in \code{packMatches} and returns the sequences added as an additional column to the dataframe..}
+\title{Get Sequences from Ranges.}
 \usage{
 getSeqs(packMatches, Genome)
 }
@@ -16,4 +16,10 @@ The dataframe \code{packMatches} with an additional \code{seq} feature containin
 }
 \description{
 Gets the sequences referred to in \code{packMatches} and returns the sequences added as an additional column to the dataframe..
+}
+\details{
+Function intended for internal use.
+}
+\author{
+Jack Gisby
 }

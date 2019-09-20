@@ -1,6 +1,10 @@
 {
-    "path" : "D:/Transposon_Work/packFinder/data",
+    "path" : "D:/Transposon_Work/packFinder",
     "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 4
+        },
         {
             "ascending" : true,
             "columnIndex" : 2

@@ -2,10 +2,10 @@
 % Please edit documentation in R/tirClust.R
 \name{tirClust}
 \alias{tirClust}
-\title{Analysis of TIR sequence by cluster.}
+\title{Analyse TIR Sequences of Pre-clustered Transposable Elements}
 \usage{
 tirClust(packMatches, plot = TRUE, plotSavePath = NULL, k = 5,
-  tirLength = 25)
+  tirLength = 25, output = "consensus")
 }
 \arguments{
 \item{packMatches}{Dataframe containing potential packTYPE elements and cluster information.}
@@ -17,10 +17,15 @@ tirClust(packMatches, plot = TRUE, plotSavePath = NULL, k = 5,
 \item{k}{The k-mer size to be used for calculating a distance matrix between TIR consensus sequences. See \code{kdistance::kmer}.}
 
 \item{tirLength}{The TIR size to be considered. Consensus sequences will be generated based on the first and last \code{tirLength} bases.}
+
+\item{output}{Controls the output of \code{tirClust}.}
 }
 \value{
-A list of consensus sequences for each cluster specified in \code{packMatches}.
+If \code{output == "consensus"}, returns a list of consensus sequences for each cluster specified in \code{packMatches}. Else if \code{output == "dendrogram"}, returns a dendrogram object used to create hierarchical clustering diagrams.
 }
 \description{
-Analysis of TIR sequence by cluster.
+Takes transposable elements clustered by VSEARCH, \code{\link{packClust}}, and produces consensus sequences for the terminal inverted repeats of each. Allows for the visualisation of TIR similarities between clusters for both forward and reverse strands.
+}
+\author{
+Jack Gisby
 }

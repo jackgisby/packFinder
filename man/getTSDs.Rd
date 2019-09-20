@@ -2,14 +2,14 @@
 % Please edit documentation in R/getTsds.R
 \name{getTSDs}
 \alias{getTSDs}
-\title{Gets the flanking TSD sequences of the TIRs in \code{tirMatches}.}
+\title{Get Flanking Terminal Site Duplications}
 \usage{
 getTSDs(tirMatches, Genome, tsdLength, direction)
 }
 \arguments{
 \item{tirMatches}{A dataframe containing genomic ranges and names referring to TIR sequences.}
 
-\item{Genome}{A DNAStringSet object containing sequences referred to in \code{tirMatches}}
+\item{Genome}{A DNAStringSet object containing sequences referred to in \code{tirMatches}.}
 
 \item{tsdLength}{The length of the TSD region to be retrieved (integer).}
 
@@ -20,4 +20,10 @@ The dataframe \code{tirMatches} with an additional \code{TSD} feature containing
 }
 \description{
 Gets the flanking TSD sequences of the TIRs in \code{tirMatches}.
+}
+\details{
+Called by \code{\link{packSearch}}. Function intended for internal use.
+}
+\author{
+Jack Gisby
 }

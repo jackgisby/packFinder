@@ -2,7 +2,7 @@
 % Please edit documentation in R/packSearch.R
 \name{packSearch}
 \alias{packSearch}
-\title{General use pipeline function for the Pack-TYPE transposon finding algorithm.}
+\title{packFind Algorithm Pipeline}
 \usage{
 packSearch(subSeq, Genome, mismatch = 0, elementLength, tsdLength)
 }
@@ -14,10 +14,24 @@ packSearch(subSeq, Genome, mismatch = 0, elementLength, tsdLength)
 \item{mismatch}{The maximum edit distance to be considered for TIR matches (indels + substitions). See \code{biostrings::matchPattern}.}
 
 \item{elementLength}{The maximum element length to be considered, as a vector of two integers. E.g. \code{c(300, 3500)}}
+
+\item{tsdLength}{Integer referring to the length of the flanking TSD region.}
 }
 \value{
 A dataframe, \code{packMatches}, containing elements identified by the algorithm. These may be autonomous or pack-TYPE elements.
 }
 \description{
 General use pipeline function for the Pack-TYPE transposon finding algorithm.
+}
+\details{
+Finds potential pack-TYPE elements based on:
+\itemize {
+  \item Similarity of TIR sequence to \code{subSeq}
+  \item Proximity of potential TIR sequences
+  \item Directionality of TIR sequences
+  \item Similarity of TSD sequences
+}
+}
+\author{
+Jack Gisby
 }
