@@ -1,12 +1,27 @@
-#' General use pipeline function for the Pack-TYPE transposon finding algorithm.
+#' @title packFind Algorithm Pipeline
+#' @description General use pipeline function for the Pack-TYPE transposon finding algorithm.
 #' @param subSeq A DNAString object containing the TIR sequence to be searched for.
 #' @param Genome A DNAStringSet object to be searched.
 #' @param mismatch The maximum edit distance to be considered for TIR matches (indels + substitions). See \code{biostrings::matchPattern}.
 #' @param elementLength The maximum element length to be considered, as a vector of two integers. E.g. \code{c(300, 3500)}
+#' @param tsdLength Integer referring to the length of the flanking TSD region.
+#' @author Jack Gisby
+#' @details
+#' Finds potential pack-TYPE elements based on:
+#' \itemize {
+#'   \item Similarity of TIR sequence to \code{subSeq}
+#'   \item Proximity of potential TIR sequences
+#'   \item Directionality of TIR sequences
+#'   \item Similarity of TSD sequences
+#' }
 #' @return A dataframe, \code{packMatches}, containing elements identified by the algorithm. These may be autonomous or pack-TYPE elements.
 #' @export
 
-packSearch <- function(subSeq, Genome, mismatch = 0, elementLength, tsdLength) {
+packSearch <- function(subSeq,
+                       Genome,
+                       mismatch = 0,
+                       elementLength,
+                       tsdLength) {
 
   #perform initial search for TIR matches and get related TSD sequences
   print("Getting forward matches")

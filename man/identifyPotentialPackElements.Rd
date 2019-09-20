@@ -2,7 +2,7 @@
 % Please edit documentation in R/identifyPotentialPackElements.R
 \name{identifyPotentialPackElements}
 \alias{identifyPotentialPackElements}
-\title{Primary filtering stage for the \code{packSearch} algorithm. Identifies potential packTYPE transposable elements based on proximity of matching inverted repeats and equality of TSD sequences.}
+\title{Pack Element Filtering}
 \usage{
 identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
   elementLength)
@@ -14,11 +14,17 @@ identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
 
 \item{Genome}{A DNAStringSet object containing the matches referred to in \code{forwardMatches} and \code{reverseMatches}}
 
-\item{element.length}{A vector of two integers containing the minimum and maximum transposable element length.}
+\item{elementLength}{A vector of two integers containing the minimum and maximum transposable element length.}
 }
 \value{
 A dataframe, \code{packMatches}, containing the locations of potential packTYPE transposable elements in \code{Genome}.
 }
 \description{
 Primary filtering stage for the \code{packSearch} algorithm. Identifies potential packTYPE transposable elements based on proximity of matching inverted repeats and equality of TSD sequences.
+}
+\details{
+Called by \code{\link{packSearch}}. Function intended for internal use.
+}
+\author{
+Jack Gisby
 }

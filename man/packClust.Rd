@@ -2,7 +2,7 @@
 % Please edit documentation in R/packClust.R
 \name{packClust}
 \alias{packClust}
-\title{Clustering of potential transposable elements using VSEARCH.}
+\title{Cluster Transposons using VSEARCH}
 \usage{
 packClust(packMatches, identity = 0.6, threads = 1, strand = "both",
   saveFolder = "packFinder/vSearch/",
@@ -25,5 +25,11 @@ packClust(packMatches, identity = 0.6, threads = 1, strand = "both",
 Saves cluster information, including a \code{uc} and \code{blast6out} file, to the specified location. Returns the given \code{packMatches} dataframe with an additional column, \code{cluster}, containing cluster IDs.
 }
 \description{
-Clustering of potential transposable elements using VSEARCH.
+Cluster potential pack-TYPE elements by sequence similarity.
+}
+\note{
+In order to cluster sequences using VSEARCH, the executable file must first be installed.
+}
+\author{
+Jack Gisby
 }
