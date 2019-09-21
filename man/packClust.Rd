@@ -5,7 +5,7 @@
 \title{Cluster Transposons using VSEARCH}
 \usage{
 packClust(packMatches, identity = 0.6, threads = 1, strand = "both",
-  saveFolder = "packFinder/vSearch/",
+  saveFolder,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
 }
 \arguments{

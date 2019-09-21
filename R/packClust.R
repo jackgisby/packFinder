@@ -18,7 +18,7 @@ packClust <- function(packMatches,
                       identity = 0.6,
                       threads = 1,
                       strand = "both",
-                      saveFolder = "packFinder/vSearch/",
+                      saveFolder,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
   packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
   packMatches$ID <- as.integer(rownames(packMatches))

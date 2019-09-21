@@ -1,6 +1,7 @@
 #' @title Analyse TIR Sequences of Pre-clustered Transposable Elements
 #' @description Takes transposable elements clustered by VSEARCH, \code{\link{packClust}}, and produces consensus sequences for the terminal inverted repeats of each. Allows for the visualisation of TIR similarities between clusters for both forward and reverse strands.
 #' @param packMatches Dataframe containing potential packTYPE elements and cluster information.
+#' @param Genome The DNAStringSet used to create the \code{packMatches} dataframe. Required for TIR extraction.
 #' @param plot Argument specifying whether the TIR consensus sequences should be plottted as a dendrogram.
 #' @param plotSavePath File path for the dendrogram plot. If unspecified, the dendrogram plot is not saved.
 #' @param k The k-mer size to be used for calculating a distance matrix between TIR consensus sequences. See \code{kdistance::kmer}.
@@ -11,6 +12,7 @@
 #' @export
 
 tirClust <- function(packMatches,
+                     Genome,
                      plot = TRUE,
                      plotSavePath = NULL,
                      k = 5,
