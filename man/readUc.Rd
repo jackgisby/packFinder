@@ -4,10 +4,10 @@
 \alias{readUc}
 \title{Convert .uc Files to Dataframe}
 \usage{
-readUc(savePath)
+readUc(file)
 }
 \arguments{
-\item{savePath}{The file path of the .uc file.}
+\item{file}{The file path of the .uc file.}
 }
 \value{
 A dataframe, \code{packClusts}, containing the converted .uc file.

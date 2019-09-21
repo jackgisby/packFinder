@@ -14,6 +14,8 @@
 #'   \item Directionality of TIR sequences
 #'   \item Similarity of TSD sequences
 #' }
+#'
+#' The algorithm finds potential forward and reverse TIR sequences using \code{\link{(identifyTirMatches)}} and their associated TSD sequence via \code{\link{getTsds}}. The main filtering stage, \code{\link{identifyPotentialPackElements}}, filters matches to obtain a dataframe of potential PACK elements. Note that this pipeline does not consider the possibility of discovered elements being autonomous elements, so it is recommended to cluster and/or BLAST elements for further analysis.
 #' @return A dataframe, \code{packMatches}, containing elements identified by the algorithm. These may be autonomous or pack-TYPE elements.
 #' @export
 
@@ -24,28 +26,58 @@ packSearch <- function(subSeq,
                        tsdLength) {
 
   # perform initial search for TIR matches and get related TSD sequences
-  print("Getting forward matches")
-  forwardMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
-  forwardMatches <- identifyTirMatches(forwardMatches, subSeq, Genome, mismatch = mismatch, strand = "+")
-  forwardMatches <- getTsds(forwardMatches, Genome, tsdLength, direction = "+")
+  message("Getting forward matches")
+  forwardMatches <- identifyTirMatches(
+    subSeq = subSeq,
+    Genome = Genome,
+    mismatch = mismatch,
+    strand = "+"
+  )
 
-  print("Getting reverse matches")
-  reverseMatches <- data.frame(seqnames = character(), start = integer(), end = integer(), width = integer(), strand = character())
-  reverseMatches <- identifyTirMatches(reverseMatches, Biostrings::reverseComplement(subSeq), Genome, mismatch = mismatch, strand = "-")
-  reverseMatches <- getTsds(reverseMatches, Genome, tsdLength, direction = "-")
+  forwardMatches <- getTsds(
+    tirMatches = forwardMatches,
+    Genome = Genome,
+    tsdLength = tsdLength,
+    strand = "+"
+  )
+
+  message("Getting reverse matches")
+  reverseMatches <- identifyTirMatches(
+    subSeq = Biostrings::reverseComplement(subSeq),
+    Genome = Genome,
+    mismatch = mismatch,
+    strand = "-"
+  )
+
+  reverseMatches <- getTsds(
+    tirMatches = reverseMatches,
+    Genome = Genome,
+    tsdLength = tsdLength,
+    strand = "-"
+  )
 
   # case: no matches
   if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
-    print("No matches identified")
+    message("No matches identified")
     return(NULL)
   }
 
   # determine potential transposable elements based on nearby elements and TSD sequences
-  print("Filtering matches based on TSD sequences")
-  packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, elementLength)
-  packMatches <- getTsds(packMatches, Genome, tsdLength, "+")
-  packMatches <- getSeqs(packMatches, Genome)
+  message("Filtering matches based on TSD sequences")
+  packMatches <- identifyPotentialPackElements(
+    forwardMatches = forwardMatches,
+    reverseMatches = reverseMatches,
+    Genome = Genome,
+    elementLength = elementLength
+  )
 
-  print("Initial filtering complete")
+  packMatches <- getTsds(
+    tirMatches = packMatches,
+    Genome = Genome,
+    tsdLength = tsdLength,
+    strand = "+"
+  )
+
+  message("Initial filtering complete")
   return(packMatches)
 }

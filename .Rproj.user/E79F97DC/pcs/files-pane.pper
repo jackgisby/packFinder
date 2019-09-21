@@ -1,5 +1,5 @@
 {
-    "path" : "D:/Transposon_Work/packFinder/vignettes",
+    "path" : "D:/Transposon_Work/packFinder/tests/testthat",
     "sortOrder" : [
         {
             "ascending" : true,
