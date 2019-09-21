@@ -13,15 +13,15 @@ LazyData: true
 Depends: 
     R (>= 3.5) 
 Imports: 
-    Biostrings,
-    GenomicRanges,
-    dplyr,
-    kmer,
-    dendextend,
-    ape
+    Biostrings (>= 2.48.0), 
+    GenomicRanges (>= 1.32.7),
+    dplyr (>= 0.8.1),
+    kmer (>= 1.1.2),
+    ape (>= 5.3)
 Suggests:
     biomartr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

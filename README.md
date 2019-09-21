@@ -3,4 +3,4 @@
 
 ## To-Do
 - Add extra helper functions
-- Re-write as package
+- Implement unit testing
