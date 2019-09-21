@@ -4,11 +4,13 @@
 \alias{tirClust}
 \title{Analyse TIR Sequences of Pre-clustered Transposable Elements}
 \usage{
-tirClust(packMatches, plot = TRUE, plotSavePath = NULL, k = 5,
-  tirLength = 25, output = "consensus")
+tirClust(packMatches, Genome, plot = TRUE, plotSavePath = NULL,
+  k = 5, tirLength = 25, output = "consensus")
 }
 \arguments{
 \item{packMatches}{Dataframe containing potential packTYPE elements and cluster information.}
+
+\item{Genome}{The DNAStringSet used to create the \code{packMatches} dataframe. Required for TIR extraction.}
 
 \item{plot}{Argument specifying whether the TIR consensus sequences should be plottted as a dendrogram.}
 
