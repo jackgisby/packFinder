@@ -1,5 +1,6 @@
-packFinderData*
-.Rproj.user
-.Rhistory
-.RData
-inst/doc
+**.Rproj.user
+**.Rhistory
+**.RData
+**.Rproj
+devTesting.R
+devData/
