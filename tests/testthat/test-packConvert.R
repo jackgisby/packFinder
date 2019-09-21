@@ -1,6 +1,6 @@
 context("Conversion functions")
 
-uc <- readUc("./tests/testthat/data-raw/packMatches.uc")
+uc <- readUc("data-raw/packMatches.uc")
 
 test_that("object type is as expected", {
   expect_type(uc, "list")

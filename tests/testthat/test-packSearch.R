@@ -1,22 +1,22 @@
 context("packSearch")
 
 data("arabidopsisThalianaRefseq")
+load("data-r/packClusts.rda")
 subSeq <- Biostrings::DNAString("CACTACAA")
 
-packMatches <- packSearch(arabidopsisThalianaRefseq,
-                          Genome,
-                          mismatch = 0,
-                          elementLength = c(300, 3500),
-                          tsdLength = 3)
-
-readRDS("tests/testthat/data-r/packClusts.rda")
+packMatches <- packSearch(subSeq,
+  arabidopsisThalianaRefseq,
+  mismatch = 0,
+  elementLength = c(300, 3500),
+  tsdLength = 3
+)
 
 test_that("dimensions of packMatches are correct", {
   expect_equal(nrow(packMatches), 29)
-  expect_equal(ncol(packMatches), 7)
+  expect_equal(ncol(packMatches), 6)
 
   expect_equal(nrow(packClusts), 29)
-  expect_equal(ncol(packClusts), 8)
+  expect_equal(ncol(packClusts), 7)
 })
 
 test_that("packSearch returns correct results", {

@@ -27,7 +27,7 @@ tirClust <- function(packMatches,
 
   for (c in 1:length(unique(packMatches$cluster))) {
     clustID <- unique(packMatches$cluster)[c]
-    clust <- dplyr::filter(packMatches, cluster == clustID)
+    clust <- packMatches[packMatches$cluster == clustID, ]
     forwardTirs <- vector("list", length = length(clust[, 1]))
     reverseTirs <- vector("list", length = length(clust[, 1]))
 

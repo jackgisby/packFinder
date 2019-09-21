@@ -4,7 +4,7 @@
 \alias{getTsds}
 \title{Get Flanking Terminal Site Duplications}
 \usage{
-getTsds(tirMatches, Genome, tsdLength, direction)
+getTsds(tirMatches, Genome, tsdLength, strand)
 }
 \arguments{
 \item{tirMatches}{A dataframe containing genomic ranges and names referring to TIR sequences.}
@@ -13,7 +13,7 @@ getTsds(tirMatches, Genome, tsdLength, direction)
 
 \item{tsdLength}{The length of the TSD region to be retrieved (integer).}
 
-\item{direction}{The direction of the TIR; "+" for forward, "-" for reverse.}
+\item{strand}{The strand of the TIR; "+" for forward, "-" for reverse.}
 }
 \value{
 The dataframe \code{tirMatches} with an additional \code{TSD} feature containing flanking TSD sequences as characters.
@@ -22,7 +22,7 @@ The dataframe \code{tirMatches} with an additional \code{TSD} feature containing
 Gets the flanking TSD sequences of the TIRs in \code{tirMatches}.
 }
 \details{
-Called by \code{\link{packSearch}}. Function intended for internal use.
+Called by \code{\link{packSearch}}. It is recommended to use the general pipeline function \code{\link{packSearch}} for identification of potential pack elements, which returns TSD sequences as a feature of results, however each stage may be called individually.
 }
 \author{
 Jack Gisby

@@ -23,7 +23,7 @@ A dataframe, \code{packMatches}, containing the locations of potential packTYPE 
 Primary filtering stage for the \code{packSearch} algorithm. Identifies potential packTYPE transposable elements based on proximity of matching inverted repeats and equality of TSD sequences.
 }
 \details{
-Called by \code{\link{packSearch}}. Function intended for internal use.
+Used by \code{\link{packSearch}} as a primariy filtering stage. Identifies matches likely to be transposons based on their TIR region, from \code{\link{identifyTirMatches}}, and their TSD region, from \code{\link{getTsds}}. It is recommended to use the general pipeline function \code{\link{packSearch}} for identification of potential pack elements, however each stage may be called individually.
 }
 \author{
 Jack Gisby

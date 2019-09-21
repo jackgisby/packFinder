@@ -4,8 +4,8 @@
 \alias{packClust}
 \title{Cluster Transposons using VSEARCH}
 \usage{
-packClust(packMatches, identity = 0.6, threads = 1, strand = "both",
-  saveFolder,
+packClust(packMatches, Genome, identity = 0.6, threads = 1,
+  strand = "both", saveFolder,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
 }
 \arguments{
@@ -29,6 +29,9 @@ Cluster potential pack-TYPE elements by sequence similarity.
 }
 \note{
 In order to cluster sequences using VSEARCH, the executable file must first be installed.
+}
+\references{
+VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}. See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} for further information.
 }
 \author{
 Jack Gisby

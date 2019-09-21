@@ -18,35 +18,40 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(packFinder)
-
 ```
 
 ```{r}
 data("arabidopsisThalianaRefseq")
 subSeq <- Biostrings::DNAString("CACTACAA")
 
-packMatches <- packSearch(subSeq, 
-                          arabidopsisThalianaRefseq, 
-                          mismatch = 0, 
-                          elementLength = c(300, 3500), 
-                          tsdLength = 3)
+packMatches <- packSearch(
+  subSeq,
+  arabidopsisThalianaRefseq,
+  mismatch = 0,
+  elementLength = c(300, 3500),
+  tsdLength = 3
+)
 
-head(dplyr::select(packMatches, -c(seq)))
+head(packMatches)
 ```
 
 ```{r}
-packMatches <- packClust(packMatches,
-                        saveFolder = "data/",
-                        vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe")
+packMatches <- packClust(
+  packMatches,
+  arabidopsisThalianaRefseq,
+  saveFolder = "data/",
+  vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+)
 
-head(dplyr::select(packMatches, -c(seq)))
+head(packMatches)
 ```
 
 ```{r}
 consensusSeqs <- tirClust(packMatches,
-                          arabidopsisThalianaRefseq,
-                          tirLength = 25,
-                          plotSavePath = "data/tirClusters.png")
+  arabidopsisThalianaRefseq,
+  tirLength = 25,
+  plotSavePath = "data/tirClusters.png"
+)
 
 head(consensusSeqs)
 ```

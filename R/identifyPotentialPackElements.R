@@ -6,8 +6,9 @@
 #' @param elementLength A vector of two integers containing the minimum and maximum transposable element length.
 #' @author Jack Gisby
 #' @details
-#' Called by \code{\link{packSearch}}. Function intended for internal use.
+#' Used by \code{\link{packSearch}} as a primariy filtering stage. Identifies matches likely to be transposons based on their TIR region, from \code{\link{identifyTirMatches}}, and their TSD region, from \code{\link{getTsds}}. It is recommended to use the general pipeline function \code{\link{packSearch}} for identification of potential pack elements, however each stage may be called individually.
 #' @return A dataframe, \code{packMatches}, containing the locations of potential packTYPE transposable elements in \code{Genome}.
+#' @export
 
 
 
@@ -20,7 +21,7 @@ identifyPotentialPackElements <- function(forwardMatches,
     start = integer(),
     end = integer(),
     width = integer(),
-    strand = character()
+    strand = factor()
   )
 
   # for each forward match
@@ -34,14 +35,11 @@ identifyPotentialPackElements <- function(forwardMatches,
     }
 
     # consider all reverse matches in range with matching TSD sequences
-    reverseRepeats <- dplyr::filter(
-      reverseMatches,
-      seqnames == as.character(forwardRepeat$seqnames) &
-        end > searchRange[1] &
-        end < searchRange[2] &
-        strand == "-" &
-        TSD == as.character(forwardRepeat$TSD)
-    )
+    reverseRepeats <- reverseMatches[reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
+      reverseMatches$end > searchRange[1] &
+      reverseMatches$end < searchRange[2] &
+      reverseMatches$strand == "-" &
+      reverseMatches$TSD == as.character(forwardRepeat$TSD), ]
 
     # append matches to packMatches
     if (length(reverseRepeats[, 1]) > 0) {
@@ -52,7 +50,7 @@ identifyPotentialPackElements <- function(forwardMatches,
             seqnames = forwardRepeat$seqnames,
             start = forwardRepeat$start,
             end = reverseRepeats[reverseMatch, ]$end,
-            width = reverseRepeats[reverseMatch, ]$end - forwardRepeat$start,
+            width = reverseRepeats[reverseMatch, ]$end - forwardRepeat$start + 1,
             strand = "*"
           )
         )
