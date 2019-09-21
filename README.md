@@ -3,4 +3,4 @@
 
 ## To-Do
 - Add extra helper functions
-- Implement unit testing
+- Further develop documentation/vignette

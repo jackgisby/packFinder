@@ -1,7 +1,7 @@
 vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
-D:\VSEARC~1.1-W\vsearch.exe --cluster_smallmem devData/packMatches.fasta --qmask none --uc devData//packMatches.uc --id 0.6 --threads 1 --clusterout_sort --clusterout_id --strand both --log devData//packMatches.log --blast6out devData//packMatches.blast6out --sizeout
-Started  09/21/19 20:22:39
-51511 nt in 29 seqs, min 362, max 2882, avg 1776
+D:\VSEARC~1.1-W\vsearch.exe --cluster_smallmem devData/packMatches.fasta --qmask none --uc devData//packMatches.uc --id 0.5 --threads 1 --clusterout_sort --clusterout_id --strand both --log devData//packMatches.log --blast6out devData//packMatches.blast6out --sizeout
+Started  09/21/19 21:56:52
+14507 nt in 9 seqs, min 362, max 2882, avg 1612
 
 
       Alphabet  nt
@@ -14,10 +14,10 @@ Started  09/21/19 20:22:39
          Slots  65536 (65.5k)
        DBAccel  100%
 
-Clusters: 17 Size min 1, max 5, avg 1.7
-Singletons: 11, 37.9% of seqs, 64.7% of clusters
+Clusters: 6 Size min 1, max 3, avg 1.5
+Singletons: 4, 44.4% of seqs, 66.7% of clusters
 
 
-Finished 09/21/19 20:22:41
-Elapsed time 00:02
-Max memory 132.9MB
+Finished 09/21/19 21:56:52
+Elapsed time 00:00
+Max memory 116.4MB

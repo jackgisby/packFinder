@@ -14,4 +14,12 @@ data(arabidopsisThalianaRefseq)
 \description{
 Arabidopsis thaliana Refseq Genome
 }
+\examples{
+\dontrun{
+data(arabidopsisThalianaRefseq)
+
+subSeq <- Biostrings::DNAString("CACTACAA")
+packMatches <- packSearch(subSeq, arabidopsisThalianaRefseq, elementLength = c(300,3500), tsdLength = 3)
+}
+}
 \keyword{datasets}

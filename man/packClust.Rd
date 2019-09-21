@@ -11,6 +11,8 @@ packClust(packMatches, Genome, identity = 0.6, threads = 1,
 \arguments{
 \item{packMatches}{A dataframe of potential transposable elements. Will be saved as a FASTA file for VSEARCH.}
 
+\item{Genome}{The \code{\link[Biostrings]{DNAStringSet}} object used to create the \code{packMatches} dataframe. Used to retrieve sequences for clustering.}
+
 \item{identity}{The sequence identity of two transposable elements in \code{packMatches} required to be grouped into a cluster.}
 
 \item{threads}{The number of threads to be used by VSEARCH.}
