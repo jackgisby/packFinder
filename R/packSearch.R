@@ -15,7 +15,7 @@
 #'   \item Similarity of TSD sequences
 #' }
 #'
-#' The algorithm finds potential forward and reverse TIR sequences using \code{\link{(identifyTirMatches)}} and their associated TSD sequence via \code{\link{getTsds}}. The main filtering stage, \code{\link{identifyPotentialPackElements}}, filters matches to obtain a dataframe of potential PACK elements. Note that this pipeline does not consider the possibility of discovered elements being autonomous elements, so it is recommended to cluster and/or BLAST elements for further analysis.
+#' The algorithm finds potential forward and reverse TIR sequences using \code{\link{identifyTirMatches}} and their associated TSD sequence via \code{\link{getTsds}}. The main filtering stage, \code{\link{identifyPotentialPackElements}}, filters matches to obtain a dataframe of potential PACK elements. Note that this pipeline does not consider the possibility of discovered elements being autonomous elements, so it is recommended to cluster and/or BLAST elements for further analysis.
 #' @return A dataframe, \code{packMatches}, containing elements identified by the algorithm. These may be autonomous or pack-TYPE elements.
 #' @export
 

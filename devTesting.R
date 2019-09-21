@@ -16,7 +16,8 @@ packMatches <- packSearch(subSeq,
 packMatches <- packClust(packMatches,
                          arabidopsisThalianaRefseq,
                          saveFolder = "devData/",
-                         vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe")
+                         vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe",
+                          identity = 0.5)
 
 tirClust(packMatches = packMatches,
         Genome = arabidopsisThalianaRefseq)

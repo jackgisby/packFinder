@@ -1,6 +1,7 @@
 #' @title Cluster Transposons using VSEARCH
 #' @description Cluster potential pack-TYPE elements by sequence similarity.
 #' @param packMatches A dataframe of potential transposable elements. Will be saved as a FASTA file for VSEARCH.
+#' @param Genome The \code{\link[Biostrings]{DNAStringSet}} object used to create the \code{packMatches} dataframe. Used to retrieve sequences for clustering.
 #' @param identity The sequence identity of two transposable elements in \code{packMatches} required to be grouped into a cluster.
 #' @param threads The number of threads to be used by VSEARCH.
 #' @param strand The strand direction (+, - or *) to be clustered.
@@ -24,7 +25,8 @@ packClust <- function(packMatches,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
 
   packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
-  packMatches$ID <- as.integer(rownames(packMatches))
+  ID <- as.integer(rownames(packMatches))
+  packMatches$ID <- ID
   packMatches <- packMatches[order(-packMatches$width), ]
 
   packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
