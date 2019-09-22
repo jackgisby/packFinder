@@ -1,4 +1,4 @@
 
 packMatchesToGRanges <- function(packMatches) {
-  return(GRanges(packMatches))
+  return(GenomicRanges::GRanges(packMatches))
 }

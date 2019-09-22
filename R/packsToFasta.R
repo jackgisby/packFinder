@@ -13,5 +13,3 @@ packsToFasta <- function(packMatches, file, Genome) {
   }
   return(print(paste0("FASTA written to ", file)))
 }
-
-packsToFasta(packMatches, "devData/test.fasta", arabidopsisThalianaRefseq)
