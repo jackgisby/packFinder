@@ -2,5 +2,6 @@
  Initial transposon search work Pack-CACTA
 
 ## To-Do
-- Add extra helper functions
-- Further develop documentation/vignette
+- Function documentation
+- Re-write unit tests and ensure code works as expected
+- Finish documentation - vignette etc
