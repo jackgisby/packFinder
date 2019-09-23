@@ -11,6 +11,10 @@ getPackSeqs <- function(packMatches,
                         Genome,
                         output = "DNAStringSet") {
 
+  if (output != "string" & output != "DNAStringSet") {
+    stop("Argument 'output' must be specified as 'string' or 'DNAStringSet'")
+  }
+
   seqs <- mapply(function(start,
                             end,
                             seqnames,

@@ -8,16 +8,21 @@
 #' @param tirLength The TIR size to be considered. Consensus sequences will be generated based on the first and last \code{tirLength} bases.
 #' @param output Controls the output of \code{tirClust}.
 #' @author Jack Gisby
-#' @return If \code{output == "consensus"}, returns a list of consensus sequences for each cluster specified in \code{packMatches}. Else if \code{output == "dendrogram"}, returns a dendrogram object used to create hierarchical clustering diagrams.
+#' @return If \code{output == "consensus"}, returns a list of consensus sequences for each cluster specified in \code{packMatches} as a DNAStringSet. Else if \code{output == "dendrogram"}, returns a dendrogram object used to create hierarchical clustering diagrams.
 #' @export
 
 tirClust <- function(packMatches,
                      Genome,
+                     tirLength = 25,
                      plot = TRUE,
                      plotSavePath = NULL,
                      k = 5,
-                     tirLength = 25,
                      output = "consensus") {
+
+  if (output != "consensus" & output != "dendrogram") {
+    stop("Argument 'output' must be specified as 'consensus' or 'dendrogram'")
+  }
+
   fConsensusSeqs <- vector("list",
     length = length(unique(packMatches$clustID))
   )
@@ -59,7 +64,7 @@ tirClust <- function(packMatches,
   }
 
   if (!is.null(plotSavePath)) {
-    grDevices::png(plotSavePath, width = 1000, height = 600)
+    grDevices::png(plotSavePath, width = 1500, height = 1000)
     plot(dend, main = "Clustered Transposon TIR Relationships")
     grDevices::dev.off()
   }

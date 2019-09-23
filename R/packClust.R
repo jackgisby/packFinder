@@ -21,8 +21,34 @@ packClust <- function(packMatches,
                       identity = 0.6,
                       threads = 1,
                       strand = "both",
-                      saveFolder,
+                      saveFolder = NULL,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
+
+  if (is.null(saveFolder)) {
+    saveFolder = getwd()
+  }
+
+  if (parallel::detectCores() < threads) {
+    stop("There are not ", threads, " cores available")
+  }
+
+  if(identity > 1 | identity < 0) {
+    stop("Identity must be of type integer or double, and have a value between 0 and 1")
+  }
+
+  if (strand == "+") {
+    strand <- "plus"
+    } else if (strand == "*") {
+      strand <- "both"
+    } else if(strand != "both" & strand != "plus") {
+    message("Argument 'strand' must be specified as 'plus' or 'both'")
+    }
+
+  if (system2(vSearchPath, "--v") != 0) {
+    message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
+            the VSEARCH executable file is installed at the correct location
+            and that the full file path is specified.")
+  }
 
   packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
   ID <- as.integer(rownames(packMatches))
@@ -37,15 +63,15 @@ packClust <- function(packMatches,
     command = vSearchPath,
     args = paste0(
       "--cluster_smallmem ", packMatchesFile, " \ ",
+      "--id ", identity, " \ ",
+      "--strand ", strand, " \ ",
+      "--threads ", threads, " \ ",
       "--qmask none \ ",
       "--uc ", file.path(saveFolder, paste0("packMatches", ".uc")), " \ ",
-      "--id ", identity, " \ ",
-      "--threads ", threads, " \ ",
-      "--clusterout_sort \ ",
-      "--clusterout_id \ ",
-      "--strand ", strand, " \ ",
       "--log ", file.path(saveFolder, paste0("packMatches", ".log")), " \ ",
       "--blast6out ", file.path(saveFolder, paste0("packMatches", ".blast6out")), " \ ",
+      "--clusterout_sort \ ",
+      "--clusterout_id \ ",
       "--sizeout"
     )
   )
