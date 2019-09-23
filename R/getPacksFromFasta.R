@@ -1,9 +1,8 @@
 getPacksFromFasta <- function(file) {
-
   if (!is.null(file)) {
     if (!(file.access(file, 4) == 0) |
-        !(file.access(file, 4) == 0) |
-        !(file.access(file, 2) == 0)) {
+      !(file.access(file, 4) == 0) |
+      !(file.access(file, 2) == 0)) {
       stop("file does not exist, or R does not have read/write permissions")
     }
   }
@@ -26,18 +25,19 @@ getPacksFromFasta <- function(file) {
     }
     seq <- readLines(fileCon, n = 1)
 
-    seqName <- gsub(">","",seqName)
-    seqName <- gsub("start =","",seqName)
-    seqName <- gsub("end =","",seqName)
-    seqName <- gsub("width =","",seqName)
-    seqName <- gsub("strand =","",seqName)
-    seqName <- gsub("TSD =","",seqName)
-    seqName <- gsub(" ","",seqName)
+    seqName <- gsub(">", "", seqName)
+    seqName <- gsub("start =", "", seqName)
+    seqName <- gsub("end =", "", seqName)
+    seqName <- gsub("width =", "", seqName)
+    seqName <- gsub("strand =", "", seqName)
+    seqName <- gsub("TSD =", "", seqName)
+    seqName <- gsub(" ", "", seqName)
     seqName <- strsplit(seqName, "|", fixed = TRUE)[[1]]
     names(seqName) <- c("seqnames", "start", "end", "width", "strand", "TSD")
     packMatches <- rbind(packMatches,
-                         seqName,
-                         stringsAsFactors = FALSE)
+      seqName,
+      stringsAsFactors = FALSE
+    )
     seqName <- NULL
   }
   close(fileCon)

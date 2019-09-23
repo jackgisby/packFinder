@@ -13,30 +13,14 @@
 getTsds <- function(tirMatches,
                     Genome,
                     tsdLength,
-                    strand = NULL) {
+                    strand = "+") {
 
-  if (!is.null(strand) | strand == "+" | strand == "-") {
-    stop("Argument 'strand' must be specified as a character, '+' or '-', or
-         equal to NULL if dataframe tirMatches contains a feature 'strand'
-        containing individual strand information ('+' or '-')")
-  } else if (unique(packMatches$strand) != c("+", "-")
-             & unique(packMatches$strand) != c("-", "+")) {
-    stop("Since argument strand is NULL, the tirMatches dataframe is expected
-         to containing a 'strand' feature containing either '+' or '-' only.")
-  }
+    if (strand != "+" & strand != "-") {
+      stop("Argument 'strand' must be specified as a character, '+' or '-'")
+    }
 
-  if (strand == "+") {
-    tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
-    tirMatches$TSD <- mapply(function(seqnames, start, tsdLength, Genome) {
-      return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - tsdLength):(start - 1)]))
-    },
-    tirMatches$seqnames,
-    tirMatches$start,
-    MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
-    )
 
-    return(tirMatches)
-  } else if (strand == "-") {
+  if (strand == "-") {
     removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
       return((end + tsdLength) > Genome[Genome@ranges@NAMES == seqnames][[1]]@length)
     },
@@ -45,7 +29,7 @@ getTsds <- function(tirMatches,
     MoreArgs = list(tsdLength, Genome)
     )
     tirMatches <- tirMatches[removeMatch == FALSE, ]
-    tirMatches$TSD <- mapply(function(seqnames, end, tsdLength, Genome) {
+    TSDs <- mapply(function(seqnames, end, tsdLength, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + tsdLength)]))
     },
     tirMatches$seqnames,
@@ -53,27 +37,16 @@ getTsds <- function(tirMatches,
     MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
     )
     return(tirMatches)
-  } else if (is.null(strand)) {
-    for(match in 1:length(tirMatches)) {
-      removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
-        return((end + tsdLength) > Genome[Genome@ranges@NAMES == seqnames][[1]]@length)
-      },
-      tirMatches$end,
-      tirMatches$seqnames,
-      MoreArgs = list(tsdLength, Genome)
-      )
-      tirMatches <- tirMatches[removeMatch == FALSE | tirMatches$strand == "+", ]
-      tirMatches <- tirMatches[tirMatches$start > tsdLength | tirMatches$strand == "-", ]
-    }
-    strand <- vector(character, 1:length(tirMatches))
-    for(match in 1:length(tirMatches)) {
-      if(tirMatches[match,]$strand == "+") {
-        strand[match] <- as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - tsdLength):(start - 1)])
-      } else if (tirMatches[match,]$strand == "-"){
-        strand[match] <- as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + tsdLength)])
-      }
-    }
-    tirMatches$strand <- strand
-    return(tirMatches)
+  } else if (strand == "+") {
+    tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
+    TSDs <- mapply(function(seqnames, start, tsdLength, Genome) {
+      return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - tsdLength):(start - 1)]))
+    },
+    tirMatches$seqnames,
+    tirMatches$start,
+    MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
+    )
+
+    return(TSDs)
   }
 }

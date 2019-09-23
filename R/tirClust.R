@@ -18,7 +18,6 @@ tirClust <- function(packMatches,
                      plotSavePath = NULL,
                      k = 5,
                      output = "consensus") {
-
   if (output != "consensus" & output != "dendrogram") {
     stop("Argument 'output' must be specified as 'consensus' or 'dendrogram'")
   }
