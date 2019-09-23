@@ -5,7 +5,20 @@
 #' @return A dataframe, \code{packClusts}, containing the converted .uc file.
 #' @export
 
-readUc <- function(file) {
+readUc <- function(file, output = "cluster") {
+
+  if (!is.null(file)) {
+    if (!(file.access(file, 4) == 0) |
+        !(file.access(file, 4) == 0) |
+        !(file.access(file, 2) == 0)) {
+      stop("file does not exist, or R does not have read/write permissions")
+    }
+  }
+
+  if (output != "cluster" & output != "alignment") {
+    stop("Argument 'output' must be specified as 'cluster' or 'alignment'")
+  }
+
   packClusts <- utils::read.table(file, sep = "\t")
   colnames(packClusts) <- c(
     "type",
@@ -20,5 +33,9 @@ readUc <- function(file) {
     "target"
   )
 
-  return(subset(packClusts, select = -c(6, 7)))
+  if (type == "cluster") {
+    return(subset(packClusts, select = -c(6, 7)))
+  } else if (type == "alignment") {
+    return(subset(packClusts, select = -c(type, cluster, strand, 6, 7)))
+  }
 }

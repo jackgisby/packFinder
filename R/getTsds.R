@@ -14,6 +14,17 @@ getTsds <- function(tirMatches,
                     Genome,
                     tsdLength,
                     strand = NULL) {
+
+  if (!is.null(strand) | strand == "+" | strand == "-") {
+    stop("Argument 'strand' must be specified as a character, '+' or '-', or
+         equal to NULL if dataframe tirMatches contains a feature 'strand'
+        containing individual strand information ('+' or '-')")
+  } else if (unique(packMatches$strand) != c("+", "-")
+             & unique(packMatches$strand) != c("-", "+")) {
+    stop("Since argument strand is NULL, the tirMatches dataframe is expected
+         to containing a 'strand' feature containing either '+' or '-' only.")
+  }
+
   if (strand == "+") {
     tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
     tirMatches$TSD <- mapply(function(seqnames, start, tsdLength, Genome) {

@@ -25,6 +25,32 @@ packSearch <- function(subSeq,
                        elementLength,
                        tsdLength) {
 
+  if (!is.integer(mismatch) | !is.integer(tsdLength)) {
+    stop("Arguments 'mismatch' and 'tsdLength' must be integers")
+  }
+
+  if (!is.vector(elementLength) | length(elementLength) != 2) {
+    stop("Argument 'elementLength' must be a vector of minimum and maximum transposon lengths")
+  }
+
+  if (!is.integer(elementLength[1]) | !is.integer(elementLength[2])) {
+    stop("Vector 'elementLength' must contain integers")
+  }
+
+  if (typeof(subSeq) != "DNAString") {
+    if(!is.character(subSeq)) {
+      stop("Argument 'subSeq' must be of type Biostrings::DNAString or character")
+    } else {
+      subSeq <- Biostrings::DNAString(subSeq)
+    }
+  }
+
+  if (typeof(Genome) != "DNAStringSet") {
+    stop("Argument 'Genome' must be of type Biostrings::DNAStringSet.
+         You may convert files using Biostrings::readDNAStringSet
+         or convert objects using Biostrings::DNAStringSet")
+  }
+
   # perform initial search for TIR matches and get related TSD sequences
   message("Getting forward matches")
   forwardMatches <- identifyTirMatches(
@@ -41,6 +67,8 @@ packSearch <- function(subSeq,
     strand = "+"
   )
 
+  message(length(forwardMatches[,1]), " forward matches identified.")
+
   message("Getting reverse matches")
   reverseMatches <- identifyTirMatches(
     subSeq = Biostrings::reverseComplement(subSeq),
@@ -55,6 +83,8 @@ packSearch <- function(subSeq,
     tsdLength = tsdLength,
     strand = "-"
   )
+
+  message(length(reverseMatches[,1]), " reverse matches identified.")
 
   # case: no matches
   if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
@@ -78,6 +108,6 @@ packSearch <- function(subSeq,
     strand = "+"
   )
 
-  message("Initial filtering complete")
+  message("Initial filtering complete. ", length(packMatches[,1]), " elements predicted.")
   return(packMatches)
 }
