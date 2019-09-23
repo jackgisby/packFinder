@@ -1,3 +1,26 @@
+#' @title Retrieve Saved packFinder Results (.fasta)
+#'
+#' @description
+#' Retrieves a dataframe previously saved using \code{\link{packSearch}} and
+#' \code{\link{packsToFasta}}. Parses the .fasta file and title field
+#' containing:
+#' \itemize {
+#'  \item seqnames - name of origin sequence
+#'  \item start - start of transposon on origin sequence
+#'  \item end - end of transposon on origin sequence
+#'  \item width - width of transposon
+#'  \item strand - direction of transposon ("+", "-" or "*")
+#'  \item TSD - character containing terminal site duplication (TSD) sequence
+#' }
+#'
+#' @param file path to predicted transposons in FASTA format.
+#'
+#' @author Jack Gisby
+#'
+#' @return Dataframe in the format used by \code{\link{packSearch}}.
+#'
+#' @export
+
 getPacksFromFasta <- function(file) {
   if (!is.null(file)) {
     if (!(file.access(file, 4) == 0) |
@@ -44,5 +67,3 @@ getPacksFromFasta <- function(file) {
   colnames(packMatches) <- c("seqnames", "start", "end", "width", "strand", "TSD")
   return(packMatches)
 }
-
-getPacksFromFasta("devData/test.fasta")
