@@ -24,7 +24,6 @@ packSearch <- function(subSeq,
                        mismatch = 0,
                        elementLength,
                        tsdLength) {
-
   if (!is.integer(mismatch) | !is.integer(tsdLength)) {
     stop("Arguments 'mismatch' and 'tsdLength' must be integers")
   }
@@ -38,7 +37,7 @@ packSearch <- function(subSeq,
   }
 
   if (typeof(subSeq) != "DNAString") {
-    if(!is.character(subSeq)) {
+    if (!is.character(subSeq)) {
       stop("Argument 'subSeq' must be of type Biostrings::DNAString or character")
     } else {
       subSeq <- Biostrings::DNAString(subSeq)
@@ -60,14 +59,14 @@ packSearch <- function(subSeq,
     strand = "+"
   )
 
-  forwardMatches <- getTsds(
+  forwardMatches$TSD <- getTsds(
     tirMatches = forwardMatches,
     Genome = Genome,
     tsdLength = tsdLength,
     strand = "+"
   )
 
-  message(length(forwardMatches[,1]), " forward matches identified.")
+  message(length(forwardMatches[, 1]), " forward matches identified.")
 
   message("Getting reverse matches")
   reverseMatches <- identifyTirMatches(
@@ -77,14 +76,14 @@ packSearch <- function(subSeq,
     strand = "-"
   )
 
-  reverseMatches <- getTsds(
+  reverseMatches$TSD <- getTsds(
     tirMatches = reverseMatches,
     Genome = Genome,
     tsdLength = tsdLength,
     strand = "-"
   )
 
-  message(length(reverseMatches[,1]), " reverse matches identified.")
+  message(length(reverseMatches[, 1]), " reverse matches identified.")
 
   # case: no matches
   if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
@@ -101,13 +100,13 @@ packSearch <- function(subSeq,
     elementLength = elementLength
   )
 
-  packMatches <- getTsds(
+  packMatches$TSD <- getTsds(
     tirMatches = packMatches,
     Genome = Genome,
     tsdLength = tsdLength,
     strand = "+"
   )
 
-  message("Initial filtering complete. ", length(packMatches[,1]), " elements predicted.")
+  message("Initial filtering complete. ", length(packMatches[, 1]), " elements predicted.")
   return(packMatches)
 }

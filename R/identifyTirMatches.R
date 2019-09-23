@@ -14,7 +14,6 @@ identifyTirMatches <- function(subSeq,
                                Genome,
                                mismatch = 0,
                                strand = "*") {
-
   if (strand != "-" & strand != "+" & strand != "*") {
     stop("Argument 'strand' must be specified as '-', '+' or '*'")
   }

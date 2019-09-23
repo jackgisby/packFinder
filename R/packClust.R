@@ -23,26 +23,25 @@ packClust <- function(packMatches,
                       strand = "both",
                       saveFolder = NULL,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
-
   if (is.null(saveFolder)) {
-    saveFolder = getwd()
+    saveFolder <- getwd()
   }
 
   if (parallel::detectCores() < threads) {
     stop("There are not ", threads, " cores available")
   }
 
-  if(identity > 1 | identity < 0) {
+  if (identity > 1 | identity < 0) {
     stop("Identity must be of type integer or double, and have a value between 0 and 1")
   }
 
   if (strand == "+") {
     strand <- "plus"
-    } else if (strand == "*") {
-      strand <- "both"
-    } else if(strand != "both" & strand != "plus") {
+  } else if (strand == "*") {
+    strand <- "both"
+  } else if (strand != "both" & strand != "plus") {
     message("Argument 'strand' must be specified as 'plus' or 'both'")
-    }
+  }
 
   if (system2(vSearchPath, "--v") != 0) {
     message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
