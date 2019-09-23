@@ -1,7 +1,6 @@
-**.Rproj.user/**
-**.Rhistory
-**.RData
-**.Rproj
-devTesting.R
-devData/
-.Rproj.user
+^packFinder\.Rproj$
+^\.Rproj\.user$
+.Rprofile
+README.html
+README.md
+docs/

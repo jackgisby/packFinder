@@ -1,2 +1,6 @@
 ^packFinder\.Rproj$
 ^\.Rproj\.user$
+.Rprofile
+README.html
+README.md
+docs/
