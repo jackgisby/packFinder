@@ -2,9 +2,9 @@
 ^\.Rproj\.user$
 .Rprofile
 README.html
-README.md
+*README.md*
 docs/
-devTesting.R
-.Rhistory
-.gitignore
-.gitattributes
+*devTesting.R*
+*.Rhistory*
+*.gitignore*
+*.gitattributes*
