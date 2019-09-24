@@ -1,10 +1,14 @@
 #' @title
-#' Get Flanking Terminal Site Duplications
+#' Get Flanking Terminal Site Duplication Sequences
 #'
 #' @description
-#' Gets the flanking TSD sequences of the TIRs in \code{tirMatches}.
+#' Gets the flanking TSD sequences of TIRs or predicted Pack-TYPE transposable
+#' elements. A dataframe of these elements can be  in \code{tirMatches}.
+#'
 #' @param tirMatches
-#' A dataframe containing genomic ranges and names referring to TIR sequences.
+#' A dataframe containing genomic ranges and names referring to TIR sequences or
+#' predicted Pack-TYPE transposable elements. Should be in the format used by
+#' \code{\link{packSearch}}.
 #'
 #' @param Genome
 #' A DNAStringSet object containing sequences referred to in \code{tirMatches}.
@@ -13,27 +17,48 @@
 #' The length of the TSD region to be retrieved (integer).
 #'
 #' @param strand
-#' The strand of the TIR; "+" for forward, "-" for reverse.
+#' The strand of the TIR; "+" for forward, "-" for reverse. If the TSD sequences
+#' of transposable elements are being predicted, then this parameter can be left
+#' as default ("+"); if the TSD sequences of TIRs are being found then the
+#' strand direction must be supplied.
+#'
+#' @param output
+#' The type of object to be returned:
+#' \itemize {
+#'  \item output = "DNAStringSet", returns a
+#'  \code{\link[Biostrings]{DNAStringSet}} object.
+#'  \item output = "character", returns a \code{character} vector (default).
+#'  }
 #'
 #' @author
 #' Jack Gisby
 #'
 #' @details
-#' Called by \code{\link{packSearch}}. It is recommended to use the general pipeline function \code{\link{packSearch}} for identification of potential pack elements, which returns TSD sequences as a feature of results, however each stage may be called individually.
+#' Called by \code{\link{packSearch}}. It is recommended to use the general
+#' pipeline function \code{\link{packSearch}} for identification of potential
+#' pack elements, which returns TSD sequences as a feature of results, however
+#' each stage may be called individually.
 #'
-#' @return The dataframe \code{tirMatches} with an additional \code{TSD} feature containing flanking TSD sequences as characters.
+#' @return
+#' Flanking TSD sequences as a vector of characters, or if output is specified
+#' as "DNAStringSet", TSD sequences will be returned as a
+#' \code{\link[Biostrings]{DNAStringSet}} object.
 #'
 #' @export
 
 getTsds <- function(tirMatches,
                     Genome,
                     tsdLength,
-                    strand = "+") {
+                    strand = "+",
+                    output = "character") {
 
-    if (strand != "+" & strand != "-") {
-      stop("Argument 'strand' must be specified as a character, '+' or '-'")
-    }
+  if (strand != "+" & strand != "-") {
+    stop("Argument 'strand' must be specified as a character, '+' or '-'")
+  }
 
+  if (output != "string" & output != "DNAStringSet") {
+    stop("Argument 'output' must be specified as 'string' or 'DNAStringSet'")
+  }
 
   if (strand == "-") {
     removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
@@ -51,7 +76,7 @@ getTsds <- function(tirMatches,
     tirMatches$end,
     MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
     )
-    return(tirMatches)
+    return(TSDs)
   } else if (strand == "+") {
     tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
     TSDs <- mapply(function(seqnames, start, tsdLength, Genome) {
@@ -62,6 +87,10 @@ getTsds <- function(tirMatches,
     MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
     )
 
-    return(TSDs)
+    if (output == "DNAStringSet") {
+      return(Biostrings::DNAStringSet(TSDs))
+    } else {
+      return(TSDs)
+    }
   }
 }

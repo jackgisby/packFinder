@@ -1,14 +1,65 @@
 #' @title Analyse TIR Sequences of Pre-clustered Transposable Elements
-#' @description Takes transposable elements clustered by VSEARCH, \code{\link{packClust}}, and produces consensus sequences for the terminal inverted repeats of each. Allows for the visualisation of TIR similarities between clusters for both forward and reverse strands.
-#' @param packMatches Dataframe containing potential packTYPE elements and cluster information.
-#' @param Genome The DNAStringSet used to create the \code{packMatches} dataframe. Required for TIR extraction.
-#' @param plot Argument specifying whether the TIR consensus sequences should be plottted as a dendrogram.
-#' @param plotSavePath File path for the dendrogram plot. If unspecified, the dendrogram plot is not saved.
-#' @param k The k-mer size to be used for calculating a distance matrix between TIR consensus sequences. See \code{kdistance::kmer}.
-#' @param tirLength The TIR size to be considered. Consensus sequences will be generated based on the first and last \code{tirLength} bases.
-#' @param output Controls the output of \code{tirClust}.
-#' @author Jack Gisby
-#' @return If \code{output == "consensus"}, returns a list of consensus sequences for each cluster specified in \code{packMatches} as a DNAStringSet. Else if \code{output == "dendrogram"}, returns a dendrogram object used to create hierarchical clustering diagrams.
+#'
+#' @description
+#' Takes transposable elements clustered by VSEARCH, \code{\link{packClust}},
+#' and produces consensus sequences for the terminal inverted repeats of each.
+#' Allows for the visualisation of TIR similarities between clusters for both
+#' forward and reverse strands.
+#'
+#' @param packMatches
+#' A dataframe containing genomic ranges and names referring
+#' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
+#' or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
+#' conversion to a dataframe. Must contain the following features:
+#' \itemize {
+#'   \item start - the predicted element's start base sequence position.
+#'   \item end - the predicted element's end base sequence position.
+#'   \item seqnames - character string referring to the sequence name in
+#'   \code{Genome} to which \code{start} and \code{end} refer to.
+#' }
+#'
+#' @param Genome
+#' A DNAStringSet object containing sequences referred to in \code{packMatches}
+#' (the object originally used to predict the transposons
+#' \code{\link{packSearch}}).
+#'
+#' @param plot
+#' Argument specifying whether the TIR consensus sequences should be plottted
+#' as a dendrogram.
+#'
+#' @param plotSavePath
+#' File path for the dendrogram plot. If unspecified, the dendrogram plot is
+#' not saved.
+#'
+#' @param k
+#' The k-mer size to be used for calculating a distance matrix between TIR
+#' consensus sequences. See \code{kdistance::kmer}. Larger word sizes will not
+#' be suitable for longer TIR sequences, due to processing time required.
+#' Additionally k must be greater than the TIR sequence length.
+#'
+#' @param tirLength
+#' The TIR size to be considered. Consensus sequences will be generated based
+#' on the first and last \code{tirLength} bases of a transposon.
+#'
+#' @param output
+#' Controls the output of \code{tirClust}. If output is specified as
+#' "consensus", the consensus sequences of each TIR cluster will be returned;
+#' else, if output is specified as "dendrogram", a dendrogram object will be
+#' returned for creation of customisable plots.
+#'
+#' @author
+#' Jack Gisby
+#'
+#' @return
+#' If \code{output} is specified as "consensus" (default), returns a list of
+#' consensus sequences for each cluster specified in \code{packMatches} as a
+#' \code{\link[Biostrings]{DNAStringSet}}. Else if \code{output} is specified
+#' as "dendrogram", returns a dendrogram object used to create hierarchical
+#' clustering diagrams.
+#'
+#' @seealso
+#' code{\link{packClust}}, code{\link{packAlign}}
+#'
 #' @export
 
 tirClust <- function(packMatches,
