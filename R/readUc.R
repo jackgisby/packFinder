@@ -89,9 +89,9 @@ readUc <- function(file, output = "cluster") {
     "target"
   )
 
-  if (type == "cluster") {
+  if (output == "cluster") {
     return(subset(packClusts, select = -c(6, 7)))
-  } else if (type == "alignment") {
+  } else if (output == "alignment") {
     return(subset(packClusts, select = -c(type, cluster, strand, 6, 7)))
   }
 }
