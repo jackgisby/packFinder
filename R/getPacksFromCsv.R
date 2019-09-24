@@ -1,14 +1,23 @@
-#' @title Retrieve Saved packFinder Results (.csv)
+#' @title
+#' Retrieve Saved packFinder Results (.csv)
 #'
 #' @description
-#' Retrieves a dataframe previously saved using \code{\link{packSearch}} and
-#' \code{\link{packsToCsv}}.
+#' Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
+#' \code{\link{packSearch}} followed by \code{\link{packsToCsv}}.
 #'
-#' @param file path to predicted transposons in CSV format.
+#' @param file
+#' path to predicted transposons in CSV format.
 #'
-#' @author Jack Gisby
+#' @examples \dontrun {
+#' packMatches <- getPacksFromCsv("path/to/packMatches.csv")}
 #'
-#' @return Dataframe in the format used by \code{\link{packSearch}}.
+#' @author
+#' Jack Gisby
+#'
+#' @return
+#' Dataframe in the format used by \code{\link{packSearch}}.
+#'
+#' @seealso \code{\link{packsToCsv}}
 #'
 #' @export
 

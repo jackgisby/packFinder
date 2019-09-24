@@ -1,32 +1,47 @@
 #' @title
-#' Extract Sequences from Ranges
+#' Extract Sequences of Pack-TYPE Elements
 #'
 #' @description
-#' Method to quickly extract the sequences referred to in the dataframe
-#' created by \code{\link{packSearch}}.
+#' Method to quickly extract the sequences of predicted Pack-TYPE elements (as
+#' created by \code{\link{packSearch}}).
 #'
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring
 #' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-#' or generated from a \code{\link[GenomicRanges]{GRanges}} objects after
+#' or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
 #' conversion to a dataframe. Must contain the following features:
 #' \itemize {
-#'   \item start - integer referring to the range's start position
-#'   \item end - integer referring to the range's end position
+#'   \item start - the predicted element's start base sequence position.
+#'   \item end - the predicted element's end base sequence position.
 #'   \item seqnames - character string referring to the sequence name in
-#'   \code{Genome}
+#'   \code{Genome} to which \code{start} and \code{end} refer to.
 #' }
 #'
 #' @param Genome
-#' A DNAStringSet object containing sequences to be extracted (the object
-#' originally used in \code{\link{packSearch}}).
+#' A DNAStringSet object containing sequences referred to in \code{packMatches}
+#' (the object originally used to predict the transposons
+#' \code{\link{packSearch}}).
 #'
 #' @param output
 #' The type of object to be returned:
 #' \itemize {
 #'  \item output = "DNAStringSet", returns a
 #'  \code{\link[Biostrings]{DNAStringSet}} object (default).
-#'  \item output = "character", returns a \code{character} vector
+#'  \item output = "character", returns a \code{character} vector.
+#'  }
+#'
+#' @examples \dontrun{
+#'
+#' data(arabidopsisThalianaRefseqSubset)
+#'
+#' packMatches <- packSearch(
+#'   Biostrings::DNAString("CACTACAA"),
+#'   arabidopsisThalianaRefseq,
+#'   elementLength = c(300, 3500),
+#'   tsdLength = 3)
+#'
+#' packSeqs <- getPackSeqs(packMatches,
+#'                         arabidopsisThalianaRefseq)}
 #'
 #' @author
 #' Jack Gisby

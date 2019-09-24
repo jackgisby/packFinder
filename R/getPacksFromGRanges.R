@@ -1,4 +1,5 @@
-#' @title Retrieve packFinder Results from GRanges Object
+#' @title
+#' Retrieve packFinder Results from GRanges Object
 #'
 #' @description
 #' A GRanges object, potentially generated using \code{\link{packSearch}}
@@ -20,6 +21,9 @@
 #' @return Dataframe in the format used by \code{\link{packSearch}}. If
 #' \code{Genome} and \code{tsdLength} are supplied, then TSD sequences are
 #' retrieved and returned as part of the dataframe.
+#'
+#' @seealso
+#' \code{\link{packsToGRanges}}
 #'
 #' @export
 
