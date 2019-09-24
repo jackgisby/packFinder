@@ -105,5 +105,5 @@ packAlign <- function(packMatches,
     )
   )
 
-  return(readUc(file.path(saveFolder, paste0("vSearchPairwiseAlignment", ".uc")), type = "alignment"))
+  return(readUc(file.path(saveFolder, paste0("vSearchPairwiseAlignment", ".uc")), output = "alignment"))
 }

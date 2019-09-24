@@ -1,6 +1,4 @@
-#' @title
-#' Arabidopsis thaliana Refseq Genome Chromosome 3
-#'
+#' @title Arabidopsis thaliana Refseq Genome Chromosome 3
 #' @format
 #' A DNAStringSet object containing a DNAString for Arabidopsis thaliana's
 #' chromosome 3 sequence.
