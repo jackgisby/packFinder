@@ -1,0 +1,78 @@
+---
+title: "packFinder"
+author: "Jack Gisby"
+date: "`r Sys.Date()`" 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{packFinder}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(packFinder)
+```
+
+```{r paged.print=TRUE}
+data("arabidopsisThalianaRefseq")
+
+packMatches <- packSearch(
+  Biostrings::DNAString("CACTACAA"),
+  arabidopsisThalianaRefseq,
+  mismatch = 0,
+  elementLength = c(300, 3500),
+  tsdLength = 3
+)
+
+head(packMatches)
+```
+
+```{r}
+packMatches <- packClust(
+  packMatches,
+  arabidopsisThalianaRefseq,
+  saveFolder = "data/",
+  vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+)
+
+head(packMatches)
+```
+```{r}
+#>                                                 seqnames    start      end
+#> 1 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence  8407537  8409403
+#> 2 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 10600829 10602346
+#> 3 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 11568801 11569513
+#> 4 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 13307746 13309453
+#> 5 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 13987539 13988266
+#> 6 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 14082296 14084561
+#>   width strand TSD cluster
+#> 1  1867      + GTA       3
+#> 2  1518      + TGT       5
+#> 3   713      + ATA       6
+#> 4  1708      + GGT       4
+#> 5   728      + ATA       6
+#> 6  2266      + ATA       2
+```
+
+
+```{r}
+consensusSeqs <- tirClust(packMatches,
+  arabidopsisThalianaRefseq,
+  tirLength = 25,
+  plotSavePath = "data/tirClusters.png"
+)
+
+head(consensusSeqs)
+```
+
+```{r Clear_File_Outputs, include=FALSE}
+do.call(file.remove, list(list.files("data/", full.names = TRUE)))
+```
+
