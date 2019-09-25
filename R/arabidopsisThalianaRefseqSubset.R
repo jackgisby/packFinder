@@ -1,16 +1,20 @@
-#' @title Arabidopsis thaliana Refseq Genome Chromosome 3
+#' @title
+#' Arabidopsis thaliana Refseq Genome Chromosome 3
+#'
+#' @description
+#' The chromosome 3 reference sequence for Arabidopsis thaliana as a
+#' \code{\link[Biostrings]{DNAStringSet}}. Can be used as a test data set,
+#' as in the associated introduction vignette.
+#'
 #' @format
 #' A DNAStringSet object containing a DNAString for Arabidopsis thaliana's
 #' chromosome 3 sequence.
 #'
-#' @docType
-#' data
-#'
 #' @usage
-#' data(arabidopsisThalianaRefseqSubset)
+#' data(arabidopsisThalianaRefseq)
 #'
 #' @examples \dontrun{
-#' data(arabidopsisThalianaRefseqSubset)
+#' data(arabidopsisThalianaRefseq)
 #'
 #' packMatches <- packSearch(
 #'   Biostrings::DNAString("CACTACAA"),
@@ -24,4 +28,4 @@
 #' and chromosome 3 was extracted. The genome may also be accessed from the
 #' NCBI ftp server: \url{ftp://ftp.ncbi.nlm.nih.gov/genomes}.
 
-"arabidopsisThalianaRefseqSubset"
+"arabidopsisThalianaRefseq"
