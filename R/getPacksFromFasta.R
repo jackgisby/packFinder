@@ -5,7 +5,7 @@
 #' Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
 #' \code{\link{packSearch}} followed by \code{\link{packsToFasta}}.
 #' Parses the .fasta file and title field containing:
-#' \itemize {
+#' \itemize{
 #'  \item seqnames - name of origin sequence
 #'  \item start - transposon base start position on origin sequence
 #'  \item end - transposon base end position on origin sequence
@@ -17,7 +17,7 @@
 #' @param file
 #' Path to predicted transposons in FASTA format.
 #'
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' packMatches <- getPacksFromFasta("path/to/packMatches.fasta")}
 #'
 #' @author

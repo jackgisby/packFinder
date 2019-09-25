@@ -8,7 +8,7 @@
 #' @param file
 #' path to predicted transposons in CSV format.
 #'
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' packMatches <- getPacksFromCsv("path/to/packMatches.csv")}
 #'
 #' @author

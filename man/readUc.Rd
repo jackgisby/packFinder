@@ -8,16 +8,27 @@ readUc(file, output = "cluster")
 }
 \arguments{
 \item{file}{The file path of the .uc file.}
+
+\item{output}{The type of analysis that was carried out to produce the .uc file.
+\itemize{
+ \item If output is specified as "cluster", VSEARCH clustering was carried
+ out.
+ \item If output is specified as "alignment", VSEARCH pairwise global
+ alignment was carried out.
+ }
+ Note that clustering produces one "H" record for each sequence, and one "C"
+ record for each cluster, while an alignment produces an "H" record for each
+ alignment (see details).}
 }
 \value{
 A dataframe containing the converted .uc file. The fields contained within
 are as follows:
-\itemize {
+\itemize{
   \item Record type - "H, C or N", see details for further information.
-  \item Cluster designation
+  \item Cluster designation (\code{output = "cluster"} only)
   \item Sequence length, or cluster size
   \item Percent identity to target
-  \item The nucleotide strand
+  \item The nucleotide strand (\code{output = "cluster"} only)
   \item A compressed alignment - see details for further information.
   \item ID of query sequence
   \item ID of target sequence ("H" records only)
@@ -45,7 +56,7 @@ Additionally, for each record a "compressed alignment" is generated. This is
 the alignment represented in a compact format including the letters "M", "D",
 and "I". Before each letter, the number of consecutive columns of the given
 letter type is also given. The letter types are as follows:
-\itemize {
+\itemize{
   \item "M" - Match - Identical bases between the query and target sequence
   \item "D" - Deletion - A gap in the target sequence
   \item "I" - Insertion - A gap in the query sequence
