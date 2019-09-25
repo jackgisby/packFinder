@@ -77,7 +77,7 @@ print(packMatches)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
   tirLength = 25,
