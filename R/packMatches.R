@@ -1,11 +1,11 @@
 #' @title
 #' Sample packFinder Output
 #'
+#' @description
+#' A sample output from \code{\link{packSearch}} with cluster information.
+#'
 #' @format
 #' A dataframe of 9 obs. and 7 variables.
-#'
-#' @docType
-#' data
 #'
 #' @usage
 #' data(packMatches)
