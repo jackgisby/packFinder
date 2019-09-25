@@ -56,7 +56,7 @@ getTsds <- function(tirMatches,
     stop("Argument 'strand' must be specified as a character, '+' or '-'")
   }
 
-  if (output != "string" & output != "DNAStringSet") {
+  if (output != "character" & output != "DNAStringSet") {
     stop("Argument 'output' must be specified as 'string' or 'DNAStringSet'")
   }
 
