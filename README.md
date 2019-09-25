@@ -4,5 +4,5 @@
 ## To-Do
 - Improve function documentation
 - Re-write unit tests and ensure code works as expected
-- Reduce size of test data
-- Finish documentation - vignette etc
+- Write vignette
+- Do exploratory work on different full genomes
