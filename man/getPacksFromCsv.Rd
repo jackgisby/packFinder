@@ -17,7 +17,7 @@ Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
 \code{\link{packSearch}} followed by \code{\link{packsToCsv}}.
 }
 \examples{
-\dontrun {
+\dontrun{
 packMatches <- getPacksFromCsv("path/to/packMatches.csv")}
 
 }

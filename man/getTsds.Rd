@@ -22,7 +22,7 @@ as default ("+"); if the TSD sequences of TIRs are being found then the
 strand direction must be supplied.}
 
 \item{output}{The type of object to be returned:
-\itemize {
+\itemize{
  \item output = "DNAStringSet", returns a
  \code{\link[Biostrings]{DNAStringSet}} object.
  \item output = "character", returns a \code{character} vector (default).

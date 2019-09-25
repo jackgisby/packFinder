@@ -9,13 +9,13 @@
 data(packMatches)
 }
 \description{
-A sample output from \code{\link{packSearch}}.
+A sample output from \code{\link{packSearch}} with cluster information.
 }
 \details{
 Was obtained from running \code{\link{packSearch}} on the Arabidopsis
 thaliana chromosome 3 reference sequence, followed by clustering using
 \code{\link{packClust}}. Contains the following features:
-\itemize {
+\itemize{
   \item start - the predicted element's start base sequence position.
   \item end - the predicted element's end base sequence position.
   \item seqnames - character string referring to the sequence name in

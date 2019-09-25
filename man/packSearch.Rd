@@ -25,7 +25,7 @@ E.g. \code{c(300, 3500)}}
 A dataframe, \code{packMatches}, containing elements identified by the
 algorithm. These may be autonomous or pack-TYPE elements. Will contain
 the following features:
- \itemize {
+ \itemize{
   \item start - the predicted element's start base sequence position.
   \item end - the predicted element's end base sequence position.
   \item seqnames - character string referring to the sequence name in
@@ -62,7 +62,7 @@ sequences for TSD elements may lead to false-negative results.
 }
 \note{
 This algorithm does not consider:
-\itemize {
+\itemize{
   \item Autonomous elements - autonomous elements will be predicted by this
   algorithm as there is no BLAST step. It is recommended that, after
   clustering elements using \code{\link{packClust}}, the user analyses each
@@ -77,7 +77,7 @@ This algorithm does not consider:
 }
 }
 \seealso{
-\code{\link{identiyTirMatches}}, \code{\link{getTsds}},
+\code{\link{identifyTirMatches}}, \code{\link{getTsds}},
 \code{\link{identifyPotentialPackElements}}, \code{\link{packClust}}
 }
 \author{

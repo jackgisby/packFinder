@@ -14,7 +14,7 @@
 #' @return
 #' A dataframe containing the converted .blast6out file. The file contains
 #' the following features:
-#' \itemize {
+#' \itemize{
 #'   \item Query sequence ID
 #'   \item Target sequence ID
 #'   \item Percenty sequence identity

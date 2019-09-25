@@ -24,7 +24,7 @@
 #'
 #' @param output
 #' The type of object to be returned:
-#' \itemize {
+#' \itemize{
 #'  \item output = "DNAStringSet", returns a
 #'  \code{\link[Biostrings]{DNAStringSet}} object.
 #'  \item output = "character", returns a \code{character} vector (default).

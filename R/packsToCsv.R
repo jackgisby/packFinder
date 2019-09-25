@@ -14,14 +14,14 @@
 #' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
 #' or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
 #' conversion to a dataframe. Must contain the following features:
-#' \itemize {
+#' \itemize{
 #'   \item start - the predicted element's start base sequence position.
 #'   \item end - the predicted element's end base sequence position.
 #'   \item seqnames - character string referring to the sequence name in
 #'   \code{Genome} to which \code{start} and \code{end} refer to.
 #' }
 #'
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' packMatches <- packsToCsv(packMatches, "path/to/packMatches.csv")
 #' }
 #'

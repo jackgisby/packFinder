@@ -34,35 +34,50 @@ packMatches <- packSearch(
 head(packMatches)
 ```
 
-```{r}
+```{r, eval=F, echo=T}
 packMatches <- packClust(
   packMatches,
   arabidopsisThalianaRefseq,
   saveFolder = "data/",
   vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe"
 )
-
-head(packMatches)
-```
-```{r}
-#>                                                 seqnames    start      end
-#> 1 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence  8407537  8409403
-#> 2 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 10600829 10602346
-#> 3 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 11568801 11569513
-#> 4 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 13307746 13309453
-#> 5 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 13987539 13988266
-#> 6 NC_003074.8 Arabidopsis thaliana chromosome 3 sequence 14082296 14084561
-#>   width strand TSD cluster
-#> 1  1867      + GTA       3
-#> 2  1518      + TGT       5
-#> 3   713      + ATA       6
-#> 4  1708      + GGT       4
-#> 5   728      + ATA       6
-#> 6  2266      + ATA       2
 ```
 
+```{}
+Rognes T, Flouri T, Nichols B, Quince C, Mahe F (2016)
+VSEARCH: a versatile open source tool for metagenomics
+PeerJ 4:e2584 doi: 10.7717/peerj.2584 https://doi.org/10.7717/peerj.2584
+
+Compiled with support for gzip-compressed files, but the library was not found.
+Compiled with support for bzip2-compressed files, but the library was not found.
+vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
+https://github.com/torognes/vsearch
+
+vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
+https://github.com/torognes/vsearch
+
+Reading file data/packMatches.fasta 100%
+9396 nt in 6 seqs, min 713, max 2463, avg 1566
+Counting k-mers 100%
+Clustering 100%
+Sorting clusters 100%
+Writing clusters 100%
+Clusters: 5 Size min 1, max 2, avg 1.2
+Singletons: 4, 66.7% of seqs, 80.0% of clusters
+Sorting clusters by abundance 100%
+```
+
+```{r include=FALSE}
+
+data(packMatches)
+```
 
 ```{r}
+print(packMatches)
+```
+
+
+```{r eval=FALSE, include=FALSE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
   tirLength = 25,
