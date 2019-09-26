@@ -109,8 +109,12 @@ In this subset, we identified six potential Pack-TYPE elements, however at this 
 ## Clustering of Transposable Elements
 
 In order to make downstream analysis more efficient and understand the relations between the identified elements, we can use VSEARCH to cluster predicted transposons. Here we run VSEARCH with the default parameters, meaning:
+
 *An identity of 60% between two elements is required to form a cluster
-*
+*The method of identity detection is the same as in BLAST searches
+
+The identity and method of identity definition can be altered depending on analysis. 
+
 ```{r include=FALSE}
 data(packMatches)
 ```
@@ -154,7 +158,25 @@ Sorting clusters by abundance 100%
 6     Chr3 3738747 3741209  2463      + TTG       0
 ```
 
+Of the 6 elements identified in this data subset, only two were found to be in the same cluster. When a new cluster is created, the transposon is designated as being on the forwards strand (+); elements that are subsequently assigned to this cluster are given a strand designation relative to the original element in the cluster. For this data, as there are few clusters, all of the elements have been designated as being on the forwards strand. Adjusting the identity % required or changing the identity definition could lead to more effective clustering, or lead to false-positives. 
+
+## Reading VSEARCH Output Files
+
+Based on the results of packClust, we found that the second and fourth matches have similar sequences. Additionally, these potential elements have a similar width and so it is feasible that these are elements that have been duplicated by a transposase. To investigate the extent of the similarities, we can read the more detailed VSEARCH output files:
+
+* USEARCH cluster format (.uc) - containing a summary of the clustering done by VSEARCH
+* BLAST output - a BLAST compatible summary containing details of the BLAST matches between clusters 
+
+
+```{r}
+readUc()
+readBlast6Out()
+```
+
+
 ## Clustering of TIR Sequences
+Additionally, tirClust can provide a summary of the similarities between the TIR sequences of clustered transposons. While in this example "CACTACAA" has been used as the TIR search query, the CACTA TIR sequence is longer than 8 base pairs - although the rest of the TIR sequence may be less well conserved. For each cluster, tirClust creates a consensus sequence for the forward and reverse TIR regions; in this case we will consider the first 25 base pairs of each TIR. Additionally, clustering of these TIRs is carried out using kmer clustering before being plotted as a dendrogram for visualisation. 
+
 ```{r echo=TRUE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
@@ -165,14 +187,36 @@ consensusSeqs <- tirClust(packMatches,
 head(consensusSeqs)
 ```
 
+As expected, the forward and reverse TIRs of each transposon are very similar; this is also true for the two clustered transposons. From the dendrogram, groups are visible that weren't found by the VSEARCH clustering; this indicates that, while the TIR sequences are related, these groups likely have different genetic material between their TIR sequences.
+
 ## Alignment of Transposable Elements
+After clusters of transposable elements have been identified, it may be useful to produce an alignment. Since we know that the transposable elements identified by VSEARCH have a minimum 60% sequence similarity, it will be possible to produce good quality sequence alignments. This can be useful for downstream analysis, such as BLAST searching. 
+```{r}
+
+```
+
+## BLAST Analysis
+BLAST search has not been implemented in this package, so it is expected that the user will define clusters of transposable elements above before BLAST investigation. This stage will identify the tranposable elements that are autonomous and confirm which matches are likely pack-TYPE elements. Since this example included only a small subset of the Arabidopsis thaliana genome, and there were very few elements identified, a BLASTn search was carried out for each match. In a larger study, it would have been wise to instead select more interesting clusters and BLAST a subset of these. 
+
+```{r}
+
+```
 
 # Data Formats and Conversion
 ## packSearch Dataframe
+```{r}
+
+```
 
 ## GRanges
+```{r}
+
+```
 
 ## FASTA
+```{r}
+
+```
 
 ```{r Clear_File_Outputs, include=FALSE}
 do.call(file.remove, list(list.files("data/", full.names = TRUE)))
