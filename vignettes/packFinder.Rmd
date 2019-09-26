@@ -190,32 +190,49 @@ head(consensusSeqs)
 As expected, the forward and reverse TIRs of each transposon are very similar; this is also true for the two clustered transposons. From the dendrogram, groups are visible that weren't found by the VSEARCH clustering; this indicates that, while the TIR sequences are related, these groups likely have different genetic material between their TIR sequences.
 
 ## Alignment of Transposable Elements
-After clusters of transposable elements have been identified, it may be useful to produce an alignment. Since we know that the transposable elements identified by VSEARCH have a minimum 60% sequence similarity, it will be possible to produce good quality sequence alignments. This can be useful for downstream analysis, such as BLAST searching. 
+After clusters of transposable elements have been identified, it may be useful to produce an alignment. Since we know that the transposable elements identified by VSEARCH have a minimum 60% sequence similarity, it will be possible to produce good quality sequence alignments. This can be useful for downstream analysis, such as BLAST searching. In this instance, an alignment was done for cluster 4; so an alignment of only two sequences was carried out. 
 ```{r}
-
+#run alignment
 ```
+
+
+
+As with VSEARCH clustering, a .uc and .blast6out file are created by the alignment. The alignment function returns a summary of the .uc file, however the full details of each file can be recovered as before. 
 
 ## BLAST Analysis
 BLAST search has not been implemented in this package, so it is expected that the user will define clusters of transposable elements above before BLAST investigation. This stage will identify the tranposable elements that are autonomous and confirm which matches are likely pack-TYPE elements. Since this example included only a small subset of the Arabidopsis thaliana genome, and there were very few elements identified, a BLASTn search was carried out for each match. In a larger study, it would have been wise to instead select more interesting clusters and BLAST a subset of these. 
 
 ```{r}
+#the packMatches dataframe is exported as a FASTA file for NCBI blast search
+packsToFasta(packMatches, "data/packMatches.fasta")
 
+#put blast summary here
 ```
 
 # Data Formats and Conversion
 ## packSearch Dataframe
+Dataframes are used by packFinder to contain the locations of predicted elements and additional metadata, such as TSD sequence and cluster designation. The dataframe is in a similar format to that stored by GenomicRanges. The dataframe can be saved and restored, as below, for longer term storage and export of packFinder results. packMatches refers to the object created in previous steps, by applying packSearch followed by packClust.
 ```{r}
-
+packsToCsv(packMatches, "data/packMatches.csv")
+print(getPacksFromCsv("data/packMatches.csv"))
 ```
 
 ## GRanges
+As mentioned previously, the packFinder dataframe is in a similar format to that stored by GenomicRanges. The data produced by packFinder can therefore be quickly converted to and from a GRanges object, as below. 
 ```{r}
+packsGRanges <- packsToGRanges(packMatches)
+print(packsGRanges)
 
+print(getPacksFromGRanges(packsGRanges))
 ```
 
-## FASTA
-```{r}
+If many elements are discovered by packFinder it may be necessary to identify overlapping elements, that could not be produced by a transposase, and remove them; this can be done using GenomicRanges. 
 
+## FASTA
+Additionally, the dataframe produced by packFinder can be exported to and restored from FASTA formats. While this will not save additional metadata columns, such as cluster designations, the core information will be preserved in the FASTA title field. 
+```{r}
+packsToFasta(packMatches, "data/packMatches.fasta")
+print(getPacksFromFasta("data/packMatches.fasta"))
 ```
 
 ```{r Clear_File_Outputs, include=FALSE}
