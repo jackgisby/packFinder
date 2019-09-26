@@ -238,3 +238,35 @@ print(getPacksFromFasta("data/packMatches.fasta"))
 ```{r Clear_File_Outputs, include=FALSE}
 do.call(file.remove, list(list.files("data/", full.names = TRUE)))
 ```
+
+# Step-wise packSearch Functions
+While it is recommended to use packSearch to identify potential Pack-TYPE elements, it is possible to run the individual functions that make up the packSearch pipeline. Below are the steps used by packSearch to predict transposons, using the same parameters as the previous example. 
+
+## Identifying Potential TIRs
+Potential TIR sequences should first be identified by pattern matching. 
+```{r}
+forwardMatches <- identifyTirMatches()
+reverseMatches <- identifyTirMatches()
+```
+
+## Obtaining TSD Sequences 
+The function `getTsds` may be used to quickly obtain the TSD sequences for TIRs. This function can also be used for obtaining TSDs from the ranges of known full transposons, given a dataframe in the format produced by packSearch. 
+```{r}
+forwardMatches$TSD <- getTsds(forwardMatches)
+reverseMatches$TSD <- getTsds(reverseMatches)
+```
+
+## Filtering TIR Matches
+The main step of the algorithm matches TIR sequences together based on their proximity and TSD sequence. 
+```{r}
+packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches)
+```
+
+After attaching the TSD sequences to the dataframe of matches, the output matches that of the previous example run using the packSearch pipeline. 
+
+
+## Get Transposon Sequences 
+The function `getSeqs` may be used to obtain transposon sequences from a dataframe in the format produced by packSearch. This could additionally be used on other dataframes of ranges, such as that produced by identifyTirMatches above. 
+```{r}
+getPackSeqs(packMatches)
+```
