@@ -3,24 +3,74 @@ title: "packFinder"
 author: "Jack Gisby"
 date: "`r Sys.Date()`" 
 output: rmarkdown::html_vignette
+  toc: TRUE
 vignette: >
   %\VignetteIndexEntry{packFinder}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "# >",
   fig.width = 6,
   fig.height = 4
 )
 ```
 
-```{r setup}
+
+# Introduction
+The goal of packFinder was to implement a simple tool for the prediction of potential Pack-TYPE elements. packFinder uses the following prior knowledge, provided by the user, to detect transposons:
+
+
+1. Terminal Inverted Repeat (TIR) Base Sequence
+2. Length of Terminal Site Duplication (TSD)
+3. Length of the Transposon
+
+
+These features, shown in __Figure 1__, provide enough information to detect autonomous and pack-TYPE elements. For a transposon to be predicted by packFinder its TSD sequences must be identical to each other, its forward TIR sequence must match the base sequence provided and its reverse TIR sequence must match its reverse complement.
+
+
+![**Important structural features of Pack-TYPE transposons**](tirSeq.jpg)
+
+
+Transposons are therefore predicted by searching a given genome for these characteristics, and further analysis steps can reveal the nature of these elements - while the packFinder tool is sensitive for the detection of transposons, it does not discriminate between autonomous and Pack-TYPE elements. Autonomous elements will contain a transposase gene within the terminal inverted repeats and tend to be larger than their Pack-TYPE counterparts; pack-TYPE elements instead capture sections of host genomes. Following cluster analysis, BLAST can be used to discern which predicted elements are autonomous (transposase-containing) and with are true Pack-TYPE elements.
+
+
+# Getting Started
+Assuming the information specified in the introduction above is available, researchers may download packFinder and use the primary function - packSearch - to locate potential transposons in a given Genome. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
+
+## R Package Dependencies
+In addition to CRAN package dependencies, that will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
+
+```{r}
+source("https://bioconductor.org/biocLite.R")
+biocLite()
+
+biocLite(c("Biostrings", "GenomicRanges"))
+```
+
+Then, packFinder may be installed:
+
+```{r eval=FALSE}
+#devtools must be installed to download packFinder from github
+#install.packages("devtools")
+
+devtools::install_github("jackgisby/packFinder")
 library("packFinder")
 ```
+```{r setup}
+knitr::opts_chunk$set(include = FALSE)
+library("packFinder")
+```
+
+## Command Line Dependencies
+While this allows R to run the packSearch pipeline within packFinder, VSEARCH must be installed for use of clustering and alignment functions within packSearch. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems.
+
+# Searching for Potential Transposable Elements using packFinder
+
 
 ```{r paged.print=TRUE}
 data("arabidopsisThalianaRefseq")
@@ -36,10 +86,13 @@ packMatches <- packSearch(
 head(packMatches)
 ```
 
+
+
+# Analysing Potential Transposable Elements using packFinder
+## Clustering of Transposable Elements
 ```{r include=FALSE}
 data(packMatches)
 ```
-
 ```{r, eval=F, echo=T}
 packMatches <- packClust(
   packMatches,
@@ -80,6 +133,7 @@ Sorting clusters by abundance 100%
 6     Chr3 3738747 3741209  2463      + TTG       0
 ```
 
+## Clustering of TIR Sequences
 ```{r echo=TRUE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
@@ -90,7 +144,15 @@ consensusSeqs <- tirClust(packMatches,
 head(consensusSeqs)
 ```
 
+## Alignment of Transposable Elements
+
+# Data Formats and Conversion
+## packSearch Dataframe
+
+## GRanges
+
+## FASTA
+
 ```{r Clear_File_Outputs, include=FALSE}
 do.call(file.remove, list(list.files("data/", full.names = TRUE)))
 ```
-
