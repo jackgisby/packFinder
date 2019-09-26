@@ -2,8 +2,9 @@
 title: "packFinder"
 author: "Jack Gisby"
 date: "`r Sys.Date()`" 
-output: rmarkdown::html_vignette
-  toc: TRUE
+output:
+  rmarkdown::html_vignette:
+    toc: TRUE
 vignette: >
   %\VignetteIndexEntry{packFinder}
   %\VignetteEngine{knitr::rmarkdown}
@@ -33,7 +34,8 @@ The goal of packFinder was to implement a simple tool for the prediction of pote
 These features, shown in __Figure 1__, provide enough information to detect autonomous and pack-TYPE elements. For a transposon to be predicted by packFinder its TSD sequences must be identical to each other, its forward TIR sequence must match the base sequence provided and its reverse TIR sequence must match its reverse complement.
 
 
-![**Important structural features of Pack-TYPE transposons**](tirSeq.jpg)
+![**Important structural features of Pack-TYPE transposons**](tirSeq.jpg){width=100%}
+
 
 
 Transposons are therefore predicted by searching a given genome for these characteristics, and further analysis steps can reveal the nature of these elements - while the packFinder tool is sensitive for the detection of transposons, it does not discriminate between autonomous and Pack-TYPE elements. Autonomous elements will contain a transposase gene within the terminal inverted repeats and tend to be larger than their Pack-TYPE counterparts; pack-TYPE elements instead capture sections of host genomes. Following cluster analysis, BLAST can be used to discern which predicted elements are autonomous (transposase-containing) and with are true Pack-TYPE elements.
@@ -87,14 +89,13 @@ Biostrings::readDNAStringSet("path/to/fasta",
 
 
 ## Using packSearch
-
+In this example we will use a subset of chromosome 3 from the Arabidopsis thaliana reference sequence and the first 8 bases of the CACTA1 autonomous transposable element's TIR. The CACTA transposons have TSD sequences that are 3 bases long, and the Pack-CACTA elements tend to be between 300 to 3500 bases in width. Since the first 8 bases of the Pack-CACTA TIRs tend to be conserved between elements, the default allowable mismatch of 0 was used. 
 ```{r paged.print=TRUE}
 data("arabidopsisThalianaRefseq")
 
 packMatches <- packSearch(
   Biostrings::DNAString("CACTACAA"),
   arabidopsisThalianaRefseq,
-  mismatch = 0,
   elementLength = c(300, 3500),
   tsdLength = 3
 )
@@ -102,9 +103,14 @@ packMatches <- packSearch(
 head(packMatches)
 ```
 
+In this subset, we identified six potential Pack-TYPE elements, however at this stage it is unclear what genetic information can be found between the inverted TIR sequences __Figure 1__. These elements could contain transposase genes, making them autonomous elements, or may be Pack-TYPE elements that have captured parts of the Arabidopsis thaliana host genome. Additionally, of the Pack-TYPE elements detected, some may share sequences of related chromosomal origin between their TIRs. 
 
 # Analysing Potential Transposable Elements using packFinder
 ## Clustering of Transposable Elements
+
+In order to make downstream analysis more efficient and understand the relations between the identified elements, we can use VSEARCH to cluster predicted transposons. Here we run VSEARCH with the default parameters, meaning:
+*An identity of 60% between two elements is required to form a cluster
+*
 ```{r include=FALSE}
 data(packMatches)
 ```
