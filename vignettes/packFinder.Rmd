@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 
 
 # Introduction
+
 The goal of packFinder was to implement a simple tool for the prediction of potential Pack-TYPE elements. packFinder uses the following prior knowledge, provided by the user, to detect transposons:
 
 
