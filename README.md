@@ -1,8 +1,11 @@
-# Transposon_Search
- Initial transposon search work Pack-CACTA
+# packFinder
+A package for the de novo discovery of pack-TYPE transposons. 
 
-## To-Do
-- Improve function documentation
-- Re-write unit tests and ensure code works as expected
-- Write vignette
-- Do exploratory work on different full genomes
+## Further Package Development Requirements
+- Further improve function documentation
+- Finish re-writing unit tests and ensure code works as expected
+- Finish writing vignettes
+- Re-write README
+
+## Exploratory Work
+- Do exploratory work on different full genomes & make notes
