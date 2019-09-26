@@ -70,7 +70,23 @@ library("packFinder")
 While this allows R to run the packSearch pipeline within packFinder, VSEARCH must be installed for use of clustering and alignment functions within packSearch. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems.
 
 # Searching for Potential Transposable Elements using packFinder
+## Getting Data
+Both DNA to be searched and the TIR query must be in Biostrings format. The TIR query should be coerced to a DNAString object while the DNA sequence, or set of sequences, should be a DNAStringSet. Biostrings provides methods for the conversion of various formats to DNAString objects, including from character vectors and fasta files. 
+```{r eval=FALSE}
+# Convert a character vector to a DNAString
+Biostrings::DNAString("CATG")
 
+# Convert a list of character vectors to a DNAStringSet
+Biostrings::DNAString(c("CATG",
+                        "GTAC"))
+
+# Convert a FASTA file to a DNAStringSet
+Biostrings::readDNAStringSet("path/to/fasta",
+                             format="fasta")
+```
+
+
+## Using packSearch
 
 ```{r paged.print=TRUE}
 data("arabidopsisThalianaRefseq")
@@ -85,7 +101,6 @@ packMatches <- packSearch(
 
 head(packMatches)
 ```
-
 
 
 # Analysing Potential Transposable Elements using packFinder
