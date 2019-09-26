@@ -4,7 +4,7 @@
 #' @description
 #' General use pipeline function for the Pack-TYPE transposon finding algorithm.
 #'
-#' @param subSeq
+#' @param tirSeq
 #' A \code{\link[Biostrings]{DNAString}} object containing the TIR sequence to
 #' be searched for.
 #'
@@ -29,7 +29,7 @@
 #' @details
 #' Finds potential pack-TYPE elements based on:
 #' \itemize{
-#'   \item Similarity of TIR sequence to \code{subSeq}
+#'   \item Similarity of TIR sequence to \code{tirSeq}
 #'   \item Proximity of potential TIR sequences
 #'   \item Directionality of TIR sequences
 #'   \item Similarity of TSD sequences
@@ -84,7 +84,7 @@
 #'
 #' @export
 
-packSearch <- function(subSeq,
+packSearch <- function(tirSeq,
                        Genome,
                        mismatch = 0,
                        elementLength,
@@ -101,11 +101,11 @@ packSearch <- function(subSeq,
     stop("Vector 'elementLength' must contain integers")
   }
 
-  if (class(subSeq) != "DNAString") {
-    if (!is.character(subSeq)) {
-      stop("Argument 'subSeq' must be of type Biostrings::DNAString or character")
+  if (class(tirSeq) != "DNAString") {
+    if (!is.character(tirSeq)) {
+      stop("Argument 'tirSeq' must be of type Biostrings::DNAString or character")
     } else {
-      subSeq <- Biostrings::DNAString(subSeq)
+      tirSeq <- Biostrings::DNAString(tirSeq)
     }
   }
 
@@ -118,7 +118,7 @@ packSearch <- function(subSeq,
   # perform initial search for TIR matches and get related TSD sequences
   message("Getting forward matches")
   forwardMatches <- identifyTirMatches(
-    subSeq = subSeq,
+    tirSeq = tirSeq,
     Genome = Genome,
     mismatch = mismatch,
     strand = "+"
@@ -135,7 +135,7 @@ packSearch <- function(subSeq,
 
   message("Getting reverse matches")
   reverseMatches <- identifyTirMatches(
-    subSeq = Biostrings::reverseComplement(subSeq),
+    tirSeq = Biostrings::reverseComplement(tirSeq),
     Genome = Genome,
     mismatch = mismatch,
     strand = "-"
