@@ -74,7 +74,7 @@ packAlign <- function(packMatches,
     stop("Identity must be of type integer or double, and have a value between 0 and 1")
   }
 
-  if (!is.integer(identityDefinition)) {
+  if (!is.double(identityDefinition)) {
     stop("Argument 'identityDefinition' must be an integer between 0 and 4.")
   } else if (identityDefinition > 4 | identityDefinition < 0) {
     stop("Argument 'identityDefinition' must be an integer between 0 and 4.")
