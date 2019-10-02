@@ -2,13 +2,13 @@ context("convert")
 
 data("packMatches")
 
-packsToCsv(packMatches, "data-raw/output/packMatches.csv")
-packsToFasta(packMatches, "data-raw/output/packMatches.fasta")
+packsToCsv(packMatches, file = "data-raw/output/packMatches.csv")
+packsToFasta(packMatches, file = "data-raw/output/packMatches.fasta", Genome = arabidopsisThalianaRefseq)
 packsGRanges <- packsToGRanges(packMatches)
 
-packsFromCsv <- getPacksFromCsv("data-raw/output/packMatches.csv")
-packsFromFasta <- getPacksFromFasta("data-raw/output/packMatches.fasta")
-packsFromGRanges <- getPacksFromGRanges(packsGRanges)
+getPacksFromCsv <- getPacksFromCsv(file = "data-raw/output/packMatches.csv")
+getPacksFromFasta <- getPacksFromFasta("data-raw/output/packMatches.fasta")
+getPacksFromGRanges <- getPacksFromGRanges(packsGRanges)
 
 test_that("Conversion functions create correct output from sample data", {
   expect_equal(packsFromCsv, packMatches)
