@@ -5,7 +5,7 @@
 #' Searches a \code{\link[Biostrings]{DNAStringSet}} for potential TIRs based
 #' on sequence similarity.
 #'
-#' @param subSeq
+#' @param tirSeq
 #' A \code{\link[Biostrings]{DNAString}} object to be searched for.
 #'
 #' @param Genome
@@ -13,7 +13,7 @@
 #' \code{\link[Biostrings]{DNAString}} objects to be searched.
 #'
 #' @param mismatch
-#' The allowable mismatch between \code{subSeq} and a given slice of
+#' The allowable mismatch between \code{tirSeq} and a given slice of
 #' \code{Genome}. Includes indels.
 #'
 #' @param strand
@@ -35,7 +35,7 @@
 #'
 #' @export
 
-identifyTirMatches <- function(subSeq,
+identifyTirMatches <- function(tirSeq,
                                Genome,
                                mismatch = 0,
                                strand = "*") {
@@ -52,7 +52,7 @@ identifyTirMatches <- function(subSeq,
   )
 
   for (i in 1:length(Genome)) {
-    matches <- Biostrings::matchPattern(subSeq,
+    matches <- Biostrings::matchPattern(tirSeq,
       Genome[[i]],
       max.mismatch = mismatch,
       with.indels = TRUE

@@ -1,6 +1,6 @@
 context("Conversion functions")
 
-ucClust <- readUc("data-raw/clustOutputuc")
+ucClust <- readUc("data-raw/clustOutput.uc")
 ucAlign <- readUc("data-raw/alignOutput.uc")
 blast6Out <- readBlast6Out("data-raw/clustOutput.blast6out")
 
