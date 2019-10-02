@@ -13,10 +13,10 @@ test_that("object type is as expected", {
 test_that("object dimensions are as expected", {
   expect_equal(nrow(ucClust), 46)
   expect_equal(ncol(ucClust), 8)
-  
+
   expect_equal(nrow(uc), 46)
   expect_equal(ncol(uc), 6)
-  
+
   expect_equal(nrow(blast6Out), 46)
   expect_equal(ncol(blast6Out), 8)
 })

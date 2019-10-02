@@ -1,5 +1,5 @@
 library(testthat)
 library(packFinder)
 
-VSearchLocation <- NULL
+VSearchLocation <-  "E:/vsearch-2.14.1-win-x86_64/vsearch.exe" #NULL
 test_check("packFinder")
