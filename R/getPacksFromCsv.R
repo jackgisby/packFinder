@@ -29,5 +29,6 @@ getPacksFromCsv <- function(file) {
       stop("file does not exist, or R does not have read/write permissions")
     }
   }
+
   return(utils::read.csv(file, stringsAsFactors = FALSE))
 }

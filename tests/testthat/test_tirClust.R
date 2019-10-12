@@ -2,6 +2,7 @@ context("Clustering Functions")
 
 data("arabidopsisThalianaRefseq")
 data("packMatches")
+load("data-r/consensusSeqs.rda")
 
 consensusSeqTest <- tirClust(packMatches,
                              arabidopsisThalianaRefseq,
@@ -9,10 +10,10 @@ consensusSeqTest <- tirClust(packMatches,
                              plot = FALSE)
 
 test_that("no errors thrown by tirClust", {
-  expect_silent(tirClust(packClusts,
+  expect_silent(tirClust(packMatches,
                          arabidopsisThalianaRefseq,
                          tirLength = 25,
-                         plotSavePath = "data-raw/tirRelationships.png"))
+                         plotSavePath = "data-raw/output/tirRelationships.png"))
 })
 
 test_that("consensus sequences returned are as expected", {
