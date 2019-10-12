@@ -263,15 +263,25 @@ While it is recommended to use packSearch to identify potential Pack-TYPE elemen
 ## Identifying Potential TIRs
 Potential TIR sequences should first be identified by pattern matching. 
 ```{r identifyTirMatches}
-forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
-reverseMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
+forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), 
+                                     arabidopsisThalianaRefseq,
+                                     strand = "+")
+nrow(forwardMatches)
+
+reverseMatches <- identifyTirMatches(Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
+                                     arabidopsisThalianaRefseq,
+                                     strand = "-")
+nrow(reverseMatches)
 ```
 
 ## Obtaining TSD Sequences 
 The function `getTsds` may be used to quickly obtain the TSD sequences for TIRs. This function can also be used for obtaining TSDs from the ranges of known full transposons, given a dataframe in the format produced by packSearch. 
 ```{r getTsds}
-forwardMatches$TSD <- getTsds(forwardMatches, arabidopsisThalianaRefseq, 3)
-reverseMatches$TSD <- getTsds(reverseMatches, arabidopsisThalianaRefseq, 3)
+forwardMatches$TSD <- getTsds(forwardMatches, arabidopsisThalianaRefseq, 3, strand = "+")
+head(forwardMatches)
+
+reverseMatches$TSD <- getTsds(reverseMatches, arabidopsisThalianaRefseq, 3, strand = "-")
+head(reverseMatches)
 ```
 
 ## Filtering TIR Matches
