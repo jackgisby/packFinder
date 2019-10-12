@@ -119,12 +119,12 @@ The identity and method of identity definition can be altered depending on analy
 ```{r include=FALSE}
 data(packMatches)
 ```
-```{r, eval=F, echo=T}
+```{r, eval=FALSE}
 packMatches <- packClust(
   packMatches,
   arabidopsisThalianaRefseq,
   saveFolder = "data/",
-  vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+  vSearchPath = "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
 )
 ```
 ```{}
@@ -170,8 +170,8 @@ Based on the results of packClust, we found that the second and fourth matches h
 
 
 ```{r}
-readUc()
-readBlast6Out()
+readUc("data/packMatches.uc")
+readBlast6Out("data/packMatches.blast6out")
 ```
 
 
@@ -205,7 +205,7 @@ BLAST search has not been implemented in this package, so it is expected that th
 
 ```{r}
 #the packMatches dataframe is exported as a FASTA file for NCBI blast search
-packsToFasta(packMatches, "data/packMatches.fasta")
+packsToFasta(packMatches, "data/packMatches.fasta", arabidopsisThalianaRefseq)
 
 #put blast summary here
 ```
@@ -232,12 +232,8 @@ If many elements are discovered by packFinder it may be necessary to identify ov
 ## FASTA
 Additionally, the dataframe produced by packFinder can be exported to and restored from FASTA formats. While this will not save additional metadata columns, such as cluster designations, the core information will be preserved in the FASTA title field. 
 ```{r}
-packsToFasta(packMatches, "data/packMatches.fasta")
+packsToFasta(packMatches, "data/packMatches.fasta", arabidopsisThalianaRefseq)
 print(getPacksFromFasta("data/packMatches.fasta"))
-```
-
-```{r Clear_File_Outputs, include=FALSE}
-do.call(file.remove, list(list.files("data/", full.names = TRUE)))
 ```
 
 # Step-wise packSearch Functions
@@ -246,21 +242,21 @@ While it is recommended to use packSearch to identify potential Pack-TYPE elemen
 ## Identifying Potential TIRs
 Potential TIR sequences should first be identified by pattern matching. 
 ```{r}
-forwardMatches <- identifyTirMatches()
-reverseMatches <- identifyTirMatches()
+forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
+reverseMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
 ```
 
 ## Obtaining TSD Sequences 
 The function `getTsds` may be used to quickly obtain the TSD sequences for TIRs. This function can also be used for obtaining TSDs from the ranges of known full transposons, given a dataframe in the format produced by packSearch. 
 ```{r}
-forwardMatches$TSD <- getTsds(forwardMatches)
-reverseMatches$TSD <- getTsds(reverseMatches)
+forwardMatches$TSD <- getTsds(forwardMatches, arabidopsisThalianaRefseq, 3)
+reverseMatches$TSD <- getTsds(reverseMatches, arabidopsisThalianaRefseq, 3)
 ```
 
 ## Filtering TIR Matches
 The main step of the algorithm matches TIR sequences together based on their proximity and TSD sequence. 
 ```{r}
-packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches)
+packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches, arabidopsisThalianaRefseq, c(300, 500))
 ```
 
 After attaching the TSD sequences to the dataframe of matches, the output matches that of the previous example run using the packSearch pipeline. 
@@ -269,5 +265,5 @@ After attaching the TSD sequences to the dataframe of matches, the output matche
 ## Get Transposon Sequences 
 The function `getSeqs` may be used to obtain transposon sequences from a dataframe in the format produced by packSearch. This could additionally be used on other dataframes of ranges, such as that produced by identifyTirMatches above. 
 ```{r}
-getPackSeqs(packMatches)
+getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
