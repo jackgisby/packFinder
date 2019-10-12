@@ -65,7 +65,6 @@ devtools::install_github("jackgisby/packFinder")
 library("packFinder")
 ```
 ```{r setup}
-knitr::opts_chunk$set(include = FALSE)
 library("packFinder")
 ```
 
