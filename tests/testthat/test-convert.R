@@ -23,3 +23,5 @@ test_that("Conversion functions create correct output from sample data", {
   expect_equal(packsFromFasta, subset(packMatches, select = -c(cluster)))
   expect_equal(packsFromGRanges, packMatches)
 })
+
+unlink("data-raw/output/*")

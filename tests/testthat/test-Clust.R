@@ -3,6 +3,7 @@ context("clustering and alignment")
 data("packMatches")
 data("arabidopsisThalianaRefseq")
 
+#cluster testing will be skipped if location of vsearch is not specified
 vSearchLocation <- "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
 
 if(!is.null(vSearchLocation)) {
@@ -15,3 +16,5 @@ test_that("Clusters identified are as expected", {
   expect_equal(packClusts, packMatches)
   expect_equal(packAlign, readUc("data-raw/output/vSearchPairwiseAlignment.uc", output = "alignment"))
 })
+
+unlink("data-raw/output/*")
