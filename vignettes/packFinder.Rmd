@@ -12,13 +12,15 @@ vignette: >
 ---
 
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "# >",
   fig.width = 6,
   fig.height = 4
 )
+
+library("packFinder")
 ```
 
 
@@ -43,12 +45,12 @@ Transposons are therefore predicted by searching a given genome for these charac
 
 
 # Getting Started
-Assuming the information specified in the introduction above is available, researchers may download packFinder and use the primary function - packSearch - to locate potential transposons in a given set of DNA sequences. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
+Users may download packFinder and use the primary function - packSearch - to locate potential transposons in a given set of DNA sequences. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
 
 ## R Package Dependencies
 While CRAN packages will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
 
-```{r eval=FALSE}
+```{r biocDependencies, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
 
@@ -57,14 +59,11 @@ biocLite(c("Biostrings", "GenomicRanges"))
 
 Then, packFinder may be installed from github (using the package "devtools", available from CRAN).
 
-```{r eval=FALSE}
+```{r packFinderInstall, eval=FALSE}
 #devtools must be installed to download packFinder from github
 #install.packages("devtools")
 
 devtools::install_github("jackgisby/packFinder")
-library("packFinder")
-```
-```{r setup}
 library("packFinder")
 ```
 
@@ -73,13 +72,13 @@ While this allows R to run the packSearch pipeline within packFinder, VSEARCH mu
 
 # Searching for Potential Transposable Elements using packFinder
 ## Getting Data
-Both DNA to be searched and the TIR query must be in Biostrings format. The TIR query should be coerced to a DNAString object while the DNA sequence, or set of sequences, should be a DNAStringSet. Biostrings provides methods for the conversion of various formats to DNAString objects, including from character vectors and fasta files. 
-```{r eval=FALSE}
+Both DNA to be searched and the TIR query must be in XString format (see Biostrings). The TIR query should be coerced to a DNAString object while the DNA sequence, or set of sequences, should be a DNAStringSet. Biostrings provides methods for the conversion of various formats to DNAString objects, including from character vectors and fasta files. 
+```{r biostrings, eval=FALSE}
 # Convert a character vector to a DNAString
 Biostrings::DNAString("CATG")
 
 # Convert a list of character vectors to a DNAStringSet
-Biostrings::DNAString(c("CATG",
+Biostrings::DNAStringSet(c("CATG",
                         "GTAC"))
 
 # Convert a FASTA file to a DNAStringSet
@@ -89,8 +88,8 @@ Biostrings::readDNAStringSet("path/to/fasta",
 
 
 ## Using packSearch
-In this example we will use a subset of chromosome 3 from the Arabidopsis thaliana reference sequence and the first 8 bases of the CACTA1 autonomous transposable element's TIR. The CACTA transposons have TSD sequences that are 3 bases long, and the Pack-CACTA elements tend to be between 300 to 3500 bases in width. Since the first 8 bases of the Pack-CACTA TIRs tend to be conserved between elements, the default allowable mismatch of 0 was used. 
-```{r paged.print=TRUE}
+In this example we will search a subset of chromosome 3, from the Arabidopsis thaliana reference sequence; our query will be first 8 bases of the CACTA1 autonomous transposable element's TIR. The CACTA transposons have TSD sequences that are 3 bases long, and the Pack-CACTA elements tend to be between 300 to 3500 bases in width. Since the first 8 bases of the Pack-CACTA TIRs tend to be conserved between elements, the default allowable mismatch of 0 was used. 
+```{r packSearch}
 data("arabidopsisThalianaRefseq")
 
 packMatches <- packSearch(
@@ -110,19 +109,19 @@ In this subset, we identified six potential Pack-TYPE elements, however at this 
 
 In order to make downstream analysis more efficient and understand the relations between the identified elements, we can use VSEARCH to cluster predicted transposons. Here we run VSEARCH with the default parameters, meaning:
 
-*An identity of 60% between two elements is required to form a cluster
-*The method of identity detection is the same as in BLAST searches
+*An identity of 55% between two elements is required to form a cluster
+*The method of identity detection is the VSEARCH default
 
-The identity and method of identity definition can be altered depending on analysis. 
+The identity and method of identity definition can be altered depending on analysis (see VSEARCH documentation). 
 
-```{r include=FALSE}
+```{r packClustData, include=FALSE}
 data(packMatches)
 ```
-```{r, eval=FALSE}
+```{r packClust, eval=FALSE}
 packMatches <- packClust(
   packMatches,
   arabidopsisThalianaRefseq,
-  saveFolder = "data/",
+  saveFolder = "data/output",
   vSearchPath = "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
 )
 ```
@@ -168,7 +167,7 @@ Based on the results of packClust, we found that the second and fourth matches h
 * BLAST output - a BLAST compatible summary containing details of the BLAST matches between clusters 
 
 
-```{r}
+```{r readClust}
 readUc("data/packMatches.uc")
 readBlast6Out("data/packMatches.blast6out")
 ```
@@ -177,7 +176,7 @@ readBlast6Out("data/packMatches.blast6out")
 ## Clustering of TIR Sequences
 Additionally, tirClust can provide a summary of the similarities between the TIR sequences of clustered transposons. While in this example "CACTACAA" has been used as the TIR search query, the CACTA TIR sequence is longer than 8 base pairs - although the rest of the TIR sequence may be less well conserved. For each cluster, tirClust creates a consensus sequence for the forward and reverse TIR regions; in this case we will consider the first 25 base pairs of each TIR. Additionally, clustering of these TIRs is carried out using kmer clustering before being plotted as a dendrogram for visualisation. 
 
-```{r echo=TRUE}
+```{r tirClust, echo=TRUE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
   tirLength = 25,
@@ -191,10 +190,33 @@ As expected, the forward and reverse TIRs of each transposon are very similar; t
 
 ## Alignment of Transposable Elements
 After clusters of transposable elements have been identified, it may be useful to produce an alignment. Since we know that the transposable elements identified by VSEARCH have a minimum 60% sequence similarity, it will be possible to produce good quality sequence alignments. This can be useful for downstream analysis, such as BLAST searching. In this instance, an alignment was done for cluster 4; so an alignment of only two sequences was carried out. 
-```{r}
-#run alignment
+```{r align, eval=FALSE}
+packMatches <- packAlign(
+  packMatches,
+  arabidopsisThalianaRefseq,
+  saveFolder = "data/output",
+  vSearchPath = "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+)
 ```
+```
+Rognes T, Flouri T, Nichols B, Quince C, Mahe F (2016)
+VSEARCH: a versatile open source tool for metagenomics
+PeerJ 4:e2584 doi: 10.7717/peerj.2584 https://doi.org/10.7717/peerj.2584
 
+Compiled with support for gzip-compressed files, and the library is loaded.
+Compiled with support for bzip2-compressed files, but the library was not found.
+vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
+https://github.com/torognes/vsearch
+
+vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
+https://github.com/torognes/vsearch
+
+Reading file data//packMatches.fasta 100%
+9396 nt in 6 seqs, min 713, max 2463, avg 1566
+Masking 100%
+Aligning 100%
+Matching query sequences: 5 of 6 (83.33%)
+```
 
 
 As with VSEARCH clustering, a .uc and .blast6out file are created by the alignment. The alignment function returns a summary of the .uc file, however the full details of each file can be recovered as before. 
@@ -202,7 +224,7 @@ As with VSEARCH clustering, a .uc and .blast6out file are created by the alignme
 ## BLAST Analysis
 BLAST search has not been implemented in this package, so it is expected that the user will define clusters of transposable elements above before BLAST investigation. This stage will identify the tranposable elements that are autonomous and confirm which matches are likely pack-TYPE elements. Since this example included only a small subset of the Arabidopsis thaliana genome, and there were very few elements identified, a BLASTn search was carried out for each match. In a larger study, it would have been wise to instead select more interesting clusters and BLAST a subset of these. 
 
-```{r}
+```{r blast}
 #the packMatches dataframe is exported as a FASTA file for NCBI blast search
 packsToFasta(packMatches, "data/packMatches.fasta", arabidopsisThalianaRefseq)
 
@@ -212,14 +234,14 @@ packsToFasta(packMatches, "data/packMatches.fasta", arabidopsisThalianaRefseq)
 # Data Formats and Conversion
 ## packSearch Dataframe
 Dataframes are used by packFinder to contain the locations of predicted elements and additional metadata, such as TSD sequence and cluster designation. The dataframe is in a similar format to that stored by GenomicRanges. The dataframe can be saved and restored, as below, for longer term storage and export of packFinder results. packMatches refers to the object created in previous steps, by applying packSearch followed by packClust.
-```{r}
+```{r csvConvert}
 packsToCsv(packMatches, "data/packMatches.csv")
 print(getPacksFromCsv("data/packMatches.csv"))
 ```
 
 ## GRanges
 As mentioned previously, the packFinder dataframe is in a similar format to that stored by GenomicRanges. The data produced by packFinder can therefore be quickly converted to and from a GRanges object, as below. 
-```{r}
+```{r grangesConvert}
 packsGRanges <- packsToGRanges(packMatches)
 print(packsGRanges)
 
@@ -230,7 +252,7 @@ If many elements are discovered by packFinder it may be necessary to identify ov
 
 ## FASTA
 Additionally, the dataframe produced by packFinder can be exported to and restored from FASTA formats. While this will not save additional metadata columns, such as cluster designations, the core information will be preserved in the FASTA title field. 
-```{r}
+```{r fastaConvert}
 packsToFasta(packMatches, "data/packMatches.fasta", arabidopsisThalianaRefseq)
 print(getPacksFromFasta("data/packMatches.fasta"))
 ```
@@ -240,22 +262,22 @@ While it is recommended to use packSearch to identify potential Pack-TYPE elemen
 
 ## Identifying Potential TIRs
 Potential TIR sequences should first be identified by pattern matching. 
-```{r}
+```{r identifyTirMatches}
 forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
 reverseMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), arabidopsisThalianaRefseq)
 ```
 
 ## Obtaining TSD Sequences 
 The function `getTsds` may be used to quickly obtain the TSD sequences for TIRs. This function can also be used for obtaining TSDs from the ranges of known full transposons, given a dataframe in the format produced by packSearch. 
-```{r}
+```{r getTsds}
 forwardMatches$TSD <- getTsds(forwardMatches, arabidopsisThalianaRefseq, 3)
 reverseMatches$TSD <- getTsds(reverseMatches, arabidopsisThalianaRefseq, 3)
 ```
 
 ## Filtering TIR Matches
 The main step of the algorithm matches TIR sequences together based on their proximity and TSD sequence. 
-```{r}
-packMatches <- identifyPotentialPackElements(forwardMatches, reverseMatches, arabidopsisThalianaRefseq, c(300, 500))
+```{r identifyPotentialPackElements}
+identifyPotentialPackElements(forwardMatches, reverseMatches, arabidopsisThalianaRefseq, c(300, 3500))
 ```
 
 After attaching the TSD sequences to the dataframe of matches, the output matches that of the previous example run using the packSearch pipeline. 
@@ -263,6 +285,11 @@ After attaching the TSD sequences to the dataframe of matches, the output matche
 
 ## Get Transposon Sequences 
 The function `getSeqs` may be used to obtain transposon sequences from a dataframe in the format produced by packSearch. This could additionally be used on other dataframes of ranges, such as that produced by identifyTirMatches above. 
-```{r}
+```{r getPackSeqs}
 getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
+
+```{r}
+unlink("data/output/*")
+```
+
