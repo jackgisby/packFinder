@@ -70,7 +70,10 @@ packClust <- function(packMatches,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
   if (is.null(saveFolder)) {
     saveFolder <- getwd()
+  } else {
+    saveFolder <- paste0(saveFolder, "/")
   }
+
   #check genome names match those in packMatches
   if (parallel::detectCores() < threads) {
     stop("There are not ", threads, " cores available")
