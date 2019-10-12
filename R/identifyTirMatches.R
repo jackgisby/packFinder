@@ -44,7 +44,7 @@ identifyTirMatches <- function(tirSeq,
   }
 
   tirMatches <- data.frame(
-    seqnames = character(),
+    seqnames = factor(),
     start = integer(),
     end = integer(),
     width = integer(),

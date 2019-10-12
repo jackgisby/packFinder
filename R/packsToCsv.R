@@ -33,7 +33,7 @@
 #' @export
 
 packsToCsv <- function(packMatches, file) {
-  utils::write.csv(packMatches, file)
+  utils::write.csv(packMatches, file, row.names = FALSE)
 
   return(print(paste0("File successfully written to ", file)))
 }
