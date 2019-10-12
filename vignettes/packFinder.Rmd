@@ -43,10 +43,10 @@ Transposons are therefore predicted by searching a given genome for these charac
 
 
 # Getting Started
-Assuming the information specified in the introduction above is available, researchers may download packFinder and use the primary function - packSearch - to locate potential transposons in a given Genome. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
+Assuming the information specified in the introduction above is available, researchers may download packFinder and use the primary function - packSearch - to locate potential transposons in a given set of DNA sequences. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
 
 ## R Package Dependencies
-In addition to CRAN package dependencies, that will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
+While CRAN packages will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
 
 ```{r eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
@@ -55,7 +55,7 @@ biocLite()
 biocLite(c("Biostrings", "GenomicRanges"))
 ```
 
-Then, packFinder may be installed:
+Then, packFinder may be installed from github (using the package "devtools", available from CRAN).
 
 ```{r eval=FALSE}
 #devtools must be installed to download packFinder from github
