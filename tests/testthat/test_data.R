@@ -14,3 +14,5 @@ test_that("type of dataset is as expected", {
   expect_is(arabidopsisThalianaRefseq, "DNAStringSet")
   expect_is(packMatches, "data.frame")
 })
+
+unlink("data-raw/output/*")

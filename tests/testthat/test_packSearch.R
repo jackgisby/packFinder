@@ -23,3 +23,5 @@ test_that("packSearch returns correct results", {
   packMatchesTest$strand <- "+"
   expect_equal(packMatchesTest, subset(packMatches, select = -c(cluster)))
 })
+
+unlink("data-raw/output/*")

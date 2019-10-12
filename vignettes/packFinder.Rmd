@@ -48,7 +48,7 @@ Assuming the information specified in the introduction above is available, resea
 ## R Package Dependencies
 In addition to CRAN package dependencies, that will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
 
-```{r}
+```{r eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
 

@@ -24,3 +24,5 @@ test_that("object dimensions are as expected", {
 test_that("object output is as expected", {
   expect_equal(max(ucClust$cluster), 4)
 })
+
+unlink("data-raw/output/*")
