@@ -4,10 +4,10 @@
 \alias{packSearch}
 \title{packFind Algorithm Pipeline}
 \usage{
-packSearch(subSeq, Genome, mismatch = 0, elementLength, tsdLength)
+packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength)
 }
 \arguments{
-\item{subSeq}{A \code{\link[Biostrings]{DNAString}} object containing the TIR sequence to
+\item{tirSeq}{A \code{\link[Biostrings]{DNAString}} object containing the TIR sequence to
 be searched for.}
 
 \item{Genome}{A \code{\link[Biostrings]{DNAStringSet}} object to be searched.}
@@ -44,7 +44,7 @@ General use pipeline function for the Pack-TYPE transposon finding algorithm.
 \details{
 Finds potential pack-TYPE elements based on:
 \itemize{
-  \item Similarity of TIR sequence to \code{subSeq}
+  \item Similarity of TIR sequence to \code{tirSeq}
   \item Proximity of potential TIR sequences
   \item Directionality of TIR sequences
   \item Similarity of TSD sequences

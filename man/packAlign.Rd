@@ -5,7 +5,7 @@
 \title{Global Alignment with VSEARCH}
 \usage{
 packAlign(packMatches, Genome, identity = 0, threads = 1,
-  identityDefinition = 1, saveFolder,
+  identityDefinition = 2, saveFolder,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
 }
 \arguments{
