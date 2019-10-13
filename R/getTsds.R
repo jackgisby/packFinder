@@ -67,7 +67,7 @@ getTsds <- function(tirMatches,
     tirMatches$end,
     tirMatches$seqnames,
     MoreArgs = list(tsdLength, Genome)
-    )
+    ) #todo: currently removes matches and returns smaller list of TSDs that doesn't match up with packsearch
     tirMatches <- tirMatches[removeMatch == FALSE, ]
     TSDs <- mapply(function(seqnames, end, tsdLength, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + tsdLength)]))
