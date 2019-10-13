@@ -1,5 +1,6 @@
 context("Clustering Functions")
 
+dir.create("data-raw/output")
 data("arabidopsisThalianaRefseq")
 data("packMatches")
 load("data-r/consensusSeqs.rda")
@@ -21,4 +22,4 @@ test_that("consensus sequences returned are as expected", {
   expect_equal(as.character(consensusSeqTest), as.character(consensusSeqs))
 })
 
-unlink("data-raw/output/*")
+unlink("data-raw/output")

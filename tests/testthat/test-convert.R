@@ -1,5 +1,6 @@
 context("convert")
 
+dir.create("data-raw/output")
 data("packMatches")
 
 packsToCsv(packMatches, file = "data-raw/output/packMatches.csv")

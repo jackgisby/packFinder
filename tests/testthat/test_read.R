@@ -1,5 +1,6 @@
 context("Conversion functions")
 
+dir.create("data-raw/output")
 ucClust <- readUc("data-raw/clustOutput.uc")
 ucAlign <- readUc("data-raw/alignOutput.uc")
 blast6Out <- readBlast6Out("data-raw/clustOutput.blast6out")
