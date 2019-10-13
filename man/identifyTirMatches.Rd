@@ -4,15 +4,15 @@
 \alias{identifyTirMatches}
 \title{Identify Terminal Inverted Repeat Matches}
 \usage{
-identifyTirMatches(subSeq, Genome, mismatch = 0, strand = "*")
+identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*")
 }
 \arguments{
-\item{subSeq}{A \code{\link[Biostrings]{DNAString}} object to be searched for.}
+\item{tirSeq}{A \code{\link[Biostrings]{DNAString}} object to be searched for.}
 
 \item{Genome}{A \code{\link[Biostrings]{DNAStringSet}} object containing the
 \code{\link[Biostrings]{DNAString}} objects to be searched.}
 
-\item{mismatch}{The allowable mismatch between \code{subSeq} and a given slice of
+\item{mismatch}{The allowable mismatch between \code{tirSeq} and a given slice of
 \code{Genome}. Includes indels.}
 
 \item{strand}{The directionality of the search string ("+", "-" or "*").}
