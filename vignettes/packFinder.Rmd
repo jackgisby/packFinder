@@ -21,6 +21,8 @@ knitr::opts_chunk$set(
 )
 
 library("packFinder")
+
+dir.create("data/output")
 ```
 
 
@@ -168,8 +170,8 @@ Based on the results of packClust, we found that the second and fourth matches h
 
 
 ```{r readClust}
-readUc("data/packMatches.uc")
-readBlast6Out("data/packMatches.blast6out")
+readUc(system.file("extdata", "packMatches.uc", package = "packFinder"))
+readBlast6Out(system.file("extdata", "packMatches.blast6out", package = "packFinder"))
 ```
 
 
@@ -179,8 +181,7 @@ Additionally, tirClust can provide a summary of the similarities between the TIR
 ```{r tirClust, echo=TRUE}
 consensusSeqs <- tirClust(packMatches,
   arabidopsisThalianaRefseq,
-  tirLength = 25,
-  plotSavePath = "data/output/tirClusters.png"
+  tirLength = 25
 )
 
 head(consensusSeqs)
@@ -300,6 +301,6 @@ getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
 
 ```{r include=FALSE}
-unlink("data/output/*")
+unlink("data/output")
 ```
 

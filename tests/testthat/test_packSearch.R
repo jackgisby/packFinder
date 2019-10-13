@@ -1,5 +1,6 @@
 context("packSearch")
 
+dir.create("data-raw/output")
 data("arabidopsisThalianaRefseq")
 data("packMatches")
 
