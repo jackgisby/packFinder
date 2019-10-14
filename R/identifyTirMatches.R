@@ -2,15 +2,15 @@
 #' Identify Terminal Inverted Repeat Matches
 #'
 #' @description
-#' Searches a \code{\link[Biostrings]{DNAStringSet}} for potential TIRs based
+#' Searches a \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} for potential TIRs based
 #' on sequence similarity.
 #'
 #' @param tirSeq
-#' A \code{\link[Biostrings]{DNAString}} object to be searched for.
+#' A \code{\link[Biostrings:DNAString-class]{DNAString}} object to be searched for.
 #'
 #' @param Genome
-#' A \code{\link[Biostrings]{DNAStringSet}} object containing the
-#' \code{\link[Biostrings]{DNAString}} objects to be searched.
+#' A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object containing the
+#' \code{\link[Biostrings:DNAString-class]{DNAString}} objects to be searched.
 #'
 #' @param mismatch
 #' The allowable mismatch between \code{tirSeq} and a given slice of

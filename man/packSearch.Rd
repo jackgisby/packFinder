@@ -7,10 +7,10 @@
 packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength)
 }
 \arguments{
-\item{tirSeq}{A \code{\link[Biostrings]{DNAString}} object containing the TIR sequence to
+\item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing the TIR sequence to
 be searched for.}
 
-\item{Genome}{A \code{\link[Biostrings]{DNAStringSet}} object to be searched.}
+\item{Genome}{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to be searched.}
 
 \item{mismatch}{The maximum edit distance to be considered for TIR matches
 (indels + substitions). See \code{\link[Biostrings]{matchPattern}} for

@@ -9,7 +9,7 @@ packsToGRanges(packMatches)
 \arguments{
 \item{packMatches}{A dataframe containing genomic ranges and names referring
 to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
+or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} object, after
 conversion to a dataframe. Must contain the following features:
 \itemize{
   \item start - the predicted element's start base sequence position.
@@ -22,7 +22,7 @@ conversion to a dataframe. Must contain the following features:
 A GRanges object containing the ranges contained in \code{packMatches} and
 additional metadata columns. May be easily converted between dataframe and
 GRanges format for use in the \code{packFinder} package and
-\code{link[GenomicRanges]{GRanges}} package. Note that most functions in
+\code{link[GenomicRanges:GRanges-class]{GRanges}} package. Note that most functions in
 the \code{packFinder} package require sequence ranges to be provided in
 dataframe format.
 }

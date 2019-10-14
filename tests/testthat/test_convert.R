@@ -4,7 +4,8 @@ dir.create("tempTestOutput")
 data("packMatches")
 
 packsToCsv(packMatches, file = "tempTestOutput/packMatches.csv")
-packsToFasta(packMatches, file = "tempTestOutput/packMatches.fasta", Genome = arabidopsisThalianaRefseq)
+print(arabidopsisThalianaRefseq)
+packsToFasta(packMatches = packMatches, file = "tempTestOutput/packMatches.fasta", Genome = arabidopsisThalianaRefseq)
 packsGRanges <- packsToGRanges(packMatches)
 
 packsFromCsv <- getPacksFromCsv(file = "tempTestOutput/packMatches.csv")
