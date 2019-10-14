@@ -22,6 +22,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    dendextend
+    dendextend,
+    BiocStyle
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
