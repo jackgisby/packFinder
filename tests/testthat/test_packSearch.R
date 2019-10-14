@@ -1,6 +1,6 @@
 context("packSearch")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 data("arabidopsisThalianaRefseq")
 data("packMatches")
 
@@ -25,4 +25,4 @@ test_that("packSearch returns correct results", {
   expect_equal(packMatchesTest, subset(packMatches, select = -c(cluster)))
 })
 
-unlink("data-raw/output/*")
+unlink("tempTestOutput", recursive = TRUE)

@@ -4,7 +4,8 @@
 \alias{identifyTirMatches}
 \title{Identify Terminal Inverted Repeat Matches}
 \usage{
-identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*")
+identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*",
+  tsdLength)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings]{DNAString}} object to be searched for.}
@@ -16,6 +17,8 @@ identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*")
 \code{Genome}. Includes indels.}
 
 \item{strand}{The directionality of the search string ("+", "-" or "*").}
+
+\item{tsdLength}{Integer referring to the length of the flanking TSD region.}
 }
 \value{
 A dataframe, \code{tirMatches}, containing identified matches. The dataframe
