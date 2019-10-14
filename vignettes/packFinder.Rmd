@@ -266,12 +266,14 @@ Potential TIR sequences should first be identified by pattern matching.
 ```{r identifyTirMatches}
 forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), 
                                      arabidopsisThalianaRefseq,
-                                     strand = "+")
+                                     strand = "+",
+                                     tsdLength = 3)
 nrow(forwardMatches)
 
 reverseMatches <- identifyTirMatches(Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
                                      arabidopsisThalianaRefseq,
-                                     strand = "-")
+                                     strand = "-",
+                                     tsdLength = 3)
 nrow(reverseMatches)
 ```
 

@@ -6,6 +6,7 @@ data("arabidopsisThalianaRefseq")
 
 #cluster testing will be skipped if location of vsearch is not specified
 #vSearchLocation <- "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+vSearchLocation <- NULL
 
 if(!is.null(vSearchLocation)) {
   packClusts <- packClust(packMatches, arabidopsisThalianaRefseq, saveFolder = "data-raw/output", vSearchPath = vSearchLocation)
