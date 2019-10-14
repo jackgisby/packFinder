@@ -24,14 +24,14 @@ strand direction must be supplied.}
 \item{output}{The type of object to be returned:
 \itemize{
  \item output = "DNAStringSet", returns a
- \code{\link[Biostrings]{DNAStringSet}} object.
+ \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object.
  \item output = "character", returns a \code{character} vector (default).
  }}
 }
 \value{
 Flanking TSD sequences as a vector of characters, or if output is specified
 as "DNAStringSet", TSD sequences will be returned as a
-\code{\link[Biostrings]{DNAStringSet}} object.
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object.
 }
 \description{
 Gets the flanking TSD sequences of TIRs or predicted Pack-TYPE transposable

@@ -26,7 +26,7 @@
 #' The type of object to be returned:
 #' \itemize{
 #'  \item output = "DNAStringSet", returns a
-#'  \code{\link[Biostrings]{DNAStringSet}} object.
+#'  \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object.
 #'  \item output = "character", returns a \code{character} vector (default).
 #'  }
 #'
@@ -42,7 +42,7 @@
 #' @return
 #' Flanking TSD sequences as a vector of characters, or if output is specified
 #' as "DNAStringSet", TSD sequences will be returned as a
-#' \code{\link[Biostrings]{DNAStringSet}} object.
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object.
 #'
 #' @export
 
