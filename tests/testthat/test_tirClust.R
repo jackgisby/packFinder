@@ -1,6 +1,6 @@
 context("Clustering Functions")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 data("arabidopsisThalianaRefseq")
 data("packMatches")
 load("data-r/consensusSeqs.rda")
@@ -15,11 +15,11 @@ test_that("no errors thrown by tirClust", {
                          arabidopsisThalianaRefseq,
                          tirLength = 25,
                          plot = FALSE,
-                         plotSavePath = "data-raw/output/tirRelationships.png"))
+                         plotSavePath = "tempTestOutput/tirRelationships.png"))
 })
 
 test_that("consensus sequences returned are as expected", {
   expect_equal(as.character(consensusSeqTest), as.character(consensusSeqs))
 })
 
-unlink("data-raw/output")
+unlink("tempTestOutput", recursive = TRUE)

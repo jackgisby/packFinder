@@ -1,6 +1,6 @@
 context("clustering and alignment")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 data("packMatches")
 data("arabidopsisThalianaRefseq")
 
@@ -19,4 +19,4 @@ test_that("Clusters identified are as expected", {
   expect_equal(packAlign, readUc("data-raw/output/vSearchPairwiseAlignment.uc", output = "alignment"))
 })
 
-unlink("data-raw/output/*")
+unlink("tempTestOutput", recursive = TRUE)

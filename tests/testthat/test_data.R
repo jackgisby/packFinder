@@ -1,6 +1,6 @@
 context("data")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 data("arabidopsisThalianaRefseq")
 data("packMatches")
 
@@ -16,4 +16,4 @@ test_that("type of dataset is as expected", {
   expect_is(packMatches, "data.frame")
 })
 
-unlink("data-raw/output/*")
+unlink("tempTestOutput", recursive = TRUE)
