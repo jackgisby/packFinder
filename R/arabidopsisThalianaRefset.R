@@ -3,7 +3,7 @@
 #'
 #' @description
 #' The chromosome 3 reference sequence for Arabidopsis thaliana as a
-#' \code{\link[Biostrings]{DNAStringSet}}. Can be used as a test data set,
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}}. Can be used as a test data set,
 #' as in the associated introduction vignette. The DNA sequence between bases
 #' 10,500,000 and 14,300,000 was extracted for use as a dataset.
 #'

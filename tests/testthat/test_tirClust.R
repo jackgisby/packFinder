@@ -1,4 +1,4 @@
-context("Clustering Functions")
+context("clustering functions")
 
 dir.create("tempTestOutput")
 data("arabidopsisThalianaRefseq")

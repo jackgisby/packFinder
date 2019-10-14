@@ -1,4 +1,4 @@
-context("Conversion functions")
+context("conversion functions")
 
 dir.create("tempTestOutput")
 ucClust <- readUc("data-raw/clustOutput.uc")
