@@ -1,7 +1,7 @@
 # packFinder
 A package for the de novo discovery of pack-TYPE transposons. Transposons are detected in DNA sequences based on conserved terminal inverted repeat sequences and presence of terminal site duplications. packFinder allows users to search a given Genome for Pack-TYPE transposons with minimal input and setup.
 
-![**Important structural features of Pack-TYPE transposons**](vignettes/tirSeq.jpg){width=100%}
+![**Important structural features of Pack-TYPE transposons**](vignettes/tirSeq.jpg)
 
 ## Quick Start
 Users may download packFinder and use the primary function - packSearch - to locate potential transposons in a given Genome. The command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
