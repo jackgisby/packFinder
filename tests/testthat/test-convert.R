@@ -1,14 +1,14 @@
 context("convert")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 data("packMatches")
 
-packsToCsv(packMatches, file = "data-raw/output/packMatches.csv")
-packsToFasta(packMatches, file = "data-raw/output/packMatches.fasta", Genome = arabidopsisThalianaRefseq)
+packsToCsv(packMatches, file = "tempTestOutput/packMatches.csv")
+packsToFasta(packMatches, file = "tempTestOutput/packMatches.fasta", Genome = arabidopsisThalianaRefseq)
 packsGRanges <- packsToGRanges(packMatches)
 
-packsFromCsv <- getPacksFromCsv(file = "data-raw/output/packMatches.csv")
-packsFromFasta <- getPacksFromFasta("data-raw/output/packMatches.fasta")
+packsFromCsv <- getPacksFromCsv(file = "tempTestOutput/packMatches.csv")
+packsFromFasta <- getPacksFromFasta("tempTestOutput/packMatches.fasta")
 packsFromGRanges <- getPacksFromGRanges(packsGRanges)
 
 #ignore differences in column type
@@ -25,4 +25,4 @@ test_that("Conversion functions create correct output from sample data", {
   expect_equal(packsFromGRanges, packMatches)
 })
 
-unlink("data-raw/output/*")
+unlink("tempTestOutput", recursive = TRUE)

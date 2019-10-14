@@ -61,14 +61,6 @@ getTsds <- function(tirMatches,
   }
 
   if (strand == "-") {
-    removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
-      return((end + tsdLength) > Genome[Genome@ranges@NAMES == seqnames][[1]]@length)
-    },
-    tirMatches$end,
-    tirMatches$seqnames,
-    MoreArgs = list(tsdLength, Genome)
-    )
-    tirMatches <- tirMatches[removeMatch == FALSE, ]
     TSDs <- mapply(function(seqnames, end, tsdLength, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(end + 1):(end + tsdLength)]))
     },
@@ -78,7 +70,6 @@ getTsds <- function(tirMatches,
     )
     return(TSDs)
   } else if (strand == "+") {
-    tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
     TSDs <- mapply(function(seqnames, start, tsdLength, Genome) {
       return(as.character(Genome[Genome@ranges@NAMES == seqnames][[1]][(start - tsdLength):(start - 1)]))
     },

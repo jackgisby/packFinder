@@ -121,7 +121,8 @@ packSearch <- function(tirSeq,
     tirSeq = tirSeq,
     Genome = Genome,
     mismatch = mismatch,
-    strand = "+"
+    strand = "+",
+    tsdLength = tsdLength
   )
 
   forwardMatches$TSD <- getTsds(
@@ -138,7 +139,8 @@ packSearch <- function(tirSeq,
     tirSeq = Biostrings::reverseComplement(tirSeq),
     Genome = Genome,
     mismatch = mismatch,
-    strand = "-"
+    strand = "-",
+    tsdLength = tsdLength
   )
 
   reverseMatches$TSD <- getTsds(
