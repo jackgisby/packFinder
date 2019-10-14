@@ -8,7 +8,7 @@
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring
 #' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-#' or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
+#' or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} object, after
 #' conversion to a dataframe. Must contain the following features:
 #' \itemize{
 #'   \item start - the predicted element's start base sequence position.
@@ -26,7 +26,7 @@
 #' The type of object to be returned:
 #' \itemize{
 #'  \item output = "DNAStringSet", returns a
-#'  \code{\link[Biostrings]{DNAStringSet}} object (default).
+#'  \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object (default).
 #'  \item output = "character", returns a \code{character} vector.
 #'  }
 #'
@@ -48,7 +48,7 @@
 #'
 #' @return
 #' The transposon sequences extracted from \code{packMatches}. At default
-#' returns the sequences as a \code{\link[Biostrings]{DNAStringSet}} or, if
+#' returns the sequences as a \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} or, if
 #' \code{output} is set to "character", returns a character vector.
 #'
 #' @export

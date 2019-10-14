@@ -9,7 +9,7 @@
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring
 #' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-#' or generated from a \code{\link[GenomicRanges]{GRanges}} object, after
+#' or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} object, after
 #' conversion to a dataframe. Must contain the following features:
 #' \itemize{
 #'   \item start - the predicted element's start base sequence position.
@@ -53,7 +53,7 @@
 #' @return
 #' If \code{output} is specified as "consensus" (default), returns a list of
 #' consensus sequences for each cluster specified in \code{packMatches} as a
-#' \code{\link[Biostrings]{DNAStringSet}}. Else if \code{output} is specified
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}}. Else if \code{output} is specified
 #' as "dendrogram", returns a dendrogram object used to create hierarchical
 #' clustering diagrams.
 #'

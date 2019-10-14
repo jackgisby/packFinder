@@ -5,11 +5,11 @@
 #' General use pipeline function for the Pack-TYPE transposon finding algorithm.
 #'
 #' @param tirSeq
-#' A \code{\link[Biostrings]{DNAString}} object containing the TIR sequence to
+#' A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing the TIR sequence to
 #' be searched for.
 #'
 #' @param Genome
-#' A \code{\link[Biostrings]{DNAStringSet}} object to be searched.
+#' A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to be searched.
 #'
 #' @param mismatch
 #' The maximum edit distance to be considered for TIR matches
