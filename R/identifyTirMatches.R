@@ -19,6 +19,9 @@
 #' @param strand
 #' The directionality of the search string ("+", "-" or "*").
 #'
+#' @param tsdLength
+#' Integer referring to the length of the flanking TSD region.
+#'
 #' @author
 #' Jack Gisby
 #'
@@ -38,7 +41,8 @@
 identifyTirMatches <- function(tirSeq,
                                Genome,
                                mismatch = 0,
-                               strand = "*") {
+                               strand = "*",
+                               tsdLength) {
   if (strand != "-" & strand != "+" & strand != "*") {
     stop("Argument 'strand' must be specified as '-', '+' or '*'")
   }
@@ -67,6 +71,19 @@ identifyTirMatches <- function(tirSeq,
         strand = strand
       ))
     }
+  }
+  
+  if (strand == "-") {
+    removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
+      return((end + tsdLength) > Genome[Genome@ranges@NAMES == seqnames][[1]]@length)
+    },
+    tirMatches$end,
+    tirMatches$seqnames,
+    MoreArgs = list(tsdLength, Genome)
+    ) 
+    tirMatches <- tirMatches[removeMatch == FALSE, ]
+  } else if (strand == "+") {
+    tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
   }
 
   return(tirMatches)

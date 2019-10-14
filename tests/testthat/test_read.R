@@ -1,6 +1,6 @@
 context("Conversion functions")
 
-dir.create("data-raw/output")
+dir.create("tempTestOutput")
 ucClust <- readUc("data-raw/clustOutput.uc")
 ucAlign <- readUc("data-raw/alignOutput.uc")
 blast6Out <- readBlast6Out("data-raw/clustOutput.blast6out")
@@ -26,4 +26,4 @@ test_that("object output is as expected", {
   expect_equal(max(ucClust$cluster), 4)
 })
 
-unlink("data-raw/output/*")
+unlink("tempTestOutput", recursive = TRUE)
