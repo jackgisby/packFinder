@@ -23,8 +23,8 @@
 #' The number of threads to be used by VSEARCH.
 #'
 #' @param identityDefinition
-#' The pairwise identity definition used by VSEARCH. Defaults to 1, the BLAST
-#' definition.
+#' The pairwise identity definition used by VSEARCH. Defaults to 2, the standard
+#' VSEARCH definition.
 #'
 #' @param saveFolder
 #' The folder to save saveFolder files (uc, blast6out, FASTA)
