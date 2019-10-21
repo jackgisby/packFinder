@@ -31,6 +31,10 @@
 #'
 #' @param vSearchPath
 #' The location of the VSEARCH executable file.
+#' 
+#' @param maxWildcards
+#' The maximal allowable proportion of wildcards in the sequence of each match (defaults
+#' to \code{0.05}).
 #'
 #' @note
 #' In order to align sequences using VSEARCH, the executable file must first
@@ -60,6 +64,7 @@ packAlign <- function(packMatches,
                       identity = 0,
                       threads = 1,
                       identityDefinition = 2,
+                      maxWildcards = 0.05,
                       saveFolder,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
   if (is.null(saveFolder)) {
@@ -87,6 +92,8 @@ packAlign <- function(packMatches,
             the VSEARCH executable file is installed at the correct location
             and that the full file path is specified.")
   }
+  
+  packMatches <- filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
 
   packMatchesFile <- paste0(saveFolder, "/packMatches.fasta")
   packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
