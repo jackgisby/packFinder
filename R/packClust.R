@@ -34,6 +34,10 @@
 #'
 #' @param vSearchPath
 #' The location of the VSEARCH executable file.
+#' 
+#' @param maxWildcards
+#' The maximal allowable proportion of wildcards in the sequence of each match (defaults
+#' to \code{0.05}).
 #'
 #' @note
 #' In order to cluster sequences using VSEARCH, the executable file must first
@@ -65,6 +69,7 @@ packClust <- function(packMatches,
                       identity = 0.55,
                       threads = 1,
                       identityDefinition = 2,
+                      maxWildcards = 0.05,
                       strand = "both",
                       saveFolder = NULL,
                       vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
@@ -96,6 +101,8 @@ packClust <- function(packMatches,
             the VSEARCH executable file is installed at the correct location
             and that the full file path is specified.")
   }
+  
+  packMatches <- filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
 
   packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
   ID <- as.integer(rownames(packMatches))
