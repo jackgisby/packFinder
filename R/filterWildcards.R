@@ -28,10 +28,10 @@
   
   filterWildcards <- function(packMatches, Genome, maxWildcards = 0.05) {
     badMatches <- vector(mode = "logical", length = nrow(packMatches))
-    for(i in 1:length(packMatches)) {
+    for(i in 1:nrow(packMatches)) {
       seq <- as.character(Genome[Genome@ranges@NAMES == packMatches$seqnames[i]][[1]][packMatches$start[i]:packMatches$end[i]])
       if(grepl("N", seq)) {
-        if((nchar(gsub("T", "", seq)) / nchar(seq)) > maxWildcards) {
+        if((nchar(gsub("N", "", seq)) / nchar(seq)) > maxWildcards) {
           badMatches[i] <- TRUE
         }
       }

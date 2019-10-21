@@ -66,7 +66,7 @@
 
 packClust <- function(packMatches,
                       Genome,
-                      identity = 0.55,
+                      identity = 0.6,
                       threads = 1,
                       identityDefinition = 2,
                       maxWildcards = 0.05,
