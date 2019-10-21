@@ -4,7 +4,7 @@
 \alias{packClust}
 \title{Cluster Transposons with VSEARCH}
 \usage{
-packClust(packMatches, Genome, identity = 0.55, threads = 1,
+packClust(packMatches, Genome, identity = 0.6, threads = 1,
   identityDefinition = 2, maxWildcards = 0.05, strand = "both",
   saveFolder = NULL,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
