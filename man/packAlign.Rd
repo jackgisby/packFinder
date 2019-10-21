@@ -5,7 +5,7 @@
 \title{Global Alignment with VSEARCH}
 \usage{
 packAlign(packMatches, Genome, identity = 0, threads = 1,
-  identityDefinition = 2, saveFolder,
+  identityDefinition = 2, maxWildcards = 0.05, saveFolder,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
 }
 \arguments{
@@ -21,8 +21,11 @@ required to be grouped into a cluster.}
 
 \item{threads}{The number of threads to be used by VSEARCH.}
 
-\item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 1, the BLAST
-definition.}
+\item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 2, the standard
+VSEARCH definition.}
+
+\item{maxWildcards}{The maximal allowable proportion of wildcards in the sequence of each match (defaults
+to \code{0.05}).}
 
 \item{saveFolder}{The folder to save saveFolder files (uc, blast6out, FASTA)}
 

@@ -5,7 +5,8 @@
 \title{Cluster Transposons with VSEARCH}
 \usage{
 packClust(packMatches, Genome, identity = 0.55, threads = 1,
-  identityDefinition = 2, strand = "both", saveFolder = NULL,
+  identityDefinition = 2, maxWildcards = 0.05, strand = "both",
+  saveFolder = NULL,
   vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
 }
 \arguments{
@@ -21,8 +22,11 @@ required to be grouped into a cluster.}
 
 \item{threads}{The number of threads to be used by VSEARCH.}
 
-\item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 1, the BLAST
-definition.}
+\item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 2, the standard
+VSEARCH definition.}
+
+\item{maxWildcards}{The maximal allowable proportion of wildcards in the sequence of each match (defaults
+to \code{0.05}).}
 
 \item{strand}{The strand direction (+, - or *) to be clustered.}
 
