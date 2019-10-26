@@ -9,23 +9,27 @@ packClust(packMatches, Genome, identity = 0.6, threads = 1,
   saveFolder = NULL, vSearchPath = "path/to/vsearch/vsearch.exe")
 }
 \arguments{
-\item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. Will be saved as a
-FASTA file for VSEARCH.}
+\item{packMatches}{A dataframe of potential Pack-TYPE transposable 
+elements. Will be saved as a FASTA file for 
+VSEARCH.}
 
-\item{Genome}{A DNAStringSet object containing sequences referred to in \code{packMatches}
-(the object originally used to predict the transposons
-\code{\link{packSearch}}).}
+\item{Genome}{A DNAStringSet object containing sequences 
+referred to in \code{packMatches} (the 
+object originally used to predict the 
+transposons \code{\link{packSearch}}).}
 
-\item{identity}{The sequence identity of two transposable elements in \code{packMatches}
-required to be grouped into a cluster.}
+\item{identity}{The sequence identity of two transposable elements 
+in \code{packMatches} required to be grouped 
+into a cluster.}
 
 \item{threads}{The number of threads to be used by VSEARCH.}
 
-\item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 2, the standard
-VSEARCH definition.}
+\item{identityDefinition}{The pairwise identity definition used by VSEARCH. 
+Defaults to 2, the standard VSEARCH definition.}
 
-\item{maxWildcards}{The maximal allowable proportion of wildcards in the sequence of each match (defaults
-to \code{0.05}).}
+\item{maxWildcards}{The maximal allowable proportion of wildcards 
+in the sequence of each match 
+(defaults to \code{0.05}).}
 
 \item{strand}{The strand direction (+, - or *) to be clustered.}
 
@@ -34,36 +38,42 @@ to \code{0.05}).}
 \item{vSearchPath}{The location of the VSEARCH executable file.}
 }
 \value{
-Saves cluster information, including a \code{uc} and \code{blast6out} file,
-to the specified location. Returns the given \code{packMatches} dataframe
-with an additional column, \code{cluster}, containing cluster IDs.
+Saves cluster information, including a 
+    \code{uc} and \code{blast6out} file, to the 
+    specified location. Returns the given \code{packMatches} 
+    dataframe with an additional column, 
+    \code{cluster}, containing cluster IDs.
 }
 \description{
-Cluster potential pack-TYPE elements by sequence similarity. Resulting groups
-may be aligned with \code{\link{packAlign}}, or the clusters may be analysed
-with \code{\link{tirClust}}
+Cluster potential pack-TYPE elements by 
+    sequence similarity. Resulting groups may 
+    be aligned with \code{\link{packAlign}}, or 
+    the clusters may be analysed with 
+    \code{\link{tirClust}}
 }
 \note{
-In order to cluster sequences using VSEARCH, the executable file must first
-be installed.
+In order to cluster sequences using VSEARCH, 
+    the executable file must first be installed.
 }
 \examples{
-\dontrun{
-data(arabidopsisThalianaRefseq)
-data(packMatches)
+    data(arabidopsisThalianaRefseq)
+    data(packMatches)
 
-packClust(packMatches, Genome, vSearchPath = "path/to/vsearch/vsearch.exe")
-}
+    \dontrun{
+    packClust(packMatches, Genome, 
+            vSearchPath = "path/to/vsearch/vsearch.exe")
+    }
 
 }
 \references{
-VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}.
-See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} for further
-information.
+VSEARCH may be downloaded from 
+    \url{https://github.com/torognes/vsearch}.
+    See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} 
+    for further information.
 }
 \seealso{
-code{\link{tirClust}}, code{\link{packAlign}}, code{\link{readBlast6Out}},
-code{\link{readUc}}
+code{\link{tirClust}}, code{\link{packAlign}}, 
+    code{\link{readBlast6Out}}, code{\link{readUc}}
 }
 \author{
 Jack Gisby

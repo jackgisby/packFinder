@@ -1,35 +1,39 @@
 #' @title
-#' Retrieve Saved packFinder Results (.fasta)
+#'     Retrieve Saved packFinder Results (.fasta)
 #'
 #' @description
-#' Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
-#' \code{\link{packSearch}} followed by \code{\link{packsToFasta}}.
-#' Parses the .fasta file and title field containing:
-#' \itemize{
-#'  \item seqnames - name of origin sequence
-#'  \item start - transposon base start position on origin sequence
-#'  \item end - transposon base end position on origin sequence
-#'  \item width - width of transposon
-#'  \item strand - direction of transposon ("+", "-" or "*")
-#'  \item TSD - terminal site duplication (TSD) sequence
-#' }
+#'     Retrieves a dataframe of potential Pack-TYPE 
+#'     elements, previously saved using 
+#'     \code{\link{packSearch}} followed by 
+#'     \code{\link{packsToFasta}}. Parses the .fasta 
+#'     file and title field containing:
+#'     \itemize{
+#'         \item seqnames - name of origin sequence
+#'         \item start - transposon base start position on origin sequence
+#'         \item end - transposon base end position on origin sequence
+#'         \item width - width of transposon
+#'         \item strand - direction of transposon ("+", "-" or "*")
+#'         \item TSD - terminal site duplication (TSD) sequence
+#'     }
 #'
 #' @param file
-#' Path to predicted transposons in FASTA format.
-#'
-#' @examples
-#' \dontrun{
-#' packMatches <- getPacksFromFasta("path/to/packMatches.fasta")
-#' }
+#'     Path to predicted transposons in FASTA format.
 #'
 #' @author
-#' Jack Gisby
+#'     Jack Gisby
 #'
 #' @return
-#' Dataframe in the format used by \code{\link{packSearch}}.
+#'     Dataframe in the format used by \code{\link{packSearch}}.
 #'
 #' @seealso
-#' \code{\link{packsToFasta}}
+#'     \code{\link{packsToFasta}}
+#' 
+#' @examples
+#'     data(arabidopsisThalianaRefseq)
+#'     data(packMatches)
+#' 
+#'     packsToFasta(packMatches, "packMatches.fa", arabidopsisThalianaRefseq)
+#'     packMatches <- getPacksFromFasta("packMatches.fa")
 #'
 #' @export
 
@@ -69,7 +73,8 @@ getPacksFromFasta <- function(file) {
         seqName <- gsub("TSD =", "", seqName)
         seqName <- gsub(" ", "", seqName)
         seqName <- strsplit(seqName, "|", fixed = TRUE)[[1]]
-        names(seqName) <- c("seqnames", "start", "end", "width", "strand", "TSD")
+        names(seqName) <- c("seqnames", "start", "end", 
+                            "width", "strand", "TSD")
         packMatches <- rbind(packMatches,
             seqName,
             stringsAsFactors = FALSE

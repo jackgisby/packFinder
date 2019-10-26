@@ -1,70 +1,79 @@
 #' @title
-#' Pack Element Filtering
+#'     Pack Element Filtering
 #'
 #' @description
-#' Primary filtering stage for the \code{packSearch} algorithm. Identifies
-#' potential Pack-TYPE transposable elements based on proximity of matching
-#' inverted repeats and equality of TSD sequences.
+#'     Primary filtering stage for the \code{packSearch} 
+#'     algorithm. Identifies potential Pack-TYPE 
+#'     transposable elements based on proximity of 
+#'     matching inverted repeats and equality of TSD sequences.
 #'
 #' @param forwardMatches
-#' A dataframe containing genomic ranges and names referring to forwards-facing
-#' TIR sequences and their respective TSD sequences.
+#'     A dataframe containing genomic ranges and 
+#'     names referring to forwards-facing TIR 
+#'     sequences and their respective TSD sequences.
 #'
 #' @param reverseMatches
-#' A dataframe containing genomic ranges and names referring to reverse-facing
-#' TIR sequences and their respective TSD sequences.
+#'     A dataframe containing genomic ranges and 
+#'     names referring to reverse-facing TIR 
+#'     sequences and their respective TSD sequences.
 #'
 #' @param Genome
-#' A DNAStringSet object containing the matches referred to in
-#' \code{forwardMatches} and \code{reverseMatches}
+#' A DNAStringSet object containing the matches 
+#' referred to in \code{forwardMatches} and 
+#' \code{reverseMatches}
 #'
 #' @param elementLength
-#' A vector of two integers containing the minimum and maximum transposable
-#' element length.
+#'     A vector of two integers containing the 
+#'     minimum and maximum transposable element length.
 #'
 #' @details
-#' Used by \code{\link{packSearch}} as a primariy filtering stage. Identifies
-#' matches likely to be transposons based on their TIR region, from
-#' \code{\link{identifyTirMatches}}, and their TSD region, from
-#' \code{\link{getTsds}}. It is recommended to use the general pipeline
-#' function \code{\link{packSearch}} for identification of potential pack
-#' elements, however each stage may be called individually. Note that only
-#' exact TSD matches are considered, so supplying long sequences for TSD
-#' elements may lead to false-negative results.
+#'     Used by \code{\link{packSearch}} as a 
+#'     primariy filtering stage. Identifies matches 
+#'     likely to be transposons based on their TIR 
+#'     region, from \code{\link{identifyTirMatches}}, 
+#'     and their TSD region, from \code{\link{getTsds}}. 
+#'     It is recommended to use the general pipeline 
+#'     function \code{\link{packSearch}} for 
+#'     identification of potential pack elements, 
+#'     however each stage may be called individually. 
+#'     Note that only exact TSD matches are considered, 
+#'     so supplying long sequences for TSD 
+#'     elements may lead to false-negative results.
 #'
 #' @return
-#' A dataframe, \code{packMatches}, containing the locations of potential
-#' Pack-TYPE transposable elements in \code{Genome}.
+#'     A dataframe, \code{packMatches}, containing 
+#'     the locations of potential Pack-TYPE 
+#'     transposable elements in \code{Genome}.
 #' 
 #' @examples 
-#' data(arabidopsisThalianaRefseq)
+#'     data(arabidopsisThalianaRefseq)
 #' 
-#' forwardMatches <- identifyTirMatches(
-#'     Biostrings::DNAString("CACTACAA"),
-#'     arabidopsisThalianaRefseq,
-#'     tsdLength = 3
-#' )
+#'     forwardMatches <- identifyTirMatches(
+#'         Biostrings::DNAString("CACTACAA"),
+#'         arabidopsisThalianaRefseq,
+#'         tsdLength = 3
+#'     )
 #' 
-#' reverseMatches <- identifyTirMatches(
-#'     Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
-#'     arabidopsisThalianaRefseq,
-#'     tsdLength = 3
-#' )
+#'     reverseMatches <- identifyTirMatches(
+#'         Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
+#'         arabidopsisThalianaRefseq,
+#'         tsdLength = 3
+#'     )
 #' 
-#' packMatches <- identifyPotentialPackElements(
-#'     forwardMatches, 
-#'     reverseMatches,
-#'     arabidopsisThalianaRefseq, 
-#'     c(300, 3500)
-#' )
+#'     packMatches <- identifyPotentialPackElements(
+#'         forwardMatches, 
+#'         reverseMatches,
+#'         arabidopsisThalianaRefseq, 
+#'         c(300, 3500)
+#'     )
 #' 
 #' @author
-#' Jack Gisby
+#'     Jack Gisby
 #' 
 #' @export
 
-identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
-                                            Genome, elementLength) {
+identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
+                                        Genome, elementLength) {
     packMatches <- data.frame(
         seqnames = character(), start = integer(),
         end = integer(), width = integer(), strand = factor()
