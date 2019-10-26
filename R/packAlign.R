@@ -80,7 +80,7 @@
 #' 
 #' @export
 
-packAlign <- function(packMatches, Genome, identity = 0, threads = 1,
+packAlign <- function(packMatches, Genome, identity = 0, threads = 1, 
                     identityDefinition = 2, maxWildcards = 0.05, saveFolder,
                     vSearchPath = "path/to/vsearch/vsearch.exe") {
     if (is.null(saveFolder)) {
