@@ -18,7 +18,8 @@ Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
 }
 \examples{
 \dontrun{
-packMatches <- getPacksFromCsv("path/to/packMatches.csv")}
+packMatches <- getPacksFromCsv("path/to/packMatches.csv")
+}
 
 }
 \seealso{

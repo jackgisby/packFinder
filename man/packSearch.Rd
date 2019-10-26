@@ -7,10 +7,11 @@
 packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength)
 }
 \arguments{
-\item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing the TIR sequence to
-be searched for.}
+\item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing 
+the TIR sequence to be searched for.}
 
-\item{Genome}{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to be searched.}
+\item{Genome}{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to 
+be searched.}
 
 \item{mismatch}{The maximum edit distance to be considered for TIR matches
 (indels + substitions). See \code{\link[Biostrings]{matchPattern}} for
@@ -31,7 +32,7 @@ the following features:
   \item seqnames - character string referring to the sequence name in
   \code{Genome} to which \code{start} and \code{end} refer to.
   \item width - the width of the predicted element.
-  \item strand - the strand direction of the transposable element. This will
+  \item strand - the strand direction of the transposable element. This will 
   be set to "*" as the \code{packSearch} function does not consider
   transposons to have a direction - only TIR sequences. Passing the
   \code{packMatches} dataframe to \code{\link{packClust}} will assign a
@@ -68,13 +69,24 @@ This algorithm does not consider:
   clustering elements using \code{\link{packClust}}, the user analyses each
   group to determine which predicted elements are autonomous and which are
   likely Pack-TYPE elements. Alternatively, databases such as Repbase
-  (\url{https://www.girinst.org/repbase/}) supply annotations for autonomous
+  (\url{https://www.girinst.org/repbase/}) supply annotations for autonomous 
   transposable elements that can be used to filter autonomous matches.
   \item TSD Mismatches - if two TIRs do not have exact matches for their
   terminal site duplications they will be ignored. Supplying longer TSD
   sequences will likely lead to a lower false-positive rate, however may
   also cause a greater rate of false-negative results.
 }
+}
+\examples{
+data(arabidopsisThalianaRefseq)
+
+packMatches <- packSearch(
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    elementLength = c(300, 3500),
+    tsdLength = 3
+)
+
 }
 \seealso{
 \code{\link{identifyTirMatches}}, \code{\link{getTsds}},

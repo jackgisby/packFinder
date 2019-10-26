@@ -14,7 +14,7 @@ getPacksFromGRanges(packGRanges, Genome = NULL, tsdLength = NULL)
 \item{tsdLength}{(optional) Length of TSD sequences.}
 }
 \value{
-Dataframe in the format used by \code{\link{packSearch}}. If
+Dataframe in the format used by \code{\link{packSearch}}. If 
 \code{Genome} and \code{tsdLength} are supplied, then TSD sequences are
 retrieved and returned as part of the dataframe.
 }
@@ -23,6 +23,13 @@ A GRanges object, potentially generated using \code{\link{packSearch}}
 and \code{\link{packsToGRanges}}, can be converted to a dataframe. If a
 GRanges object is supplied without TSD information, this can be calculated
 and appended to the final dataframe.
+}
+\examples{
+data(packMatches)
+
+GRangesObject <- packsToGRanges(packMatches)
+packMatches <- getPacksFromGRanges(GRangesObject)
+
 }
 \seealso{
 \code{\link{packsToGRanges}}

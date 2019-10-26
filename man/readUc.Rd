@@ -64,6 +64,14 @@ letter type is also given. The letter types are as follows:
 An example of this would be "13M", referring to 13 consecutive matches
 between the query and target sequence.
 }
+\examples{
+readUc(system.file(
+    "extdata", 
+    "packmatches.uc", 
+    package = "packFinder"
+))
+
+}
 \references{
 VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}.
 See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} for further

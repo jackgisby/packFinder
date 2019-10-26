@@ -27,7 +27,8 @@ Parses the .fasta file and title field containing:
 }
 \examples{
 \dontrun{
-packMatches <- getPacksFromFasta("path/to/packMatches.fasta")}
+packMatches <- getPacksFromFasta("path/to/packMatches.fasta")
+}
 
 }
 \seealso{

@@ -6,8 +6,7 @@
 \usage{
 packClust(packMatches, Genome, identity = 0.6, threads = 1,
   identityDefinition = 2, maxWildcards = 0.05, strand = "both",
-  saveFolder = NULL,
-  vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
+  saveFolder = NULL, vSearchPath = "path/to/vsearch/vsearch.exe")
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. Will be saved as a
@@ -47,6 +46,15 @@ with \code{\link{tirClust}}
 \note{
 In order to cluster sequences using VSEARCH, the executable file must first
 be installed.
+}
+\examples{
+\dontrun{
+data(arabidopsisThalianaRefseq)
+data(packMatches)
+
+packClust(packMatches, Genome, vSearchPath = "path/to/vsearch/vsearch.exe")
+}
+
 }
 \references{
 VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}.

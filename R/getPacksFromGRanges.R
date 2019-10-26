@@ -16,24 +16,31 @@
 #' @param tsdLength
 #' (optional) Length of TSD sequences.
 #'
-#' @author Jack Gisby
-#'
-#' @return Dataframe in the format used by \code{\link{packSearch}}. If
+#' @return 
+#' Dataframe in the format used by \code{\link{packSearch}}. If 
 #' \code{Genome} and \code{tsdLength} are supplied, then TSD sequences are
 #' retrieved and returned as part of the dataframe.
-#'
+#' 
+#' @examples
+#' data(packMatches)
+#' 
+#' GRangesObject <- packsToGRanges(packMatches)
+#' packMatches <- getPacksFromGRanges(GRangesObject)
+#' 
+#' @author Jack Gisby
+#' 
 #' @seealso
 #' \code{\link{packsToGRanges}}
 #'
 #' @export
 
 getPacksFromGRanges <- function(packGRanges, Genome = NULL, tsdLength = NULL) {
-  if (is.null(Genome) | is.null(tsdLength)) {
-    return(as.data.frame(packGRanges))
-  }
-  else if (!is.null(Genome) & !is.null(tsdLength)) {
-    packMatches <- as.data.frame(packGRanges)
-    packMatches$TSDs <- getTsds(packMatches, Genome, tsdLength)
-    return(packMatches)
-  }
+    if (is.null(Genome) | is.null(tsdLength)) {
+        return(as.data.frame(packGRanges))
+    }
+    else if (!is.null(Genome) & !is.null(tsdLength)) {
+        packMatches <- as.data.frame(packGRanges)
+        packMatches$TSDs <- getTsds(packMatches, Genome, tsdLength)
+        return(packMatches)
+    }
 }
