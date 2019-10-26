@@ -13,13 +13,16 @@ getPacksFromCsv(file)
 Dataframe in the format used by \code{\link{packSearch}}.
 }
 \description{
-Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
-\code{\link{packSearch}} followed by \code{\link{packsToCsv}}.
+Retrieves a dataframe of potential Pack-TYPE
+    elements, previously saved using 
+    \code{\link{packSearch}} followed by 
+    \code{\link{packsToCsv}}.
 }
 \examples{
-\dontrun{
-packMatches <- getPacksFromCsv("path/to/packMatches.csv")
-}
+    data(packMatches)
+
+    packsToCsv(packMatches, "packMatches.csv")
+    packMatches <- getPacksFromCsv("packMatches.csv")
 
 }
 \seealso{

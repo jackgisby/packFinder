@@ -7,49 +7,62 @@
 getPackSeqs(packMatches, Genome, output = "DNAStringSet")
 }
 \arguments{
-\item{packMatches}{A dataframe containing genomic ranges and names referring
-to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} 
-object, after conversion to a dataframe. Must contain the following features:
+\item{packMatches}{A dataframe containing genomic ranges and 
+names referring to sequences to be 
+extracted. Can be obtained from 
+\code{\link{packSearch}} or generated from 
+a \code{\link[GenomicRanges:GRanges-class]{GRanges}} 
+object, after conversion to a dataframe. 
+Must contain the following features:
 \itemize{
-  \item start - the predicted element's start base sequence position.
-  \item end - the predicted element's end base sequence position.
-  \item seqnames - character string referring to the sequence name in
-  \code{Genome} to which \code{start} and \code{end} refer to.
+    \item start - the predicted element's 
+        start base sequence position.
+    \item end - the predicted element's 
+        end base sequence position.
+    \item seqnames - character string 
+        referring to the sequence name in
+        \code{Genome} to which \code{start} 
+        and \code{end} refer to.
 }}
 
-\item{Genome}{A DNAStringSet object containing sequences referred to in \code{packMatches}
-(the object originally used to predict the transposons
+\item{Genome}{A DNAStringSet object containing sequences 
+referred to in \code{packMatches} (the object 
+originally used to predict the transposons
 \code{\link{packSearch}}).}
 
 \item{output}{The type of object to be returned:
 \itemize{
- \item output = "DNAStringSet", returns a
- \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object (default).
- \item output = "character", returns a \code{character} vector.
- }}
+    \item output = "DNAStringSet", returns a
+        \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+        object (default).
+    \item output = "character", returns a 
+        \code{character} vector.
+}}
 }
 \value{
-The transposon sequences extracted from \code{packMatches}. At default
-returns the sequences as a 
-\code{\link[Biostrings:XStringSet-class]{DNAStringSet}} or, if 
-\code{output} is set to "character", returns a character vector.
+The transposon sequences extracted from 
+    \code{packMatches}. At default returns the 
+    sequences as a 
+    \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+    or, if \code{output} is set to "character", 
+    returns a character vector.
 }
 \description{
-Method to quickly extract the sequences of predicted Pack-TYPE elements (as
-created by \code{\link{packSearch}}).
+Method to quickly extract the sequences of 
+    predicted Pack-TYPE elements (as created 
+    by \code{\link{packSearch}}).
 }
 \examples{
-data(arabidopsisThalianaRefseqSubset)
+    data(arabidopsisThalianaRefseq)
 
-packMatches <- packSearch(
-    Biostrings::DNAString("CACTACAA"),
-    arabidopsisThalianaRefseq,
-    elementLength = c(300, 3500),
-    tsdLength = 3
-)
+    packMatches <- packSearch(
+        Biostrings::DNAString("CACTACAA"),
+        arabidopsisThalianaRefseq,
+        elementLength = c(300, 3500),
+        tsdLength = 3
+    )
 
-packSeqs <- getPackSeqs(packMatches, arabidopsisThalianaRefseq)
+    packSeqs <- getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 
 }
 \author{

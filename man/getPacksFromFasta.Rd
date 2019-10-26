@@ -13,22 +13,26 @@ getPacksFromFasta(file)
 Dataframe in the format used by \code{\link{packSearch}}.
 }
 \description{
-Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
-\code{\link{packSearch}} followed by \code{\link{packsToFasta}}.
-Parses the .fasta file and title field containing:
-\itemize{
- \item seqnames - name of origin sequence
- \item start - transposon base start position on origin sequence
- \item end - transposon base end position on origin sequence
- \item width - width of transposon
- \item strand - direction of transposon ("+", "-" or "*")
- \item TSD - terminal site duplication (TSD) sequence
-}
+Retrieves a dataframe of potential Pack-TYPE 
+    elements, previously saved using 
+    \code{\link{packSearch}} followed by 
+    \code{\link{packsToFasta}}. Parses the .fasta 
+    file and title field containing:
+    \itemize{
+        \item seqnames - name of origin sequence
+        \item start - transposon base start position on origin sequence
+        \item end - transposon base end position on origin sequence
+        \item width - width of transposon
+        \item strand - direction of transposon ("+", "-" or "*")
+        \item TSD - terminal site duplication (TSD) sequence
+    }
 }
 \examples{
-\dontrun{
-packMatches <- getPacksFromFasta("path/to/packMatches.fasta")
-}
+    data(arabidopsisThalianaRefseq)
+    data(packMatches)
+
+    packsToFasta(packMatches, "packMatches.fa", arabidopsisThalianaRefseq)
+    packMatches <- getPacksFromFasta("packMatches.fa")
 
 }
 \seealso{

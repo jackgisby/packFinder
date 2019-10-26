@@ -1,36 +1,42 @@
 #' @title
-#' Retrieve packFinder Results from GRanges Object
+#'     Retrieve packFinder Results from GRanges Object
 #'
 #' @description
-#' A GRanges object, potentially generated using \code{\link{packSearch}}
-#' and \code{\link{packsToGRanges}}, can be converted to a dataframe. If a
-#' GRanges object is supplied without TSD information, this can be calculated
-#' and appended to the final dataframe.
+#'     A GRanges object, potentially generated using 
+#'     \code{\link{packSearch}} and 
+#'     \code{\link{packsToGRanges}}, can be 
+#'     converted to a dataframe. If a GRanges 
+#'     object is supplied without TSD information, 
+#'     this can be calculated and appended to the 
+#'     final dataframe.
 #'
 #' @param packGRanges
-#' GRanges object to be coerced.
+#'     GRanges object to be coerced.
 #'
 #' @param Genome
-#' (optional) Sequences referred to by \code{packGRanges}.
+#'     (optional) Sequences referred to by \code{packGRanges}.
 #'
 #' @param tsdLength
-#' (optional) Length of TSD sequences.
+#'     (optional) Length of TSD sequences.
 #'
 #' @return 
-#' Dataframe in the format used by \code{\link{packSearch}}. If 
-#' \code{Genome} and \code{tsdLength} are supplied, then TSD sequences are
-#' retrieved and returned as part of the dataframe.
+#'     Dataframe in the format used by 
+#'     \code{\link{packSearch}}. If \code{Genome} 
+#'     and \code{tsdLength} are supplied, then TSD 
+#'     sequences are retrieved and returned as 
+#'     part of the dataframe.
 #' 
 #' @examples
-#' data(packMatches)
+#'     data(packMatches)
 #' 
-#' GRangesObject <- packsToGRanges(packMatches)
-#' packMatches <- getPacksFromGRanges(GRangesObject)
+#'     GRangesObject <- packsToGRanges(packMatches)
+#'     packMatches <- getPacksFromGRanges(GRangesObject)
 #' 
-#' @author Jack Gisby
+#' @author 
+#'     Jack Gisby
 #' 
 #' @seealso
-#' \code{\link{packsToGRanges}}
+#'     \code{\link{packsToGRanges}}
 #'
 #' @export
 
