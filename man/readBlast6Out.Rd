@@ -36,6 +36,14 @@ The blast6out file is tab-separated text file compatible with NCBI BLAST m8
 and NCBI BLAST+ outfmt 6 formats. One cluster/alignment can be found for
 each line.
 }
+\examples{
+readBlast6Out(system.file(
+    "extdata", 
+    "packmatches.blast6out", 
+    package = "packFinder"
+))
+
+}
 \references{
 VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}.
 See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} for further

@@ -72,41 +72,49 @@
 #' See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} for further
 #' information.
 #'
+#' @examples 
+#' readUc(system.file(
+#'     "extdata", 
+#'     "packmatches.uc", 
+#'     package = "packFinder"
+#' ))
+#' 
 #' @export
 
 readUc <- function(file, output = "cluster") {
-  if (!is.null(file)) {
-    if (!(file.access(file, 4) == 0) |
-      !(file.access(file, 4) == 0) |
-      !(file.access(file, 2) == 0)) {
-      stop("file does not exist, or R does not have read/write permissions")
+    if (!is.null(file)) {
+        if (!(file.access(file, 4) == 0) |
+            !(file.access(file, 4) == 0) |
+            !(file.access(file, 2) == 0)) {
+            stop("file does not exist, or R does not have 
+                read/write permissions")
+        }
     }
-  }
 
-  if (output != "cluster" & output != "alignment") {
-    stop("Argument 'output' must be specified as 'cluster' or 'alignment'")
-  }
+    if (output != "cluster" & output != "alignment") {
+        stop("Argument 'output' must be specified as 'cluster' or 'alignment'")
+    }
 
-  packClusts <- utils::read.table(file, sep = "\t")
-  colnames(packClusts) <- c(
-    "type",
-    "cluster",
-    "width",
-    "identity",
-    "strand",
-    "6",
-    "7",
-    "cigarAlignment",
-    "query",
-    "target"
-  )
+    packClusts <- utils::read.table(file, sep = "\t")
+    colnames(packClusts) <- c(
+        "type",
+        "cluster",
+        "width",
+        "identity",
+        "strand",
+        "6",
+        "7",
+        "cigarAlignment",
+        "query",
+        "target"
+    )
 
-  cluster <- packClusts$cluster
-  strand <- packClusts$strand
+    cluster <- packClusts$cluster
+    strand <- packClusts$strand
 
-  if (output == "cluster") {
-    return(subset(packClusts, select = -c(6, 7)))
-  } else if (output == "alignment") {
-    return(subset(packClusts, select = -c(cluster, strand, 6, 7)))
-  }
+    if (output == "cluster") {
+        return(subset(packClusts, select = -c(6, 7)))
+    } else if (output == "alignment") {
+        return(subset(packClusts, select = -c(cluster, strand, 6, 7)))
+    }
 }

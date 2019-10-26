@@ -34,7 +34,7 @@
 #'
 #' @param vSearchPath
 #' The location of the VSEARCH executable file.
-#' 
+#'
 #' @param maxWildcards
 #' The maximal allowable proportion of wildcards in the sequence of each match (defaults
 #' to \code{0.05}).
@@ -59,94 +59,90 @@
 #' @seealso
 #' code{\link{tirClust}}, code{\link{packAlign}}, code{\link{readBlast6Out}},
 #' code{\link{readUc}}
+#' 
+#' @examples 
+#' \dontrun{
+#' data(arabidopsisThalianaRefseq)
+#' data(packMatches)
+#' 
+#' packClust(packMatches, Genome, vSearchPath = "path/to/vsearch/vsearch.exe")
+#' }
 #'
 #' @export
 
 
 
-packClust <- function(packMatches,
-                      Genome,
-                      identity = 0.6,
-                      threads = 1,
-                      identityDefinition = 2,
-                      maxWildcards = 0.05,
-                      strand = "both",
-                      saveFolder = NULL,
-                      vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
-  if (is.null(saveFolder)) {
-    saveFolder <- getwd()
-  } else {
-    saveFolder <- paste0(saveFolder, "/")
-  }
+packClust <- function(packMatches, Genome, identity = 0.6, threads = 1, 
+                      identityDefinition = 2, maxWildcards = 0.05, 
+                      strand = "both", saveFolder = NULL,
+                      vSearchPath = "path/to/vsearch/vsearch.exe") {
+    if (is.null(saveFolder)) {
+        saveFolder <- getwd()
+    } else {
+        saveFolder <- paste0(saveFolder, "/")
+    }
+    
+    if (parallel::detectCores() < threads) {
+        stop("There are not ", threads, " cores available")
+    }
+    
+    if (identity > 1 | identity < 0) {
+        stop("Identity must be of type integer or double, 
+            and have a value between 0 and 1")
+    }
+    
+    if (strand == "+") {
+        strand <- "plus"
+    } else if (strand == "*") {
+        strand <- "both"
+    } else if (strand != "both" & strand != "plus") {
+        message("Argument 'strand' must be specified as 'plus' or 'both'")
+    }
 
-  #check genome names match those in packMatches
-  if (parallel::detectCores() < threads) {
-    stop("There are not ", threads, " cores available")
-  }
-
-  if (identity > 1 | identity < 0) {
-    stop("Identity must be of type integer or double, and have a value between 0 and 1")
-  }
-
-  if (strand == "+") {
-    strand <- "plus"
-  } else if (strand == "*") {
-    strand <- "both"
-  } else if (strand != "both" & strand != "plus") {
-    message("Argument 'strand' must be specified as 'plus' or 'both'")
-  }
-
-  if (system2(vSearchPath, "--v") != 0) {
-    message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
+    if (system2(vSearchPath, "--v") != 0) {
+        message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
             the VSEARCH executable file is installed at the correct location
             and that the full file path is specified.")
-  }
-  
-  packMatches <- filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
-
-  packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
-  ID <- as.integer(rownames(packMatches))
-  packMatches$ID <- ID
-  packMatches <- packMatches[order(-packMatches$width), ]
-
-  packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
-  packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
-  Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
-
-  system2(
-    command = vSearchPath,
-    args = paste0(
-      "--cluster_smallmem ", packMatchesFile, " \ ",
-      "--id ", identity, " \ ",
-      "--strand ", strand, " \ ",
-      "--iddef ", identityDefinition, " \ ",
-      "--threads ", threads, " \ ",
-      "--qmask none \ ",
-      "--uc ", file.path(saveFolder, paste0("packMatches", ".uc")), " \ ",
-      "--log ", file.path(saveFolder, paste0("packMatches", ".log")), " \ ",
-      "--blast6out ", file.path(saveFolder, paste0("packMatches", ".blast6out")), " \ ",
-      "--clusterout_sort \ ",
-      "--clusterout_id \ ",
-      "--sizeout"
-    )
-  )
-
-  vSearchClusts <- readUc(file = file.path(saveFolder, paste0("packMatches", ".uc")))
-  vSearchClusts <- vSearchClusts[vSearchClusts$type != "C", ]
-
-  packMatches$strand <- mapply(function(strand) {
-    if (strand == "*") {
-      return("+")
-    } else {
-      return(strand)
     }
-  },
-  strand = as.character(vSearchClusts$strand)
-  )
 
-  packMatches$cluster <- vSearchClusts$cluster
-  rownames(packMatches) <- packMatches$ID
-  packMatches <- packMatches[order(packMatches$ID), ]
-  packMatches <- subset(packMatches, select = -c(ID))
-  return(packMatches)
+    packMatches <- filterWildcards(packMatches, Genome, 
+                                    maxWildcards = maxWildcards)
+
+    packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
+    ID <- as.integer(rownames(packMatches))
+    packMatches$ID <- ID
+    packMatches <- packMatches[order(-packMatches$width), ]
+
+    packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
+    packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
+    Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
+
+    system2(command = vSearchPath, args = paste0(
+        "--cluster_smallmem ", packMatchesFile, " \ ",
+        "--id ", identity, " \ ",
+        "--strand ", strand, " \ ",
+        "--iddef ", identityDefinition, " \ ",
+        "--threads ", threads, " \ ",
+        "--qmask none \ ",
+        "--log ", file.path(saveFolder, paste0("packMatches", ".log")), " \ ",
+        "--blast6out ", file.path(saveFolder, 
+                                    paste0("packMatches", ".blast6out")), 
+        " \ ", "--sizeout")
+    )
+
+    vSearchClusts <- readUc(file = file.path(saveFolder, 
+                                            paste0("packMatches", ".uc")))
+    vSearchClusts <- vSearchClusts[vSearchClusts$type != "C", ]
+
+    packMatches$strand <- mapply(function(strand) {
+            if (strand == "*") { return("+")
+            } else {return(strand)}
+        },
+        strand = as.character(vSearchClusts$strand)
+    )
+
+    packMatches$cluster <- vSearchClusts$cluster
+    rownames(packMatches) <- packMatches$ID
+    packMatches <- packMatches[order(packMatches$ID), ]
+    return(subset(packMatches, select = -c(ID)))
 }

@@ -39,6 +39,29 @@ elements, however each stage may be called individually. Note that only
 exact TSD matches are considered, so supplying long sequences for TSD
 elements may lead to false-negative results.
 }
+\examples{
+data(arabidopsisThalianaRefseq)
+
+forwardMatches <- identifyTirMatches(
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    tsdLength = 3
+)
+
+reverseMatches <- identifyTirMatches(
+    Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
+    arabidopsisThalianaRefseq,
+    tsdLength = 3
+)
+
+packMatches <- identifyPotentialPackElements(
+    forwardMatches, 
+    reverseMatches,
+    arabidopsisThalianaRefseq, 
+    c(300, 3500)
+)
+
+}
 \author{
 Jack Gisby
 }

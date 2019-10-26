@@ -5,11 +5,12 @@
 #' General use pipeline function for the Pack-TYPE transposon finding algorithm.
 #'
 #' @param tirSeq
-#' A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing the TIR sequence to
-#' be searched for.
+#' A \code{\link[Biostrings:DNAString-class]{DNAString}} object containing 
+#' the TIR sequence to be searched for.
 #'
 #' @param Genome
-#' A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to be searched.
+#' A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} object to 
+#' be searched.
 #'
 #' @param mismatch
 #' The maximum edit distance to be considered for TIR matches
@@ -55,7 +56,7 @@
 #'   \item seqnames - character string referring to the sequence name in
 #'   \code{Genome} to which \code{start} and \code{end} refer to.
 #'   \item width - the width of the predicted element.
-#'   \item strand - the strand direction of the transposable element. This will
+#'   \item strand - the strand direction of the transposable element. This will 
 #'   be set to "*" as the \code{packSearch} function does not consider
 #'   transposons to have a direction - only TIR sequences. Passing the
 #'   \code{packMatches} dataframe to \code{\link{packClust}} will assign a
@@ -70,7 +71,7 @@
 #'   clustering elements using \code{\link{packClust}}, the user analyses each
 #'   group to determine which predicted elements are autonomous and which are
 #'   likely Pack-TYPE elements. Alternatively, databases such as Repbase
-#'   (\url{https://www.girinst.org/repbase/}) supply annotations for autonomous
+#'   (\url{https://www.girinst.org/repbase/}) supply annotations for autonomous 
 #'   transposable elements that can be used to filter autonomous matches.
 #'   \item TSD Mismatches - if two TIRs do not have exact matches for their
 #'   terminal site duplications they will be ignored. Supplying longer TSD
@@ -81,99 +82,73 @@
 #' @seealso
 #' \code{\link{identifyTirMatches}}, \code{\link{getTsds}},
 #' \code{\link{identifyPotentialPackElements}}, \code{\link{packClust}}
+#' 
+#' @examples 
+#' data(arabidopsisThalianaRefseq)
 #'
+#' packMatches <- packSearch(
+#'     Biostrings::DNAString("CACTACAA"),
+#'     arabidopsisThalianaRefseq,
+#'     elementLength = c(300, 3500),
+#'     tsdLength = 3
+#' )
+#' 
 #' @export
 
-packSearch <- function(tirSeq,
-                       Genome,
-                       mismatch = 0,
-                       elementLength,
-                       tsdLength) {
-  if (!is.numeric(mismatch) | !is.numeric(tsdLength)) {
-    stop("Arguments 'mismatch' and 'tsdLength' must be integers")
-  }
-
-  if (!is.vector(elementLength) | length(elementLength) != 2) {
-    stop("Argument 'elementLength' must be a vector of minimum and maximum transposon lengths")
-  }
-
-  if (!is.numeric(elementLength[1]) | !is.numeric(elementLength[2])) {
-    stop("Vector 'elementLength' must contain integers")
-  }
-
-  if (class(tirSeq) != "DNAString") {
-    if (!is.character(tirSeq)) {
-      stop("Argument 'tirSeq' must be of type Biostrings::DNAString or character")
-    } else {
-      tirSeq <- Biostrings::DNAString(tirSeq)
+packSearch <- function(tirSeq, Genome, mismatch = 0, elementLength, tsdLength) {
+    if (!is.numeric(mismatch) | !is.numeric(tsdLength)) {
+        stop("Arguments 'mismatch' and 'tsdLength' must be integers")
     }
-  }
+    if (!is.vector(elementLength) | length(elementLength) != 2) {
+        stop("Argument 'elementLength' must be a vector of minimum 
+            and maximum transposon lengths")
+    }
+    if (!is.numeric(elementLength[1]) | !is.numeric(elementLength[2])) {
+        stop("Vector 'elementLength' must contain integers")
+    }
+    if (!methods::is(tirSeq, "DNAString")) {
+        if (!is.character(tirSeq)) {
+            stop("Argument 'tirSeq' must be of type 
+                Biostrings::DNAString or character")
+        } else {
+            tirSeq <- Biostrings::DNAString(tirSeq)
+        }
+    }
+    if (!methods::is(Genome, "DNAStringSet")) {
+        stop("Argument 'Genome' must be of type Biostrings::DNAStringSet.
+        You may convert files using Biostrings::readDNAStringSet
+        or convert objects using Biostrings::DNAStringSet")
+    }
 
-  if (class(Genome) != "DNAStringSet") {
-    stop("Argument 'Genome' must be of type Biostrings::DNAStringSet.
-         You may convert files using Biostrings::readDNAStringSet
-         or convert objects using Biostrings::DNAStringSet")
-  }
+    message("Getting forward matches")
+    forwardMatches <- identifyTirMatches(tirSeq = tirSeq, Genome = Genome,
+        mismatch = mismatch, strand = "+", tsdLength = tsdLength)
+    forwardMatches$TSD <- getTsds(tirMatches = forwardMatches, Genome = Genome,
+        tsdLength = tsdLength, strand = "+")
 
-  # perform initial search for TIR matches and get related TSD sequences
-  message("Getting forward matches")
-  forwardMatches <- identifyTirMatches(
-    tirSeq = tirSeq,
-    Genome = Genome,
-    mismatch = mismatch,
-    strand = "+",
-    tsdLength = tsdLength
-  )
+    message(length(forwardMatches[, 1]), " forward matches identified.")
+    message("Getting reverse matches")
+    reverseMatches <- identifyTirMatches(
+        tirSeq = Biostrings::reverseComplement(tirSeq), Genome = Genome, 
+        mismatch = mismatch, strand = "-", tsdLength = tsdLength
+    )
+    reverseMatches$TSD <- getTsds(tirMatches = reverseMatches, Genome = Genome,
+        tsdLength = tsdLength, strand = "-")
 
-  forwardMatches$TSD <- getTsds(
-    tirMatches = forwardMatches,
-    Genome = Genome,
-    tsdLength = tsdLength,
-    strand = "+"
-  )
+    message(length(reverseMatches[, 1]), " reverse matches identified.")
+    if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
+        message("No matches identified")
+        return(NULL)
+    }
 
-  message(length(forwardMatches[, 1]), " forward matches identified.")
-
-  message("Getting reverse matches")
-  reverseMatches <- identifyTirMatches(
-    tirSeq = Biostrings::reverseComplement(tirSeq),
-    Genome = Genome,
-    mismatch = mismatch,
-    strand = "-",
-    tsdLength = tsdLength
-  )
-
-  reverseMatches$TSD <- getTsds(
-    tirMatches = reverseMatches,
-    Genome = Genome,
-    tsdLength = tsdLength,
-    strand = "-"
-  )
-
-  message(length(reverseMatches[, 1]), " reverse matches identified.")
-
-  # case: no matches
-  if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
-    message("No matches identified")
-    return(NULL)
-  }
-
-  # determine potential transposable elements based on nearby elements and TSD sequences
-  message("Filtering matches based on TSD sequences")
-  packMatches <- identifyPotentialPackElements(
-    forwardMatches = forwardMatches,
-    reverseMatches = reverseMatches,
-    Genome = Genome,
-    elementLength = elementLength
-  )
-
-  packMatches$TSD <- getTsds(
-    tirMatches = packMatches,
-    Genome = Genome,
-    tsdLength = tsdLength,
-    strand = "+"
-  )
-
-  message("Initial filtering complete. ", length(packMatches[, 1]), " elements predicted.")
-  return(packMatches)
+    message("Filtering matches based on TSD sequences")
+    packMatches <- identifyPotentialPackElements(
+        forwardMatches = forwardMatches, reverseMatches = reverseMatches,
+        Genome = Genome, elementLength = elementLength
+    )
+    packMatches$TSD <- getTsds(tirMatches = packMatches, Genome = Genome,
+                                tsdLength = tsdLength, strand = "+")
+    
+    message("Initial filtering complete. ", length(packMatches[, 1]), " elements predicted.")
+    return(packMatches)
 }

@@ -62,66 +62,57 @@
 #'
 #' @export
 
-tirClust <- function(packMatches,
-                     Genome,
-                     tirLength = 25,
-                     plot = TRUE,
-                     plotSavePath = NULL,
-                     k = 5,
-                     output = "consensus") {
-  if (output != "consensus" & output != "dendrogram") {
-    stop("Argument 'output' must be specified as 'consensus' or 'dendrogram'")
-  }
-
-  fConsensusSeqs <- vector("list",
-    length = length(unique(packMatches$clustID))
-  )
-  rConsensusSeqs <- vector("list",
-    length = length(unique(packMatches$clustID))
-  )
-
-  for (c in 1:length(unique(packMatches$cluster))) {
-    clustID <- unique(packMatches$cluster)[c]
-    clust <- packMatches[packMatches$cluster == clustID, ]
-    forwardTirs <- vector("list", length = length(clust[, 1]))
-    reverseTirs <- vector("list", length = length(clust[, 1]))
-
-    for (i in 1:length(clust[, 1])) {
-      if (clust$strand[i] == "+") {
-        forwardTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
-        reverseTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
-      } else if (clust$strand[i] == "-") {
-        forwardTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
-        reverseTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
-      }
+tirClust <- function(packMatches, Genome, tirLength = 25, plot = TRUE,
+                     plotSavePath = NULL, k = 5, output = "consensus") {
+    if (output != "consensus" & output != "dendrogram") {
+        stop("Argument 'output' must be specified as 'consensus' or 'dendrogram'")
     }
 
-    fConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(forwardTirs)))
-    rConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(reverseTirs)))
-  }
+    fConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
+    rConsensusSeqs <- vector("list", length = length(unique(packMatches$clustID)))
 
-  fConsensusSeqs <- Biostrings::DNAStringSet(unlist(fConsensusSeqs))
-  rConsensusSeqs <- Biostrings::DNAStringSet(unlist(rConsensusSeqs))
-  fConsensusSeqs@ranges@NAMES <- paste0("f", as.character(unique(packMatches$cluster)))
-  rConsensusSeqs@ranges@NAMES <- paste0("r", as.character(unique(packMatches$cluster)))
-  consensusSeqs <- c(fConsensusSeqs, rConsensusSeqs)
+    for (c in seq_len(length(unique(packMatches$cluster)))) {
+        clustID <- unique(packMatches$cluster)[c]
+        clust <- packMatches[packMatches$cluster == clustID, ]
+        forwardTirs <- vector("list", length = length(clust[, 1]))
+        reverseTirs <- vector("list", length = length(clust[, 1]))
 
-  dend <- stats::as.dendrogram(stats::hclust(kmer::kdistance(ape::as.DNAbin(consensusSeqs), k = k)))
+        for (i in seq_len(length(clust[, 1]))) {
+            if (clust$strand[i] == "+") {
+                forwardTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
+                reverseTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
+            } else if (clust$strand[i] == "-") {
+                forwardTirs[[i]] <- Biostrings::reverseComplement(Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][(clust$end[i] - tirLength):clust$end[i]])
+                reverseTirs[[i]] <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]][clust$start[i]:(clust$start[i] + tirLength)]
+            }
+        }
+
+        fConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(forwardTirs)))
+        rConsensusSeqs[[c]] <- Biostrings::consensusString((Biostrings::DNAStringSet(reverseTirs)))
+    }
+
+    fConsensusSeqs <- Biostrings::DNAStringSet(unlist(fConsensusSeqs))
+    rConsensusSeqs <- Biostrings::DNAStringSet(unlist(rConsensusSeqs))
+    fConsensusSeqs@ranges@NAMES <- paste0("f", as.character(unique(packMatches$cluster)))
+    rConsensusSeqs@ranges@NAMES <- paste0("r", as.character(unique(packMatches$cluster)))
+    consensusSeqs <- c(fConsensusSeqs, rConsensusSeqs)
+
+    dend <- stats::as.dendrogram(stats::hclust(kmer::kdistance(ape::as.DNAbin(consensusSeqs), k = k)))
 
 
-  if (plot == TRUE) {
-    plot(dend, main = "Clustered Transposon TIR Relationships")
-  }
+    if (plot == TRUE) {
+        plot(dend, main = "Clustered Transposon TIR Relationships")
+    }
 
-  if (!is.null(plotSavePath)) {
-    grDevices::png(plotSavePath, width = 1500, height = 1000)
-    plot(dend, main = "Clustered Transposon TIR Relationships")
-    grDevices::dev.off()
-  }
+    if (!is.null(plotSavePath)) {
+        grDevices::png(plotSavePath, width = 1500, height = 1000)
+        plot(dend, main = "Clustered Transposon TIR Relationships")
+        grDevices::dev.off()
+    }
 
-  if (output == "dendrogram") {
-    return(dend)
-  } else {
-    return(consensusSeqs)
-  }
+    if (output == "dendrogram") {
+        return(dend)
+    } else {
+        return(consensusSeqs)
+    }
 }

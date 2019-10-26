@@ -35,6 +35,16 @@ Biostrings is used for pattern matching. It is recommended to use the
 general pipeline function \code{\link{packSearch}} for identification of
 potential pack elements, however each stage may be called individually.
 }
+\examples{
+data(arabidopsisThalianaRefseq)
+
+forwardMatches <- identifyTirMatches(
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    tsdLength = 3
+)
+
+}
 \author{
 Jack Gisby
 }

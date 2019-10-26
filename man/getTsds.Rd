@@ -43,6 +43,13 @@ pipeline function \code{\link{packSearch}} for identification of potential
 pack elements, which returns TSD sequences as a feature of results, however
 each stage may be called individually.
 }
+\examples{
+data(arabidopsisThalianaRefseq)
+data(packMatches)
+
+tsdSeqs <- getTsds(packMatches, arabidopsisThalianaRefseq, 3)
+
+}
 \author{
 Jack Gisby
 }

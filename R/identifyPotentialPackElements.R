@@ -22,9 +22,6 @@
 #' A vector of two integers containing the minimum and maximum transposable
 #' element length.
 #'
-#' @author
-#' Jack Gisby
-#'
 #' @details
 #' Used by \code{\link{packSearch}} as a primariy filtering stage. Identifies
 #' matches likely to be transposons based on their TIR region, from
@@ -38,55 +35,74 @@
 #' @return
 #' A dataframe, \code{packMatches}, containing the locations of potential
 #' Pack-TYPE transposable elements in \code{Genome}.
-#'
+#' 
+#' @examples 
+#' data(arabidopsisThalianaRefseq)
+#' 
+#' forwardMatches <- identifyTirMatches(
+#'     Biostrings::DNAString("CACTACAA"),
+#'     arabidopsisThalianaRefseq,
+#'     tsdLength = 3
+#' )
+#' 
+#' reverseMatches <- identifyTirMatches(
+#'     Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
+#'     arabidopsisThalianaRefseq,
+#'     tsdLength = 3
+#' )
+#' 
+#' packMatches <- identifyPotentialPackElements(
+#'     forwardMatches, 
+#'     reverseMatches,
+#'     arabidopsisThalianaRefseq, 
+#'     c(300, 3500)
+#' )
+#' 
+#' @author
+#' Jack Gisby
+#' 
 #' @export
 
+identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
+                                            Genome, elementLength) {
+    packMatches <- data.frame(
+        seqnames = character(), start = integer(),
+        end = integer(), width = integer(), strand = factor()
+    )
 
+    for (forwardMatch in seq_len(length(forwardMatches[, 1]))) {
+        forwardRepeat <- forwardMatches[forwardMatch, ]
+        chr <- as.character(forwardRepeat[[1]])
+        searchRange <- c(forwardRepeat$start + elementLength[1], 
+                        forwardRepeat$start + elementLength[2])
 
-identifyPotentialPackElements <- function(forwardMatches,
-                                          reverseMatches,
-                                          Genome,
-                                          elementLength) {
-  packMatches <- data.frame(
-    seqnames = character(),
-    start = integer(),
-    end = integer(),
-    width = integer(),
-    strand = factor()
-  )
+        if (searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
+            searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
+        }
 
-  # for each forward match
-  for (forwardMatch in 1:length(forwardMatches[, 1])) {
-    forwardRepeat <- forwardMatches[forwardMatch, ]
-    chr <- as.character(forwardRepeat[[1]])
-    searchRange <- c(forwardRepeat$start + elementLength[1], forwardRepeat$start + elementLength[2])
+        reverseRepeats <- reverseMatches[
+            reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
+            reverseMatches$end > searchRange[1] &
+            reverseMatches$end < searchRange[2] &
+            reverseMatches$strand == "-" &
+            reverseMatches$TSD == as.character(forwardRepeat$TSD),
+            ]
 
-    if (searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
-      searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
+        if (length(reverseRepeats[, 1]) > 0) {
+            for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
+                packMatches <- rbind(
+                    packMatches,
+                    data.frame(
+                        seqnames = forwardRepeat$seqnames,
+                        start = forwardRepeat$start,
+                        end = reverseRepeats[reverseMatch, ]$end,
+                        width = reverseRepeats[reverseMatch, ]$end 
+                                - forwardRepeat$start + 1,
+                        strand = "*"
+                    )
+                )
+            }
+        }
     }
-
-    # consider all reverse matches in range with matching TSD sequences
-    reverseRepeats <- reverseMatches[reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
-      reverseMatches$end > searchRange[1] &
-      reverseMatches$end < searchRange[2] &
-      reverseMatches$strand == "-" &
-      reverseMatches$TSD == as.character(forwardRepeat$TSD), ]
-
-    # append matches to packMatches
-    if (length(reverseRepeats[, 1]) > 0) {
-      for (reverseMatch in 1:length(reverseRepeats[, 1])) {
-        packMatches <- rbind(
-          packMatches,
-          data.frame(
-            seqnames = forwardRepeat$seqnames,
-            start = forwardRepeat$start,
-            end = reverseRepeats[reverseMatch, ]$end,
-            width = reverseRepeats[reverseMatch, ]$end - forwardRepeat$start + 1,
-            strand = "*"
-          )
-        )
-      }
-    }
-  }
-  return(packMatches)
+    return(packMatches)
 }

@@ -31,10 +31,10 @@
 #'
 #' @param vSearchPath
 #' The location of the VSEARCH executable file.
-#' 
+#'
 #' @param maxWildcards
-#' The maximal allowable proportion of wildcards in the sequence of each match (defaults
-#' to \code{0.05}).
+#' The maximal allowable proportion of wildcards in the sequence of each match 
+#' (defaults to \code{0.05}).
 #'
 #' @note
 #' In order to align sequences using VSEARCH, the executable file must first
@@ -56,63 +56,72 @@
 #' @seealso
 #' code{\link{tirClust}}, code{\link{packClust}}, code{\link{readBlast6Out}},
 #' code{\link{readUc}}
-#'
+#' 
+#' @examples 
+#' \dontrun{
+#' data(arabidopsisThalianaRefseq)
+#' data(packMatches)
+#' 
+#' packAlign(packMatches, Genome, vSearchPath = "path/to/vsearch/vsearch.exe")
+#' }
+#' 
 #' @export
 
-packAlign <- function(packMatches,
-                      Genome,
-                      identity = 0,
-                      threads = 1,
-                      identityDefinition = 2,
-                      maxWildcards = 0.05,
-                      saveFolder,
-                      vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe") {
-  if (is.null(saveFolder)) {
-    saveFolder <- getwd()
-  } else {
-    saveFolder <- paste0(saveFolder, "/")
-  }
+packAlign <- function(packMatches, Genome, identity = 0, threads = 1,
+                      identityDefinition = 2, maxWildcards = 0.05, saveFolder,
+                      vSearchPath = "path/to/vsearch/vsearch.exe") {
+    if (is.null(saveFolder)) {
+        saveFolder <- getwd()
+    } else {
+        saveFolder <- paste0(saveFolder, "/")
+    }
 
-  if (parallel::detectCores() < threads) {
-    stop("There are not ", threads, " cores available")
-  }
+    if (parallel::detectCores() < threads) {
+        stop("There are not ", threads, " cores available")
+    }
 
-  if (identity > 1 | identity < 0) {
-    stop("Identity must be of type integer or double, and have a value between 0 and 1")
-  }
+    if (identity > 1 | identity < 0) {
+        stop("Identity must be of type integer or double,
+            and have a value between 0 and 1")
+    }
 
-  if (!is.double(identityDefinition)) {
-    stop("Argument 'identityDefinition' must be an integer between 0 and 4.")
-  } else if (identityDefinition > 4 | identityDefinition < 0) {
-    stop("Argument 'identityDefinition' must be an integer between 0 and 4.")
-  }
+    if (!is.double(identityDefinition)) {
+        stop("Argument 'identityDefinition' must 
+            be an integer between 0 and 4.")
+    } else if (identityDefinition > 4 | identityDefinition < 0) {
+        stop("Argument 'identityDefinition' must 
+            be an integer between 0 and 4.")
+    }
 
-  if (system2(vSearchPath, "--v") != 0) {
-    message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
+    if (system2(vSearchPath, "--v") != 0) {
+        message("VSEARCH cannot be found at", vSearchPath, ". Please ensure that
             the VSEARCH executable file is installed at the correct location
             and that the full file path is specified.")
-  }
-  
-  packMatches <- filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
+    }
 
-  packMatchesFile <- paste0(saveFolder, "/packMatches.fasta")
-  packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
-  packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
-  Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
+    packMatches <- 
+        filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
 
-  system2(
-    command = vSearchPath,
-    args = paste0(
-      "--allpairs_global ", packMatchesFile, " \ ",
-      "--id ", identity, " \ ",
-      "--output_no_hits \ ",
-      "--iddef ", identityDefinition, " \ ",
-      "--threads ", threads, " \ ",
-      "--uc ", file.path(saveFolder, paste0("vSearchPairwiseAlignment", ".uc")), " \ ",
-      "--fastapairs ", file.path(saveFolder, paste0("alignmentPairs.fasta")), " \ ",
-      "--blast6out ", file.path(saveFolder, paste0("vSearchPairwiseAlignment", ".blast6out")), " \ "
+    packMatchesFile <- paste0(saveFolder, "/packMatches.fasta")
+    packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
+    packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
+    Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
+
+    system2(command = vSearchPath, args = paste0(
+        "--allpairs_global ", packMatchesFile, " \ ",
+        "--id ", identity, " \ ",
+        "--output_no_hits \ ",
+        "--iddef ", identityDefinition, " \ ",
+        "--threads ", threads, " \ ",
+        "--uc ", file.path(saveFolder, paste0("vSearchPairwiseAlignment", 
+                                                ".uc")), " \ ",
+        "--fastapairs ", file.path(saveFolder, paste0("alignmentPairs.fasta")), 
+        " \ ",
+        "--blast6out ", file.path(saveFolder, paste0("vSearchPairwiseAlignment",
+                                                        ".blast6out")), " \ ")
     )
-  )
 
-  return(readUc(file.path(saveFolder, paste0("vSearchPairwiseAlignment", ".uc")), output = "alignment"))
+    return(readUc(file.path(saveFolder,
+                            paste0("vSearchPairwiseAlignment", ".uc")), 
+                  output = "alignment"))
 }

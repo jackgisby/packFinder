@@ -6,7 +6,7 @@
 \usage{
 packAlign(packMatches, Genome, identity = 0, threads = 1,
   identityDefinition = 2, maxWildcards = 0.05, saveFolder,
-  vSearchPath = "path/to/vsearch/vsearch-2.14.1-win-x86_64/vsearch.exe")
+  vSearchPath = "path/to/vsearch/vsearch.exe")
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. Will be saved as a
@@ -24,8 +24,8 @@ required to be grouped into a cluster.}
 \item{identityDefinition}{The pairwise identity definition used by VSEARCH. Defaults to 2, the standard
 VSEARCH definition.}
 
-\item{maxWildcards}{The maximal allowable proportion of wildcards in the sequence of each match (defaults
-to \code{0.05}).}
+\item{maxWildcards}{The maximal allowable proportion of wildcards in the sequence of each match 
+(defaults to \code{0.05}).}
 
 \item{saveFolder}{The folder to save saveFolder files (uc, blast6out, FASTA)}
 
@@ -44,6 +44,15 @@ similar transposable elements, before generating alignments of each group.
 \note{
 In order to align sequences using VSEARCH, the executable file must first
 be installed.
+}
+\examples{
+\dontrun{
+data(arabidopsisThalianaRefseq)
+data(packMatches)
+
+packAlign(packMatches, Genome, vSearchPath = "path/to/vsearch/vsearch.exe")
+}
+
 }
 \references{
 VSEARCH may be downloaded from \url{https://github.com/torognes/vsearch}

@@ -12,8 +12,8 @@
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring
 #' to sequences to be extracted. Can be obtained from \code{\link{packSearch}}
-#' or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} object, after
-#' conversion to a dataframe. Must contain the following features:
+#' or generated from a \code{\link[GenomicRanges:GRanges-class]{GRanges}} 
+#' object, afterconversion to a dataframe. Must contain the following features:
 #' \itemize{
 #'   \item start - the predicted element's start base sequence position.
 #'   \item end - the predicted element's end base sequence position.
@@ -22,43 +22,48 @@
 #' }
 #'
 #' @param Genome
-#' A DNAStringSet object containing sequences referred to in \code{packMatches}
+#' A DNAStringSet object containing sequences referred to in \code{packMatches} 
 #' (the object originally used to predict the transposons
 #' \code{\link{packSearch}}).
 #'
-#' @examples \dontrun{
-#' data(arabidopsisThalianaRefseqSubset)
+
 #'
-#' packMatches <- packsToFasta(
-#'   packMatches,
-#'   "path/to/packMatches.csv",
-#'   arabidopsisThalianaRefseq)
-#' }
+#' @return
+#' Save location of Fasta file.
 #'
 #' @author
 #' Jack Gisby
 #'
-#' @seealso \code{\link{getPacksFromFasta}}
+#' @seealso 
+#' \code{\link{getPacksFromFasta}}
+#' 
+#' @examples
+#' data(arabidopsisThalianaRefseq)
+#' data(packMatches)
+#' 
+#' packsToFasta(packMatches, "packMatches.fa", arabidopsisThalianaRefseq)
 #'
 #' @export
 
 packsToFasta <- function(packMatches, file, Genome) {
-  file.create(file)
-  for (match in 1:length(packMatches[, 1])) {
-    write(c(
-      paste0(
-        ">", packMatches$seqnames[match],
-        " | start = ", packMatches$start[match],
-        " | end = ", packMatches$end[match],
-        " | width = ", packMatches$width[match],
-        " | strand = ", packMatches$strand[match],
-        " | TSD = ", packMatches$TSD[match]
-      ),
-      as.character(Genome[Genome@ranges@NAMES == packMatches$seqnames[match]][[1]][packMatches$start[match]:packMatches$end[match]])
-    ),
-    file = file,
-    append = TRUE
-    )
-  }
-  return(print(paste0("FASTA written to ", file)))
+    file.create(file)
+    for (match in 1:length(packMatches[, 1])) {
+        seq <- Genome[Genome@ranges@NAMES == packMatches$seqnames[match]][[1]]
+        seq <- seq[packMatches$start[match]:packMatches$end[match]]
+        write(c(
+            paste0(
+                ">", packMatches$seqnames[match],
+                " | start = ", packMatches$start[match],
+                " | end = ", packMatches$end[match],
+                " | width = ", packMatches$width[match],
+                " | strand = ", packMatches$strand[match],
+                " | TSD = ", packMatches$TSD[match]
+            ),
+            as.character(seq)
+        ),
+        file = file,
+        append = TRUE
+        )
+    }
+    return(print(paste0("FASTA written to ", file)))
 }

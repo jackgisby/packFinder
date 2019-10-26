@@ -22,24 +22,10 @@
 #' The dataset was generated as in the example below.
 #'
 #' @examples
-#' \dontrun{
+#' data(packMatches)
+#' print(packMatches)
+#' 
 #' data(arabidopsisThalianaRefseq)
-#'
-#' subSeq <- Biostrings::DNAString("CACTACAA")
-#'
-#' packMatches <- packSearch(subSeq,
-#'   arabidopsisThalianaRefseq,
-#'   mismatch = 0,
-#'   elementLength = c(300, 3500),
-#'   tsdLength = 3
-#' )
-#'
-#' packMatches <- packClust(packMatches,
-#'   arabidopsisThalianaRefseq,
-#'   saveFolder = "devData/",
-#'   vSearchPath = "D:/vsearch-2.14.1-win-x86_64/vsearch.exe",
-#'   identity = 0.5,
-#'   identityDefinition = 2)
-#'   }
+#' packSeqs <- getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 
 "packMatches"
