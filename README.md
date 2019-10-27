@@ -10,10 +10,12 @@ Users may download packFinder and use the primary function - packSearch - to loc
 In addition to CRAN package dependencies, that will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
 
 ```
-source("https://bioconductor.org/biocLite.R")
-biocLite()
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
 
-biocLite(c("Biostrings", "GenomicRanges"))
+BiocManager::install("Biostrings")
+BiocManager::install("GenomicRanges")
 ```
 
 Then, packFinder may be installed.
@@ -27,7 +29,7 @@ library("packFinder")
 ```
 
 ### Command Line Dependencies
-While the primary packFinder functions may now be used, VSEARCH must be installed for use of clustering and alignment functions. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems. Users may simply include the path to the VSEARCH executable file when calling packFinder clustering and alignment functions.
+While the primary packFinder functions may now be used, VSEARCH must be installed for use of clustering and alignment functions. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems. For Linux and MacOS systems, correct installation of VSEARCH should allow users to use all functions within packFinder whereas for windows users, the absolute path to the VSEARCH executable file must be specified when calling packFinder clustering and alignment functions.
 
 ## Using packFinder
 The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette. 

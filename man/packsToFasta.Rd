@@ -41,7 +41,11 @@ May be retrieved using \code{\link{getPacksFromFasta}}.
 data(arabidopsisThalianaRefseq)
 data(packMatches)
 
-packsToFasta(packMatches, "packMatches.fa", arabidopsisThalianaRefseq)
+packsToFasta(
+    packMatches, 
+    system.file("extdata", "packMatches.fasta", package = "packFinder"), 
+    arabidopsisThalianaRefseq
+)
 
 }
 \seealso{

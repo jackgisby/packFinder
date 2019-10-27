@@ -33,8 +33,9 @@ and title field containing:
 data(arabidopsisThalianaRefseq)
 data(packMatches)
 
-packsToFasta(packMatches, "packMatches.fa", arabidopsisThalianaRefseq)
-packMatches <- getPacksFromFasta("packMatches.fa")
+packMatches <- getPacksFromFasta(
+    system.file("extdata", "packMatches.fasta", package = "packFinder")
+)
 
 }
 \seealso{

@@ -36,7 +36,10 @@ retrieved using \code{\link{getPacksFromCsv}}.
 \examples{
 data(packMatches)
 
-packsToCsv(packMatches, "packMatches.csv")
+packsToCsv(
+    packMatches, 
+    system.file("extdata", "packMatches.csv", package = "packFinder")
+)
 
 }
 \seealso{

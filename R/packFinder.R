@@ -1,0 +1,71 @@
+#' @title 
+#' packFinder: a package for the de novo Annotation 
+#' of Pack-TYPE Transposable Elements
+#'
+#' @description
+#' Algorithm and tools for in silico pack-TYPE transposon 
+#' discovery. Filters a given genome for properties unique 
+#' to DNA transposons and provides tools for the 
+#' investigation of returned matches. 
+#' 
+#' @section Main Algorithm:
+#' The goal of packFinder was to implement a simple 
+#' tool for the prediction of potential Pack-TYPE 
+#' elements. packFinder uses the following prior 
+#' knowledge, provided by the user, to detect transposons:
+#' 
+#' \itemize{
+#'     \item Terminal Inverted Repeat (TIR) Base Sequence
+#'     \item Length of Terminal Site Duplication (TSD)
+#'     \item Length of the Transposon
+#' }
+#' 
+#' These features provide enough information to detect 
+#' autonomous and pack-TYPE elements. For a transposon 
+#' to be predicted by packFinder its TSD sequences 
+#' must be identical to each other, its forward TIR 
+#' sequence must match the base sequence provided and 
+#' its reverse TIR sequence must match its reverse complement.
+#' 
+#' Transposons are therefore predicted by searching a 
+#' given genome for these characteristics, and further 
+#' analysis steps can reveal the nature of these elements 
+#' - while the packFinder tool is sensitive for the 
+#' detection of transposons, it does not discriminate 
+#' between autonomous and Pack-TYPE elements. Autonomous 
+#' elements will contain a transposase gene within the 
+#' terminal inverted repeats and tend to be larger than 
+#' their Pack-TYPE counterparts; pack-TYPE elements 
+#' instead capture sections of host genomes. Following 
+#' cluster analysis, BLAST can be used to discern 
+#' which predicted elements are autonomous 
+#' (transposase-containing) and with are true 
+#' Pack-TYPE elements.
+#' 
+#' @section Workflow:
+#' An example of a standard workflow can be found using 
+#' \code{browseVignettes(package = "packFinder")}. The 
+#' primary functions include:
+#' 
+#' \itemize{
+#'     \item packSearch - the packSearch algorithm 
+#'     uses simple pattern matching to detect 
+#'     DNA transposons.
+#'     \item packClust - VSEARCH is used for 
+#'     clustering elements based on sequence 
+#'     similarity. 
+#' }
+#' 
+#' Having obtained the sequences of transposable
+#' elements in a given genome, it is recommende 
+#' to carry out a BLAST search for each transposon 
+#' cluster. This can identify which elements are 
+#' likely autonomous, and which may be  Pack-TYPE.
+#' 
+#' @name 
+#' packFinder
+#'
+#' @author 
+#' Jack Gisby
+
+NULL

@@ -5,8 +5,8 @@
 \title{Global Alignment with VSEARCH}
 \usage{
 packAlign(packMatches, Genome, identity = 0, threads = 1,
-  identityDefinition = 2, maxWildcards = 0.05, saveFolder,
-  vSearchPath = "path/to/vsearch/vsearch.exe")
+    identityDefinition = 2, maxWildcards = 0.05, saveFolder,
+    vSearchPath = "vsearch")
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. 
@@ -29,7 +29,10 @@ sequence of each match (defaults to \code{0.05}).}
 
 \item{saveFolder}{The folder to save saveFolder files (uc, blast6out, FASTA)}
 
-\item{vSearchPath}{The location of the VSEARCH executable file.}
+\item{vSearchPath}{When the package is run on windows systems, the 
+location of the VSEARCH executable file must be 
+given; this should be left as default on 
+Linux/MacOS systems.}
 }
 \value{
 Saves alignment information, including a \code{uc}, 
@@ -52,6 +55,12 @@ executable file must first be installed.
 data(arabidopsisThalianaRefseq)
 data(packMatches)
 
+# packAlign run on a Linux/MacOS system
+\dontrun{
+    packAlign(packMatches, Genome)
+}
+
+# packAlign run on a Windows system
 \dontrun{
     packAlign(packMatches, Genome, 
             vSearchPath = "path/to/vsearch/vsearch.exe")

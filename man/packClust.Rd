@@ -5,8 +5,8 @@
 \title{Cluster Transposons with VSEARCH}
 \usage{
 packClust(packMatches, Genome, identity = 0.6, threads = 1,
-  identityDefinition = 2, maxWildcards = 0.05, strand = "both",
-  saveFolder = NULL, vSearchPath = "path/to/vsearch/vsearch.exe")
+    identityDefinition = 2, maxWildcards = 0.05, strand = "both",
+    saveFolder = NULL, vSearchPath = "vsearch")
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. 
@@ -31,7 +31,10 @@ sequence of each match (defaults to \code{0.05}).}
 
 \item{saveFolder}{The folder to save output files (uc, blast6out, FASTA)}
 
-\item{vSearchPath}{The location of the VSEARCH executable file.}
+\item{vSearchPath}{When the package is run on windows systems, the 
+location of the VSEARCH executable file must be 
+given; this should be left as default on 
+Linux/MacOS systems.}
 }
 \value{
 Saves cluster information, including a \code{uc} and 
@@ -53,6 +56,12 @@ executable file must first be installed.
 data(arabidopsisThalianaRefseq)
 data(packMatches)
 
+# packClust run on a Linux/MacOS system
+\dontrun{
+    packClust(packMatches, Genome)
+}
+
+# packClust run on a Windows system
 \dontrun{
     packClust(packMatches, Genome, 
             vSearchPath = "path/to/vsearch/vsearch.exe")

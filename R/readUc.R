@@ -16,12 +16,12 @@
 #'     clustering was carried out.
 #'     \item If output is specified as "alignment", 
 #'     VSEARCH pairwise global alignment was carried out.
-#'  }
-#'  
-#'  Note that clustering produces one "H" record 
-#'  for each sequence, and one "C" record for 
-#'  each cluster, while an alignment produces an 
-#'  "H" record for each alignment (see details).
+#' }
+#' 
+#' Note that clustering produces one "H" record 
+#' for each sequence, and one "C" record for 
+#' each cluster, while an alignment produces an 
+#' "H" record for each alignment (see details).
 #'
 #' @return
 #' A dataframe containing the converted .uc file. The fields 

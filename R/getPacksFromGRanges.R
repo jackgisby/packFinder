@@ -2,7 +2,8 @@
 #' Retrieve packFinder Results from GRanges Object
 #'
 #' @description
-#' A \code{\link[GenomicRanges]{GRanges}} object, potentially 
+#' A \code{link[GenomicRanges:GRanges-class]{GRanges}}  
+#' object, potentially 
 #' generated using \code{\link{packSearch}} and 
 #' \code{\link{packsToGRanges}}, can be converted to a 
 #' dataframe. If a GRanges object is supplied without TSD 
@@ -10,7 +11,8 @@
 #' final dataframe.
 #'
 #' @param packGRanges
-#' \code{\link[GenomicRanges]{GRanges}} object to be coerced.
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}}
+#' object to be coerced.
 #'
 #' @param Genome
 #' (optional) Sequences referred to by \code{packGRanges}.
@@ -26,7 +28,7 @@
 #' 
 #' @seealso
 #' \code{\link{packsToGRanges}}, 
-#' \code{\link[GenomicRanges]{GRanges}}
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}} 
 #' 
 #' @author
 #' Jack Gisby
