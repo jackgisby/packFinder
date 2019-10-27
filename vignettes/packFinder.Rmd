@@ -3,13 +3,13 @@ title: "packFinder"
 author: "Jack Gisby"
 date: "`r Sys.Date()`" 
 output:
-  BiocStyle::html_document:
-    number_sections: yes
-    toc: true
+    BiocStyle::html_document:
+        number_sections: yes
+        toc: true
 vignette: >
-  %\VignetteIndexEntry{packFinder}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8} 
+    %\VignetteIndexEntry{packFinder}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8} 
 ---
 
 ```{r setup, include = FALSE}
@@ -89,7 +89,13 @@ within packSearch. Detailed installation instructions are available from
 the README file on the VSEARCH github (https://github.com/torognes/vsearch). 
 The command line can be used to install VSEARCH on Linux and MacOS operating 
 systems (using wget and tar) while VSEARCH can be downloaded and extracted for 
-use on Windows systems.
+use on Windows systems. 
+
+For Linux and MacOS systems, correct installation of VSEARCH should allow 
+users to use all functions within packFinder whereas for windows users, the 
+absolute path to the VSEARCH executable file must be specified when calling 
+packFinder clustering and alignment functions. This vignette will assume a 
+MacOS/Linux operating system - see ?packClust for examples using windows.
 
 # Searching for Potential Transposable Elements using packFinder
 
@@ -171,8 +177,7 @@ data(packMatches)
 packMatches <- packClust(
     packMatches,
     arabidopsisThalianaRefseq,
-    saveFolder = "tempOutput",
-    vSearchPath = "path/to/vsearch"
+    saveFolder = "tempOutput"
 )
 ```
 ```
@@ -284,8 +289,7 @@ was carried out.
 packMatches <- packAlign(
     packMatches,
     arabidopsisThalianaRefseq,
-    saveFolder = "tempOutput",
-    vSearchPath = "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+    saveFolder = "tempOutput"
 )
 ```
 ```
@@ -305,7 +309,6 @@ packMatches <- packAlign(
 ## Aligning 100%
 ## Matching query sequences: 5 of 6 (83.33%)
 ```
-
 
 As with VSEARCH clustering, a .uc and .blast6out file are created by the 
 alignment. The alignment function returns a summary of the .uc file, 

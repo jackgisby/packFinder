@@ -21,8 +21,9 @@
 #' @examples
 #' data(packMatches)
 #' 
-#' packsToCsv(packMatches, "packMatches.csv")
-#' packMatches <- getPacksFromCsv("packMatches.csv")
+#' packMatches <- getPacksFromCsv(
+#'     system.file("extdata", "packMatches.csv", package = "packFinder")
+#' )
 #' 
 #' @export
 

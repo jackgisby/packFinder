@@ -34,7 +34,10 @@
 #' The folder to save output files (uc, blast6out, FASTA)
 #'
 #' @param vSearchPath
-#' The location of the VSEARCH executable file.
+#' When the package is run on windows systems, the 
+#' location of the VSEARCH executable file must be 
+#' given; this should be left as default on 
+#' Linux/MacOS systems.
 #'
 #' @param maxWildcards
 #' The maximal allowable proportion of wildcards in the 
@@ -67,6 +70,12 @@
 #' data(arabidopsisThalianaRefseq)
 #' data(packMatches)
 #' 
+#' # packClust run on a Linux/MacOS system
+#' \dontrun{
+#'     packClust(packMatches, Genome)
+#' }
+#' 
+#' # packClust run on a Windows system
 #' \dontrun{
 #'     packClust(packMatches, Genome, 
 #'             vSearchPath = "path/to/vsearch/vsearch.exe")
@@ -79,7 +88,7 @@
 packClust <- function(packMatches, Genome, identity = 0.6, threads = 1, 
                         identityDefinition = 2, maxWildcards = 0.05, 
                         strand = "both", saveFolder = NULL,
-                        vSearchPath = "path/to/vsearch/vsearch.exe") {
+                        vSearchPath = "vsearch") {
     if (is.null(saveFolder)) {
         saveFolder <- getwd()
     }

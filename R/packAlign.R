@@ -32,7 +32,10 @@
 #' The folder to save saveFolder files (uc, blast6out, FASTA)
 #'
 #' @param vSearchPath
-#' The location of the VSEARCH executable file.
+#' When the package is run on windows systems, the 
+#' location of the VSEARCH executable file must be 
+#' given; this should be left as default on 
+#' Linux/MacOS systems.
 #'
 #' @param maxWildcards
 #' The maximal allowable proportion of wildcards in the 
@@ -66,6 +69,12 @@
 #' data(arabidopsisThalianaRefseq)
 #' data(packMatches)
 #' 
+#' # packAlign run on a Linux/MacOS system
+#' \dontrun{
+#'     packAlign(packMatches, Genome)
+#' }
+#' 
+#' # packAlign run on a Windows system
 #' \dontrun{
 #'     packAlign(packMatches, Genome, 
 #'             vSearchPath = "path/to/vsearch/vsearch.exe")
@@ -75,7 +84,7 @@
 
 packAlign <- function(packMatches, Genome, identity = 0, threads = 1, 
                     identityDefinition = 2, maxWildcards = 0.05, saveFolder,
-                    vSearchPath = "path/to/vsearch/vsearch.exe") {
+                    vSearchPath = "vsearch") {
     if (is.null(saveFolder)) {
         saveFolder <- getwd()
     } else {

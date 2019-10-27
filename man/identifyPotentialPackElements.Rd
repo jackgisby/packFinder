@@ -4,8 +4,8 @@
 \alias{identifyPotentialPackElements}
 \title{Pack Element Filtering}
 \usage{
-identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
-  elementLength)
+identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, 
+    elementLength)
 }
 \arguments{
 \item{forwardMatches}{A dataframe containing genomic ranges and names referring 
