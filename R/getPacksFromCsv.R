@@ -7,7 +7,7 @@
 #' by \code{\link{packsToCsv}}.
 #'
 #' @param file
-#' path to predicted transposons in CSV format.
+#' File path to predicted transposons in CSV format.
 #'
 #' @return
 #' Dataframe in the format used by \code{\link{packSearch}}.

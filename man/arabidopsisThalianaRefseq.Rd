@@ -3,8 +3,10 @@
 \docType{data}
 \name{arabidopsisThalianaRefseq}
 \alias{arabidopsisThalianaRefseq}
-\title{Arabidopsis thaliana Refseq Genome Chromosome 3}
-\format{A DNAStringSet object containing a DNAString for 
+\title{Arabidopsis thaliana Refseq Genome Chromosome 3 Subset}
+\format{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+object containing a 
+\code{\link[Biostrings:XString-class]{DNAString}} for 
 Arabidopsis thaliana's chromosome 3 sequence.}
 \source{
 The Arabidopsis thaliana genome was downloaded from the 
@@ -22,7 +24,7 @@ thaliana as a
 \code{\link[Biostrings:XStringSet-class]{DNAStringSet}}. 
 Can be used as a test data set, as in the associated 
 introduction vignette. The DNA sequence between bases 
-10,500,000 and 14,300,000 was extracted for use as a dataset.
+10,500,000 and 14,300,000 was extracted for use in this dataset.
 }
 \examples{
 data(arabidopsisThalianaRefseq)

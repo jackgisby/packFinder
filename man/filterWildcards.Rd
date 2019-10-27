@@ -25,7 +25,7 @@ of wildcards ("N") greater than that specified in
 \description{
 Takes transposable elements detected by 
 \code{\link{packSearch}} and removes those with large 
-numbers of wildcard bases. Used by 
+numbers of wildcard ("N") bases. Used by 
 \code{\link{packClust}} and \code{\link{packAlign}} to 
 remove poor quality sequences that may interfere with 
 the quality of sequence alignments.

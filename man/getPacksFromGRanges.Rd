@@ -7,7 +7,7 @@
 getPacksFromGRanges(packGRanges, Genome = NULL, tsdLength = NULL)
 }
 \arguments{
-\item{packGRanges}{GRanges object to be coerced.}
+\item{packGRanges}{\code{\link[GenomicRanges]{GRanges}} object to be coerced.}
 
 \item{Genome}{(optional) Sequences referred to by \code{packGRanges}.}
 
@@ -20,11 +20,12 @@ TSD sequences are retrieved and returned
 as part of the dataframe.
 }
 \description{
-A GRanges object, potentially generated using 
-\code{\link{packSearch}} and \code{\link{packsToGRanges}}, 
-can be converted to a dataframe. If a GRanges object is 
-supplied without TSD information, this can be calculated 
-and appended to the final dataframe.
+A \code{\link[GenomicRanges]{GRanges}} object, potentially 
+generated using \code{\link{packSearch}} and 
+\code{\link{packsToGRanges}}, can be converted to a 
+dataframe. If a GRanges object is supplied without TSD 
+information, this can be calculated and appended to the 
+final dataframe.
 }
 \examples{
 data(packMatches)
@@ -34,7 +35,8 @@ packMatches <- getPacksFromGRanges(GRangesObject)
 
 }
 \seealso{
-\code{\link{packsToGRanges}}
+\code{\link{packsToGRanges}}, 
+\code{\link[GenomicRanges]{GRanges}}
 }
 \author{
 Jack Gisby

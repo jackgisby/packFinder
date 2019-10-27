@@ -7,7 +7,7 @@
 getPacksFromCsv(file)
 }
 \arguments{
-\item{file}{path to predicted transposons in CSV format.}
+\item{file}{File path to predicted transposons in CSV format.}
 }
 \value{
 Dataframe in the format used by \code{\link{packSearch}}.

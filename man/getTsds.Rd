@@ -13,8 +13,8 @@ to TIR sequences or predicted Pack-TYPE transposable
 elements. Should be in the format used by 
 \code{\link{packSearch}}.}
 
-\item{Genome}{A DNAStringSet object containing sequences referred to in 
-\code{tirMatches}.}
+\item{Genome}{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+object containing sequences referred to in \code{tirMatches}.}
 
 \item{tsdLength}{The length of the TSD region to be retrieved (integer).}
 

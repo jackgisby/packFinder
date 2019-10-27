@@ -13,8 +13,8 @@
 #' \code{\link{packSearch}}.
 #'
 #' @param Genome
-#' A DNAStringSet object containing sequences referred to in 
-#' \code{tirMatches}.
+#' A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+#' object containing sequences referred to in \code{tirMatches}.
 #'
 #' @param tsdLength 
 #' The length of the TSD region to be retrieved (integer).
