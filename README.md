@@ -1,3 +1,8 @@
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.org/jackgisby/packFinder.svg?branch=master)](https://travis-ci.org/jackgisby/packFinder)
+<!-- badges: end -->
+
+
 # packFinder
 A package for the de novo discovery of pack-TYPE transposons. Transposons are detected in DNA sequences based on conserved terminal inverted repeat sequences and presence of terminal site duplications. packFinder allows users to search a given Genome for Pack-TYPE transposons with minimal input and setup.
 
