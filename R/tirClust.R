@@ -68,7 +68,8 @@
 #' clustering diagrams.
 #'
 #' @seealso
-#' code{\link{packClust}}, code{\link{packAlign}}
+#' code{\link{packClust}}, code{\link{packAlign}},
+#' \code{\link[kmer]{kdistance}}
 #'     
 #' @author
 #' Jack Gisby
