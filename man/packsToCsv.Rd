@@ -7,22 +7,20 @@
 packsToCsv(packMatches, file)
 }
 \arguments{
-\item{packMatches}{A dataframe containing genomic ranges and 
-    names referring to sequences to be extracted. 
-    Can be obtained from \code{\link{packSearch}} 
-    or generated from a 
-    \code{\link[GenomicRanges:GRanges-class]{GRanges}} 
-    object, after conversion to a dataframe. 
-    Must contain the following features:
-    \itemize{
-        \item start - the predicted element's 
-            start base sequence position.
-        \item end - the predicted element's end 
-            base sequence position.
-        \item seqnames - character string 
-            referring to the sequence name in
-        \code{Genome} to which \code{start} 
-            and \code{end} refer to.
+\item{packMatches}{A dataframe containing genomic ranges and names referring 
+to sequences to be extracted. Can be obtained from 
+\code{\link{packSearch}} or generated from a 
+\code{\link[GenomicRanges:GRanges-class]{GRanges}} object, 
+after conversion to a dataframe. Must contain the 
+following features:
+\itemize{
+    \item start - the predicted element's start base 
+    sequence position.
+    \item end - the predicted element's end base 
+    sequence position.
+    \item seqnames - character string referring to 
+    the sequence name in \code{Genome} to which 
+    \code{start} and \code{end} refer to.
 }}
 
 \item{file}{CSV file save path.}
@@ -31,14 +29,14 @@ packsToCsv(packMatches, file)
 Save location of csv file.
 }
 \description{
-Saves a dataframe of potential Pack-TYPE 
-    elements, usually generated via \code{\link{packSearch}}. 
-    May be retrieved using \code{\link{getPacksFromCsv}}.
+Saves a dataframe of potential Pack-TYPE elements, 
+usually generated via \code{\link{packSearch}}. May be 
+retrieved using \code{\link{getPacksFromCsv}}.
 }
 \examples{
-    data(packMatches)
+data(packMatches)
 
-    packsToCsv(packMatches, "packMatches.csv")
+packsToCsv(packMatches, "packMatches.csv")
 
 }
 \seealso{

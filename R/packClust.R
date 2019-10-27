@@ -1,82 +1,76 @@
 #' @title
-#'     Cluster Transposons with VSEARCH
+#' Cluster Transposons with VSEARCH
 #'
-#' @description
-#'     Cluster potential pack-TYPE elements by 
-#'     sequence similarity. Resulting groups may 
-#'     be aligned with \code{\link{packAlign}}, or 
-#'     the clusters may be analysed with 
-#'     \code{\link{tirClust}}
+#' @description 
+#' Cluster potential pack-TYPE elements by sequence 
+#' similarity. Resulting groups may be aligned with 
+#' \code{\link{packAlign}}, or the clusters may be 
+#' analysed with \code{\link{tirClust}}
 #'
 #' @param packMatches
-#'     A dataframe of potential Pack-TYPE transposable 
-#'     elements. Will be saved as a FASTA file for 
-#'     VSEARCH.
+#' A dataframe of potential Pack-TYPE transposable elements. 
+#' Will be saved as a FASTA file for VSEARCH.
 #'
 #' @param Genome
-#'     A DNAStringSet object containing sequences 
-#'     referred to in \code{packMatches} (the 
-#'     object originally used to predict the 
-#'     transposons \code{\link{packSearch}}).
+#' A DNAStringSet object containing sequences referred to 
+#' in \code{packMatches} (the object originally used to 
+#' predict the transposons \code{\link{packSearch}}).
 #'
 #' @param identity
-#'     The sequence identity of two transposable elements 
-#'     in \code{packMatches} required to be grouped 
-#'     into a cluster.
+#' The sequence identity of two transposable elements in 
+#' \code{packMatches} required to be grouped into a cluster.
 #'
 #' @param threads
-#'     The number of threads to be used by VSEARCH.
+#' The number of threads to be used by VSEARCH.
 #'
 #' @param identityDefinition
-#'     The pairwise identity definition used by VSEARCH. 
-#'     Defaults to 2, the standard VSEARCH definition.
+#' The pairwise identity definition used by VSEARCH. 
+#' Defaults to 2, the standard VSEARCH definition.
 #'
 #' @param strand
-#'     The strand direction (+, - or *) to be clustered.
+#' The strand direction (+, - or *) to be clustered.
 #'
 #' @param saveFolder
-#'     The folder to save output files (uc, blast6out, FASTA)
+#' The folder to save output files (uc, blast6out, FASTA)
 #'
 #' @param vSearchPath
-#'     The location of the VSEARCH executable file.
+#' The location of the VSEARCH executable file.
 #'
 #' @param maxWildcards
-#'     The maximal allowable proportion of wildcards 
-#'     in the sequence of each match 
-#'     (defaults to \code{0.05}).
-#'
+#' The maximal allowable proportion of wildcards in the 
+#' sequence of each match (defaults to \code{0.05}).
+#' 
+#' @return
+#' Saves cluster information, including a \code{uc} and 
+#' \code{blast6out} file, to the specified location. Returns 
+#' the given \code{packMatches} dataframe with an additional 
+#' column, \code{cluster}, containing cluster IDs.
+#' 
 #' @note
-#'     In order to cluster sequences using VSEARCH, 
-#'     the executable file must first be installed.
+#' In order to cluster sequences using VSEARCH, the 
+#' executable file must first be installed.
+#' 
+#' @seealso
+#' code{\link{tirClust}}, code{\link{packAlign}}, 
+#' code{\link{readBlast6Out}}, code{\link{readUc}}
 #'
 #' @author
-#'     Jack Gisby
-#'
-#' @return
-#'     Saves cluster information, including a 
-#'     \code{uc} and \code{blast6out} file, to the 
-#'     specified location. Returns the given \code{packMatches} 
-#'     dataframe with an additional column, 
-#'     \code{cluster}, containing cluster IDs.
+#' Jack Gisby
 #'
 #' @references
-#'     VSEARCH may be downloaded from 
-#'     \url{https://github.com/torognes/vsearch}.
-#'     See \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} 
-#'     for further information.
-#'
-#' @seealso
-#'     code{\link{tirClust}}, code{\link{packAlign}}, 
-#'     code{\link{readBlast6Out}}, code{\link{readUc}}
+#' VSEARCH may be downloaded from 
+#' \url{https://github.com/torognes/vsearch}. See 
+#' \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} 
+#' for further information.
 #' 
 #' @examples 
-#'     data(arabidopsisThalianaRefseq)
-#'     data(packMatches)
+#' data(arabidopsisThalianaRefseq)
+#' data(packMatches)
 #' 
-#'     \dontrun{
+#' \dontrun{
 #'     packClust(packMatches, Genome, 
 #'             vSearchPath = "path/to/vsearch/vsearch.exe")
-#'     }
+#' }
 #' 
 #' @export
 
@@ -116,7 +110,8 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
     )
 
     vSearchClusts <- readUc(file = file.path(saveFolder, 
-        paste0("packMatches", ".uc")))[vSearchClusts$type != "C", ]
+        paste0("packMatches", ".uc")))
+    vSearchClusts <- vSearchClusts[vSearchClusts$type != "C", ]
 
     packMatches$strand <- mapply(function(strand) {
             if (strand == "*") { return("+")

@@ -7,41 +7,38 @@
 filterWildcards(packMatches, Genome, maxWildcards = 0.05)
 }
 \arguments{
-\item{packMatches}{A dataframe containing genomic ranges and 
-names referring to sequences to be extracted.}
+\item{packMatches}{A dataframe containing genomic ranges 
+and names referring to sequences to be extracted.}
 
-\item{Genome}{The original set of sequences used to 
-generate the transposons detected by 
-\code{\link{packSearch}}.}
+\item{Genome}{The original set of sequences used to generate the 
+transposons detected by \code{\link{packSearch}}.}
 
-\item{maxWildcards}{The maximal allowable proportion of
-wildcards in the sequence of each match 
-(defaults to \code{0.05}).}
+\item{maxWildcards}{The maximal allowable proportion of wildcards in the 
+sequence of each match (defaults to \code{0.05}).}
 }
 \value{
-The original dataframe, \code{packMatches}, 
-    with sequences removed that are found to 
-    contain a proportion of wildcards ("N") 
-    greater than that specified in \code{maxWildcards}.
+The original dataframe, \code{packMatches}, with 
+sequences removed that are found to contain a proportion 
+of wildcards ("N") greater than that specified in 
+\code{maxWildcards}.
 }
 \description{
 Takes transposable elements detected by 
-    \code{\link{packSearch}} and removes those 
-    with large numbers of wildcard bases. 
-    Used by \code{\link{packClust}} and 
-    \code{\link{packAlign}} to remove poor 
-    quality sequences that may interfere with 
-    the quality of sequence alignments.
+\code{\link{packSearch}} and removes those with large 
+numbers of wildcard bases. Used by 
+\code{\link{packClust}} and \code{\link{packAlign}} to 
+remove poor quality sequences that may interfere with 
+the quality of sequence alignments.
 }
 \examples{
-    data(arabidopsisThalianaRefseq)
-    data(packMatches)
+data(arabidopsisThalianaRefseq)
+data(packMatches)
     
-    filteredMatches <- filterWildcards(
-        packMatches, 
-        arabidopsisThalianaRefseq, 
-        maxWildcards = 0.05
-    )
+filteredMatches <- filterWildcards(
+    packMatches, 
+    arabidopsisThalianaRefseq, 
+    maxWildcards = 0.05
+)
 
 }
 \author{
