@@ -6,14 +6,12 @@ Authors@R: person(given = "Jack", family = "Gisby", role = c("aut", "cre"), emai
 Description: Algorithm and tools for in silico pack-TYPE transposon discovery. Filters a given genome for properties unique to DNA transposons and provides tools for the investigation of returned matches. Sequences are input in DNAString format, and ranges are returned as a dataframe (in the format returned by as.dataframe(GRanges)).
 License: GPL-2
 Encoding: UTF-8
-Depends: 
-    R (>= 4.0.0)
 Imports: 
-    Biostrings (>= 2.53.2), 
-    GenomicRanges (>= 1.37.17),
-    kmer (>= 1.1.2),
-    ape (>= 5.3),
-    methods (>= 4.0.0)
+    Biostrings,
+    GenomicRanges,
+    kmer,
+    ape,
+    methods
 Suggests:
     biomartr,
     knitr,
