@@ -4,7 +4,8 @@
 \alias{getTsds}
 \title{Get Flanking Terminal Site Duplication Sequences}
 \usage{
-getTsds(tirMatches, Genome, tsdLength, strand = "+", output = "character")
+getTsds(tirMatches, Genome, tsdLength, strand = "+",
+    output = "character")
 }
 \arguments{
 \item{tirMatches}{A dataframe containing genomic ranges and names referring 
@@ -57,6 +58,10 @@ data(packMatches)
 
 tsdSeqs <- getTsds(packMatches, arabidopsisThalianaRefseq, 3)
 
+}
+\seealso{
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+\code{\link{packSearch}}, \code{tirMatches}
 }
 \author{
 Jack Gisby

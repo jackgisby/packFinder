@@ -28,16 +28,17 @@
 #' 
 #' @seealso
 #' \code{\link{packsToGRanges}}, 
-#' \code{link[GenomicRanges:GRanges-class]{GRanges}} 
-#' 
-#' @author
-#' Jack Gisby
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}},
+#' \code{\link{packSearch}} 
 #' 
 #' @examples
 #' data(packMatches)
 #' 
 #' GRangesObject <- packsToGRanges(packMatches)
 #' packMatches <- getPacksFromGRanges(GRangesObject)
+#' 
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

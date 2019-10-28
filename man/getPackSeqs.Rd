@@ -8,10 +8,11 @@ getPackSeqs(packMatches, Genome, output = "DNAStringSet")
 }
 \arguments{
 \item{packMatches}{A dataframe containing genomic ranges and names referring 
-to sequences to be extracted. Can be obtained from 
-\code{\link{packSearch}} or generated from a 
-\code{\link[GenomicRanges:GRanges-class]{GRanges}} 
-object, after conversion to a dataframe. 
+to sequences to be extracted. This dataframe is in the format 
+produced by coercing a 
+\code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}. 
+
 Must contain the following features:
 \itemize{
     \item start - the predicted element's start base 
@@ -59,6 +60,11 @@ packMatches <- packSearch(
 
 packSeqs <- getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 
+}
+\seealso{
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+\code{\link{packSearch}},
+\code{\link[Biostrings:XString-class]{DNAString}}
 }
 \author{
 Jack Gisby

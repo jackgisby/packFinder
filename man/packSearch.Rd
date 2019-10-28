@@ -23,7 +23,7 @@ of two integers. E.g. \code{c(300, 3500)}}
 \item{tsdLength}{Integer referring to the length of the flanking TSD region.}
 }
 \value{
-A dataframe, \code{packMatches}, containing elements 
+A dataframe, containing elements 
 identified by thealgorithm. These may be autonomous or 
 pack-TYPE elements. Will contain the following features:
 \itemize{
@@ -43,6 +43,12 @@ pack-TYPE elements. Will contain the following features:
     \code{\link{packClust}} will assign a direction to 
     each predicted Pack-TYPE element.
 }
+
+This dataframe is in the format produced by 
+coercing a \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}. Downstream 
+functions, such as \code{\link{packClust}}, use this 
+dataframe to manipulate predicted transposable elements.
 }
 \description{
 General use pipeline function for the Pack-TYPE transposon
@@ -89,6 +95,8 @@ This algorithm does not consider:
     likely lead to a lower false-positive rate, however 
     may also cause a greater rate of false-negative results.
 }
+
+Pattern matching is done via \code{\link[Biostrings]{matchPattern}}.
 }
 \examples{
 data(arabidopsisThalianaRefseq)
@@ -103,7 +111,11 @@ packMatches <- packSearch(
 }
 \seealso{
 \code{\link{identifyTirMatches}}, \code{\link{getTsds}},
-\code{\link{identifyPotentialPackElements}}, \code{\link{packClust}}
+\code{\link{identifyPotentialPackElements}}, \code{\link{packClust}},
+\code{\link{packMatches}}, 
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+\code{\link[Biostrings:DNAString-class]{DNAString}},
+\code{\link[Biostrings]{matchPattern}}
 }
 \author{
 Jack Gisby

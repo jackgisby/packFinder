@@ -48,7 +48,7 @@
 #' TSD elements may lead to false-negative results.
 #'
 #' @return
-#' A dataframe, \code{packMatches}, containing elements 
+#' A dataframe, containing elements 
 #' identified by thealgorithm. These may be autonomous or 
 #' pack-TYPE elements. Will contain the following features:
 #' \itemize{
@@ -68,6 +68,12 @@
 #'     \code{\link{packClust}} will assign a direction to 
 #'     each predicted Pack-TYPE element.
 #' }
+#' 
+#' This dataframe is in the format produced by 
+#' coercing a \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+#' object to a dataframe: \code{data.frame(GRanges)}. Downstream 
+#' functions, such as \code{\link{packClust}}, use this 
+#' dataframe to manipulate predicted transposable elements.
 #'
 #' @note
 #' This algorithm does not consider:
@@ -88,13 +94,17 @@
 #'     likely lead to a lower false-positive rate, however 
 #'     may also cause a greater rate of false-negative results.
 #' }
+#' 
+#' Pattern matching is done via \code{\link[Biostrings]{matchPattern}}.
 #'
 #' @seealso
 #' \code{\link{identifyTirMatches}}, \code{\link{getTsds}},
-#' \code{\link{identifyPotentialPackElements}}, \code{\link{packClust}}
+#' \code{\link{identifyPotentialPackElements}}, \code{\link{packClust}},
+#' \code{\link{packMatches}}, 
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+#' \code{\link[Biostrings:DNAString-class]{DNAString}},
+#' \code{\link[Biostrings]{matchPattern}}
 #' 
-#' @author
-#' Jack Gisby
 #' 
 #' @examples 
 #' data(arabidopsisThalianaRefseq)
@@ -105,6 +115,9 @@
 #'     elementLength = c(300, 3500),
 #'     tsdLength = 3
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

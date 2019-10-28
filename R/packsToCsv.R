@@ -30,10 +30,8 @@
 #' Save location of csv file.
 #'
 #' @seealso 
-#' \code{\link{getPacksFromCsv}}
-#' 
-#' @author
-#' Jack Gisby
+#' \code{\link{getPacksFromCsv}}, \code{\link[utils]{write.table}},
+#' \code{\link{packSearch}}
 #' 
 #' @examples
 #' data(packMatches)
@@ -42,6 +40,9 @@
 #'     packMatches, 
 #'     system.file("extdata", "packMatches.csv", package = "packFinder")
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

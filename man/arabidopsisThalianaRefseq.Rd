@@ -35,6 +35,13 @@ packMatches <- packSearch(
     elementLength = c(300, 3500),
     tsdLength = 3
 )
+
+}
+\seealso{
+\code{\link[biomartr]{getGenome}},
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+\code{\link[Biostrings:XString-class]{DNAString}},
+\code{\link{packSearch}}
 }
 \author{
 Jack Gisby

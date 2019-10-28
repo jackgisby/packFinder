@@ -40,9 +40,9 @@
 #' @return
 #' A dataframe, \code{packMatches}, containing the locations 
 #' of potential Pack-TYPE transposable elements in \code{Genome}.
-#'     
-#' @author
-#' Jack Gisby
+#' 
+#' @seealso 
+#' \code{packSearch}
 #' 
 #' @examples 
 #' data(arabidopsisThalianaRefseq)
@@ -65,6 +65,9 @@
 #'     arabidopsisThalianaRefseq, 
 #'     c(300, 3500)
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

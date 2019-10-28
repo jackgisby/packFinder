@@ -41,6 +41,12 @@ filteredMatches <- filterWildcards(
 )
 
 }
+\seealso{
+\code{\link{packClust}}, \code{\link{packAlign}}, \code{packMatches},
+data(arabidopsisThalianaRefseq)
+}
 \author{
+Jack Gisby
+
 Jack Gisby
 }

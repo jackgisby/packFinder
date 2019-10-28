@@ -9,7 +9,11 @@ packClust(packMatches, Genome, identity = 0.6, threads = 1,
     saveFolder = NULL, vSearchPath = "vsearch")
 }
 \arguments{
-\item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. 
+\item{packMatches}{A dataframe of potential Pack-TYPE transposable elements, 
+in the format given by \code{\link{packSearch}}. This 
+dataframe is in the format produced by coercing a 
+\code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}. 
 Will be saved as a FASTA file for VSEARCH.}
 
 \item{Genome}{A DNAStringSet object containing sequences referred to 
@@ -75,8 +79,9 @@ VSEARCH may be downloaded from
 for further information.
 }
 \seealso{
-code{\link{tirClust}}, code{\link{packAlign}}, 
-code{\link{readBlast6Out}}, code{\link{readUc}}
+\code{\link{tirClust}}, \code{\link{packAlign}}, 
+\code{\link{readBlast6Out}}, \code{\link{readUc}},
+\code{\link{filterWildcards}}, \code{\link{packSearch}}
 }
 \author{
 Jack Gisby

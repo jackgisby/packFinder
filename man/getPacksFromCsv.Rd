@@ -26,7 +26,8 @@ packMatches <- getPacksFromCsv(
 
 }
 \seealso{
-\code{\link{packsToCsv}}
+\code{\link{packsToCsv}}, \code{\link[utils]{read.table}}, 
+\code{\link{packSearch}}
 }
 \author{
 Jack Gisby

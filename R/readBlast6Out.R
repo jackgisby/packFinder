@@ -42,8 +42,6 @@
 #' \url{https://www.ncbi.nlm.nih.gov/pubmed/27781170} 
 #' for further information.
 #' 
-#' @author
-#' Jack Gisby
 #'
 #' @examples 
 #' readBlast6Out(system.file(
@@ -51,6 +49,9 @@
 #'     "packmatches.blast6out", 
 #'     package = "packFinder"
 #' ))
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

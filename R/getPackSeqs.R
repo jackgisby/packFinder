@@ -7,10 +7,11 @@
 #'
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring 
-#' to sequences to be extracted. Can be obtained from 
-#' \code{\link{packSearch}} or generated from a 
-#' \code{\link[GenomicRanges:GRanges-class]{GRanges}} 
-#' object, after conversion to a dataframe. 
+#' to sequences to be extracted. This dataframe is in the format 
+#' produced by coercing a 
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+#' object to a dataframe: \code{data.frame(GRanges)}. 
+#' 
 #' Must contain the following features:
 #' \itemize{
 #'     \item start - the predicted element's start base 
@@ -44,8 +45,10 @@
 #' or, if \code{output} is set to "character", returns a 
 #' character vector. 
 #'     
-#' @author
-#' Jack Gisby
+#' @seealso 
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+#' \code{\link{packSearch}},
+#' \code{\link[Biostrings:XString-class]{DNAString}}
 #' 
 #' @examples
 #' data(arabidopsisThalianaRefseq)
@@ -58,6 +61,9 @@
 #' )
 #'
 #' packSeqs <- getPackSeqs(packMatches, arabidopsisThalianaRefseq)
+#'
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

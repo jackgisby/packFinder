@@ -39,7 +39,7 @@ packMatches <- getPacksFromFasta(
 
 }
 \seealso{
-\code{\link{packsToFasta}}
+\code{\link{packsToFasta}}, \code{\link{packSearch}}
 }
 \author{
 Jack Gisby

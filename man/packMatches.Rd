@@ -10,7 +10,9 @@ data(packMatches)
 }
 \description{
 A sample output from \code{\link{packSearch}} with 
-cluster information.
+cluster information. This dataframe is in the format produced by 
+coercing a \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}.
 }
 \details{
 Was obtained from running \code{\link{packSearch}} 
@@ -30,7 +32,18 @@ sequence, followed by clustering using
 The dataset was generated as in the example below.
 }
 \examples{
-data(packMatches)
-print(packMatches)
+data(arabidopsisThalianaRefseq)
+
+packMatches <- packSearch(
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    elementLength = c(300, 3500),
+    tsdLength = 3
+)
+
+}
+\seealso{
+\code{\link{packSearch}}, \code{\link{data.frame}}, 
+\code{\link{arabidopsisThalianaRefseq}}
 }
 \keyword{datasets}
