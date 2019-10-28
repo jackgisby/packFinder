@@ -9,7 +9,11 @@ packAlign(packMatches, Genome, identity = 0, threads = 1,
     vSearchPath = "vsearch")
 }
 \arguments{
-\item{packMatches}{A dataframe of potential Pack-TYPE transposable elements. 
+\item{packMatches}{A dataframe of potential Pack-TYPE transposable elements, 
+in the format given by \code{\link{packSearch}}. This 
+dataframe is in the format produced by coercing a 
+\code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}. 
 Will be saved as a FASTA file for VSEARCH.}
 
 \item{Genome}{A DNAStringSet object containing sequences referred to in 
@@ -75,8 +79,9 @@ manual documenting the program's parameters. See
 further information.
 }
 \seealso{
-code{\link{tirClust}}, code{\link{packClust}}, 
-code{\link{readBlast6Out}}, code{\link{readUc}}
+\code{\link{tirClust}}, \code{\link{packClust}}, 
+\code{\link{readBlast6Out}}, \code{\link{readUc}},
+\code{\link{filterWildcards}}, \code{\link{packSearch}}
 }
 \author{
 Jack Gisby

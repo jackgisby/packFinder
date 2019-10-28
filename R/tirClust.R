@@ -10,16 +10,17 @@
 #'
 #' @param packMatches
 #' A dataframe containing genomic ranges and names referring 
-#' to sequences to be extracted. Can be obtained from 
-#' \code{\link{packSearch}} or generated from a 
-#' \code{\link[GenomicRanges:GRanges-class]{GRanges}} object, 
-#' after conversion to a dataframe. Must contain the 
-#' following features:
+#' to sequences to be extracted. This dataframe is in the format 
+#' produced by coercing a 
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+#' object to a dataframe: \code{data.frame(GRanges)}. 
+#' 
+#' Must contain the following features:
 #' \itemize{
 #'     \item start - the predicted element's start base 
 #'     sequence position.
-#'     \item end - the predicted element's end base sequence 
-#'     position.
+#'     \item end - the predicted element's end base 
+#'     sequence position.
 #'     \item seqnames - character string referring to the 
 #'     sequence name in \code{Genome} to which \code{start} 
 #'     and \code{end} refer to.
@@ -69,7 +70,9 @@
 #'
 #' @seealso
 #' code{\link{packClust}}, code{\link{packAlign}},
-#' \code{\link[kmer]{kdistance}}
+#' \code{\link[kmer]{kdistance}},
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+#' \code{\link[ape]{as.alignment}}, \code{\link{packSearch}}
 #'     
 #' @author
 #' Jack Gisby

@@ -8,7 +8,11 @@
 #' analysed with \code{\link{tirClust}}
 #'
 #' @param packMatches
-#' A dataframe of potential Pack-TYPE transposable elements. 
+#' A dataframe of potential Pack-TYPE transposable elements, 
+#' in the format given by \code{\link{packSearch}}. This 
+#' dataframe is in the format produced by coercing a 
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+#' object to a dataframe: \code{data.frame(GRanges)}. 
 #' Will be saved as a FASTA file for VSEARCH.
 #'
 #' @param Genome
@@ -54,11 +58,9 @@
 #' executable file must first be installed.
 #' 
 #' @seealso
-#' code{\link{tirClust}}, code{\link{packAlign}}, 
-#' code{\link{readBlast6Out}}, code{\link{readUc}}
-#'
-#' @author
-#' Jack Gisby
+#' \code{\link{tirClust}}, \code{\link{packAlign}}, 
+#' \code{\link{readBlast6Out}}, \code{\link{readUc}},
+#' \code{\link{filterWildcards}}, \code{\link{packSearch}}
 #'
 #' @references
 #' VSEARCH may be downloaded from 
@@ -80,6 +82,9 @@
 #'     packClust(packMatches, Genome, 
 #'             vSearchPath = "path/to/vsearch/vsearch.exe")
 #' }
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

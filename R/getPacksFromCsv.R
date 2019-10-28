@@ -13,10 +13,8 @@
 #' Dataframe in the format used by \code{\link{packSearch}}.
 #'
 #' @seealso 
-#' \code{\link{packsToCsv}}
-#' 
-#' @author
-#' Jack Gisby
+#' \code{\link{packsToCsv}}, \code{\link[utils]{read.table}}, 
+#' \code{\link{packSearch}}
 #'
 #' @examples
 #' data(packMatches)
@@ -24,6 +22,9 @@
 #' packMatches <- getPacksFromCsv(
 #'     system.file("extdata", "packMatches.csv", package = "packFinder")
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

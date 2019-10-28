@@ -35,10 +35,7 @@
 #' Save location of Fasta file.
 #'
 #' @seealso 
-#' \code{\link{getPacksFromFasta}}
-#' 
-#' @author
-#' Jack Gisby
+#' \code{\link{getPacksFromFasta}}, \code{\link{packSearch}}
 #' 
 #' @examples
 #' data(arabidopsisThalianaRefseq)
@@ -49,6 +46,9 @@
 #'     system.file("extdata", "packMatches.fasta", package = "packFinder"), 
 #'     arabidopsisThalianaRefseq
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

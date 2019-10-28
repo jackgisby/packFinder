@@ -18,15 +18,18 @@
 #' @usage
 #' data(arabidopsisThalianaRefseq)
 #' 
-#' @author 
-#' Jack Gisby
-#' 
 #' @source
 #' The Arabidopsis thaliana genome was downloaded from the 
 #' NCBI refseq database on 20/SEP/2019, using 
 #' \code{\link[biomartr]{getGenome}}, and chromosome 3 was 
 #' extracted. The genome may also be accessed from the NCBI 
 #' ftp server: \url{ftp://ftp.ncbi.nlm.nih.gov/genomes}.
+#' 
+#' @seealso 
+#' \code{\link[biomartr]{getGenome}},
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+#' \code{\link[Biostrings:XString-class]{DNAString}},
+#' \code{\link{packSearch}}
 #'
 #' @examples
 #' data(arabidopsisThalianaRefseq)
@@ -37,5 +40,8 @@
 #'     elementLength = c(300, 3500),
 #'     tsdLength = 3
 #' )
+#' 
+#' @author 
+#' Jack Gisby
 
 "arabidopsisThalianaRefseq"

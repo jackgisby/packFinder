@@ -40,6 +40,13 @@
 #'     maxWildcards = 0.05
 #' )
 #' 
+#' @seealso 
+#' \code{\link{packClust}}, \code{\link{packAlign}}, \code{packMatches},
+#' data(arabidopsisThalianaRefseq)
+#' 
+#' @author 
+#' Jack Gisby
+#' 
 #' @export
 
 filterWildcards <- function(packMatches, Genome, maxWildcards = 0.05) {

@@ -49,7 +49,7 @@ packsToFasta(
 
 }
 \seealso{
-\code{\link{getPacksFromFasta}}
+\code{\link{getPacksFromFasta}}, \code{\link{packSearch}}
 }
 \author{
 Jack Gisby

@@ -42,7 +42,9 @@ Transposons are therefore predicted by searching a given genome for these
 characteristics, and further analysis steps can reveal the nature of these 
 elements - while the packFinder tool is sensitive for the detection of 
 transposons, it does not discriminate between autonomous and Pack-TYPE 
-elements. Autonomous elements will contain a transposase gene within the 
+elements. 
+
+Autonomous elements will contain a transposase gene within the 
 terminal inverted repeats and tend to be larger than their Pack-TYPE 
 counterparts; pack-TYPE elements instead capture sections of host genomes. 
 Following cluster analysis, BLAST can be used to discern which predicted 
@@ -53,32 +55,20 @@ Pack-TYPE elements.
 
 Users may download packFinder and use the primary function - packSearch - 
 to locate potential transposons in a given set of DNA sequences. In addition 
-to R packages, the command line tool "VSEARCH" must be installed prior to use 
+to R packages, the command line tool `VSEARCH` must be installed prior to use 
 of clustering and alignment functions.
 
 ## R Package Dependencies
 
-While CRAN packages will be installed automatically upon downloading 
-packFinder, some dependencies must be downloaded from Bioconductor. 
-
-```{r biocDependencies, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-
-BiocManager::install("Biostrings")
-BiocManager::install("GenomicRanges")
-```
-
-Then, packFinder may be installed from github (using the package 
-"devtools", available from CRAN).
+CRAN and Bioconductor packages will be automatically installed 
+when downloading `packFinder`. The package may be installed 
+from github by running the following chunk:
 
 ```{r packFinderInstall, eval=FALSE}
-# devtools must be installed to download packFinder from github
-# install.packages("devtools")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 
-devtools::install_github("jackgisby/packFinder")
-library("packFinder")
+BiocManager::install("packFinder")
 ```
 
 ## Command Line Dependencies
@@ -86,7 +76,7 @@ library("packFinder")
 While this allows R to run the packSearch pipeline within packFinder, 
 VSEARCH must be installed for use of clustering and alignment functions 
 within packSearch. Detailed installation instructions are available from 
-the README file on the VSEARCH github (https://github.com/torognes/vsearch). 
+the README file on the VSEARCH github https://github.com/torognes/vsearch). 
 The command line can be used to install VSEARCH on Linux and MacOS operating 
 systems (using wget and tar) while VSEARCH can be downloaded and extracted for 
 use on Windows systems. 
@@ -104,8 +94,9 @@ MacOS/Linux operating system - see ?packClust for examples using windows.
 Both DNA to be searched and the TIR query must be in XString format 
 (see Biostrings). The TIR query should be coerced to a DNAString object 
 while the DNA sequence, or set of sequences, should be a DNAStringSet. 
-Biostrings provides methods for the conversion of various formats to DNAString 
-objects, including from character vectors and fasta files.
+Bioconductor's `Biostrings` provides methods for the conversion of various 
+formats to `DNAString` objects, including from character vectors and 
+fasta files.
 
 ```{r biostrings, eval=FALSE}
 # Convert a character vector to a DNAString
@@ -154,6 +145,11 @@ genes, making them autonomous elements, or may be Pack-TYPE elements that
 have captured parts of the Arabidopsis thaliana host genome. Additionally, 
 of the Pack-TYPE elements detected, some may share sequences of related 
 chromosomal origin between their TIRs. 
+
+`packSearch` returns a dataframe of ranges, in the format produced by 
+coercing a GRanges object to a dataframe: `data.frame(GRanges)`. 
+This format is used to transfer the transposon ranges between the functions 
+in `packFinder`.
 
 # Analysing Potential Transposable Elements using packFinder
 
@@ -215,10 +211,17 @@ Of the 6 elements identified in this data subset, only two were found to be
 in the same cluster. When a new cluster is created, the transposon is 
 designated as being on the forwards strand (+); elements that are subsequently 
 assigned to this cluster are given a strand designation relative to the 
-original element in the cluster. For this data, as there are few clusters, 
+original element in the cluster. 
+
+For this data, as there are few clusters, 
 all of the elements have been designated as being on the forwards strand. 
 Adjusting the identity % required or changing the identity definition could 
 lead to more effective clustering, or lead to false-positives. 
+
+Note, by default `filterWildcards` is called when clustering 
+or aligning sequences; this prevents low quality sequences from clustering 
+together, and by default removes sequences with a proportion of wildcards 
+("N") above 5%. 
 
 ## Reading VSEARCH Output Files
 
@@ -228,7 +231,7 @@ width and so it is feasible that these are elements that have been duplicated
 by a transposase. To investigate the extent of the similarities, we can read 
 the more detailed VSEARCH output files:
 
-* USEARCH cluster format (.uc) - containing a summary of the clustering done 
+* USEARCH cluster format `.uc` - containing a summary of the clustering done 
 by VSEARCH
 * BLAST output - a BLAST compatible summary containing details of the BLAST 
 matches between clusters 
@@ -254,7 +257,9 @@ Additionally, tirClust can provide a summary of the similarities between
 the TIR sequences of clustered transposons. While in this example "CACTACAA" 
 has been used as the TIR search query, the CACTA TIR sequence is longer than 
 8 base pairs - although the rest of the TIR sequence may be less well 
-conserved. For each cluster, tirClust creates a consensus sequence for 
+conserved. 
+
+For each cluster, tirClust creates a consensus sequence for 
 the forward and reverse TIR regions; in this case we will consider the first 
 25 base pairs of each TIR. Additionally, clustering of these TIRs is carried 
 out using kmer clustering before being plotted as a dendrogram for 
@@ -310,17 +315,19 @@ packMatches <- packAlign(
 ## Matching query sequences: 5 of 6 (83.33%)
 ```
 
-As with VSEARCH clustering, a .uc and .blast6out file are created by the 
-alignment. The alignment function returns a summary of the .uc file, 
+As with VSEARCH clustering, a `.uc` and `.blast6out` file are created by the 
+alignment. The alignment function returns a summary of the `.uc` file, 
 however the full details of each file can be recovered as before. 
 
 ## BLAST Analysis
 BLAST search has not been implemented in this package, so it is expected that 
 the user will define clusters of transposable elements above before BLAST 
 investigation. This stage will identify the tranposable elements that are 
-autonomous and confirm which matches are likely pack-TYPE elements. Since 
+autonomous and confirm which matches are likely pack-TYPE elements. 
+
+Since 
 this example included only a small subset of the Arabidopsis thaliana genome, 
-and there were very few elements identified, a BLASTn search was carried out 
+and there were very few elements identified, a BLASTN search was carried out 
 for cluster 4. In a larger study, it would have been wise to instead select 
 more interesting clusters and BLAST a subset of these. 
 
@@ -337,7 +344,7 @@ After running the cluster 4 sequence using NCBI's BLASTX service, two major
 hits were found (GENBANK: AAD28056.1 and AAF06087.1) for the sequence. One 
 match appeared to be similar to a putative En/Spm-like transposon protein, 
 suggesting that this transposon may not be a Pack-TYPE element as it may not 
-have captured genetic material from the host genome. B
+have captured genetic material from the host genome.
 
 # Data Formats and Conversion
 
@@ -471,6 +478,23 @@ identifyTirMatches above.
 ```{r getPackSeqs}
 getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
+
+# References
+Information on the properties of Pack-TYPE transposable elements 
+was obtained from the following papers during the development of 
+`packFinder`.
+
+* Catoni, M. et al. (2019) ‘Mobilization of Pack-CACTA transposons in 
+Arabidopsis suggests the mechanism of gene shuffling’, 
+*Nucleic Acids Research*. Oxford University Press, 47(3), pp. 1311–1320. 
+doi: 10.1093/nar/gky1196.
+* Jiang, N. et al. (2004) ‘Pack-MULE transposable elements mediate gene 
+evolution in plants’, *Nature*, 431(7008), pp. 569–573. 
+doi: 10.1038/nature02953.
+
+The Bioconductor packages `GenomicRanges` and `Biostrings` are 
+used for detection of tranposable elements, and manipulation of 
+DNA sequences. 
 
 # Session Information
 

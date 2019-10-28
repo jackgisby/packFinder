@@ -48,7 +48,8 @@ packGRanges <- packsToGRanges(packMatches)
 
 }
 \seealso{
-\code{\link{getPacksFromGRanges}}
+\code{\link{getPacksFromGRanges}},
+\code{link[GenomicRanges:GRanges-class]{GRanges}}
 }
 \author{
 Jack Gisby

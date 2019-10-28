@@ -79,9 +79,6 @@
 #' @seealso
 #' code{\link{tirClust}}, code{\link{packAlign}}, 
 #' code{\link{readBlast6Out}}, code{\link{packClust}}
-#' 
-#' @author
-#' Jack Gisby
 #'
 #' @references
 #' VSEARCH may be downloaded from 
@@ -95,6 +92,9 @@
 #'     "packmatches.uc", 
 #'     package = "packFinder"
 #' ))
+#' 
+#' @author
+#' Jack Gisby
 #' 
 #' @export
 

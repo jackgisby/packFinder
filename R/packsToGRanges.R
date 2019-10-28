@@ -39,14 +39,15 @@
 #' dataframe format.
 #'
 #' @seealso 
-#' \code{\link{getPacksFromGRanges}}
-#'     
-#' @author
-#' Jack Gisby
+#' \code{\link{getPacksFromGRanges}},
+#' \code{link[GenomicRanges:GRanges-class]{GRanges}}
 #' 
 #' @examples 
 #' data(packMatches)
 #' packGRanges <- packsToGRanges(packMatches)
+#' 
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

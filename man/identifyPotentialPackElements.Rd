@@ -4,7 +4,7 @@
 \alias{identifyPotentialPackElements}
 \title{Pack Element Filtering}
 \usage{
-identifyPotentialPackElements(forwardMatches, reverseMatches, Genome, 
+identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
     elementLength)
 }
 \arguments{
@@ -66,6 +66,9 @@ packMatches <- identifyPotentialPackElements(
     c(300, 3500)
 )
 
+}
+\seealso{
+\code{packSearch}
 }
 \author{
 Jack Gisby

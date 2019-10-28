@@ -43,7 +43,8 @@ packsToCsv(
 
 }
 \seealso{
-\code{\link{getPacksFromCsv}}
+\code{\link{getPacksFromCsv}}, \code{\link[utils]{write.table}},
+\code{\link{packSearch}}
 }
 \author{
 Jack Gisby

@@ -50,14 +50,18 @@
 #' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
 #' object.
 #' 
-#' @author
-#' Jack Gisby
+#' @seealso 
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+#' \code{\link{packSearch}}, \code{tirMatches}
 #' 
 #' @examples 
 #' data(arabidopsisThalianaRefseq)
 #' data(packMatches)
 #' 
 #' tsdSeqs <- getTsds(packMatches, arabidopsisThalianaRefseq, 3)
+#'
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

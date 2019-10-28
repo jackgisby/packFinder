@@ -25,10 +25,7 @@
 #' Dataframe in the format used by \code{\link{packSearch}}.
 #'
 #' @seealso
-#' \code{\link{packsToFasta}}
-#' 
-#' @author
-#' Jack Gisby
+#' \code{\link{packsToFasta}}, \code{\link{packSearch}}
 #' 
 #' @examples
 #' data(arabidopsisThalianaRefseq)
@@ -37,6 +34,9 @@
 #' packMatches <- getPacksFromFasta(
 #'     system.file("extdata", "packMatches.fasta", package = "packFinder")
 #' )
+#' 
+#' @author
+#' Jack Gisby
 #'
 #' @export
 

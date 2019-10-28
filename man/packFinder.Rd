@@ -66,8 +66,18 @@ elements in a given genome, it is recommende
 to carry out a BLAST search for each transposon 
 cluster. This can identify which elements are 
 likely autonomous, and which may be  Pack-TYPE.
+
+The \code{packFinder} functions report the 
+position of elements in a given genome using a
+dataframe in the format of \code{\link{packMatches}}. 
+This dataframe is in the format produced by 
+coercing a \code{link[GenomicRanges:GRanges-class]{GRanges}} 
+object to a dataframe: \code{data.frame(GRanges)}.
 }
 
+\seealso{
+\code{\link{packSearch}}
+}
 \author{
 Jack Gisby
 }
