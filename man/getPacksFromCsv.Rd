@@ -7,22 +7,27 @@
 getPacksFromCsv(file)
 }
 \arguments{
-\item{file}{path to predicted transposons in CSV format.}
+\item{file}{File path to predicted transposons in CSV format.}
 }
 \value{
 Dataframe in the format used by \code{\link{packSearch}}.
 }
 \description{
-Retrieves a dataframe of potential Pack-TYPE elements, previously saved using
-\code{\link{packSearch}} followed by \code{\link{packsToCsv}}.
+Retrieves a dataframe of potential Pack-TYPE elements, 
+previously saved using \code{\link{packSearch}} followed 
+by \code{\link{packsToCsv}}.
 }
 \examples{
-\dontrun{
-packMatches <- getPacksFromCsv("path/to/packMatches.csv")}
+data(packMatches)
+
+packMatches <- getPacksFromCsv(
+    system.file("extdata", "packMatches.csv", package = "packFinder")
+)
 
 }
 \seealso{
-\code{\link{packsToCsv}}
+\code{\link{packsToCsv}}, \code{\link[utils]{read.table}}, 
+\code{\link{packSearch}}
 }
 \author{
 Jack Gisby

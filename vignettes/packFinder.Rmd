@@ -3,13 +3,13 @@ title: "packFinder"
 author: "Jack Gisby"
 date: "`r Sys.Date()`" 
 output:
-  BiocStyle::html_document:
-    number_sections: yes
-    toc: true
+    BiocStyle::html_document:
+        number_sections: yes
+        toc: true
 vignette: >
-  %\VignetteIndexEntry{packFinder}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8} 
+    %\VignetteIndexEntry{packFinder}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8} 
 ---
 
 ```{r setup, include = FALSE}
@@ -22,116 +22,165 @@ dir.create("tempOutput")
 
 # Introduction
 
-The goal of packFinder was to implement a simple tool for the prediction of potential Pack-TYPE elements. packFinder uses the following prior knowledge, provided by the user, to detect transposons:
+The goal of packFinder was to implement a simple tool for the prediction of 
+potential Pack-TYPE elements. packFinder uses the following prior knowledge, 
+provided by the user, to detect transposons:
 
 1. Terminal Inverted Repeat (TIR) Base Sequence
 2. Length of Terminal Site Duplication (TSD)
 3. Length of the Transposon
 
-These features, shown in __Figure 1__, provide enough information to detect autonomous and pack-TYPE elements. For a transposon to be predicted by packFinder its TSD sequences must be identical to each other, its forward TIR sequence must match the base sequence provided and its reverse TIR sequence must match its reverse complement.
+These features, shown in __Figure 1__, provide enough information to detect 
+autonomous and pack-TYPE elements. For a transposon to be predicted by 
+packFinder its TSD sequences must be identical to each other, its forward TIR 
+sequence must match the base sequence provided and its reverse TIR sequence 
+must match its reverse complement.
 
 ![**Important structural features of Pack-TYPE transposons**](tirSeq.jpg)
 
-Transposons are therefore predicted by searching a given genome for these characteristics, and further analysis steps can reveal the nature of these elements - while the packFinder tool is sensitive for the detection of transposons, it does not discriminate between autonomous and Pack-TYPE elements. Autonomous elements will contain a transposase gene within the terminal inverted repeats and tend to be larger than their Pack-TYPE counterparts; pack-TYPE elements instead capture sections of host genomes. Following cluster analysis, BLAST can be used to discern which predicted elements are autonomous (transposase-containing) and with are true Pack-TYPE elements.
+Transposons are therefore predicted by searching a given genome for these 
+characteristics, and further analysis steps can reveal the nature of these 
+elements - while the packFinder tool is sensitive for the detection of 
+transposons, it does not discriminate between autonomous and Pack-TYPE 
+elements. 
+
+Autonomous elements will contain a transposase gene within the 
+terminal inverted repeats and tend to be larger than their Pack-TYPE 
+counterparts; pack-TYPE elements instead capture sections of host genomes. 
+Following cluster analysis, BLAST can be used to discern which predicted 
+elements are autonomous (transposase-containing) and with are true 
+Pack-TYPE elements.
 
 # Getting Started
 
-Users may download packFinder and use the primary function - packSearch - to locate potential transposons in a given set of DNA sequences. In addition to R packages, the command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
+Users may download packFinder and use the primary function - packSearch - 
+to locate potential transposons in a given set of DNA sequences. In addition 
+to R packages, the command line tool `VSEARCH` must be installed prior to use 
+of clustering and alignment functions.
 
 ## R Package Dependencies
 
-While CRAN packages will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
+CRAN and Bioconductor packages will be automatically installed 
+when downloading `packFinder`. The package may be installed 
+from github by running the following chunk:
 
-```{r biocDependencies, eval=FALSE}
+```{r packFinderInstall, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("Biostrings")
-BiocManager::install("GenomicRanges")
-```
-
-Then, packFinder may be installed from github (using the package "devtools", available from CRAN).
-
-```{r packFinderInstall, eval=FALSE}
-#devtools must be installed to download packFinder from github
-#install.packages("devtools")
-
-devtools::install_github("jackgisby/packFinder")
-library("packFinder")
+BiocManager::install("packFinder")
 ```
 
 ## Command Line Dependencies
 
-While this allows R to run the packSearch pipeline within packFinder, VSEARCH must be installed for use of clustering and alignment functions within packSearch. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems.
+While this allows R to run the packSearch pipeline within packFinder, 
+VSEARCH must be installed for use of clustering and alignment functions 
+within packSearch. Detailed installation instructions are available from 
+the README file on the VSEARCH github https://github.com/torognes/vsearch). 
+The command line can be used to install VSEARCH on Linux and MacOS operating 
+systems (using wget and tar) while VSEARCH can be downloaded and extracted for 
+use on Windows systems. 
+
+For Linux and MacOS systems, correct installation of VSEARCH should allow 
+users to use all functions within packFinder whereas for windows users, the 
+absolute path to the VSEARCH executable file must be specified when calling 
+packFinder clustering and alignment functions. This vignette will assume a 
+MacOS/Linux operating system - see ?packClust for examples using windows.
 
 # Searching for Potential Transposable Elements using packFinder
 
 ## Getting Data
 
-Both DNA to be searched and the TIR query must be in XString format (see Biostrings). The TIR query should be coerced to a DNAString object while the DNA sequence, or set of sequences, should be a DNAStringSet. Biostrings provides methods for the conversion of various formats to DNAString objects, including from character vectors and fasta files.
+Both DNA to be searched and the TIR query must be in XString format 
+(see Biostrings). The TIR query should be coerced to a DNAString object 
+while the DNA sequence, or set of sequences, should be a DNAStringSet. 
+Bioconductor's `Biostrings` provides methods for the conversion of various 
+formats to `DNAString` objects, including from character vectors and 
+fasta files.
 
 ```{r biostrings, eval=FALSE}
 # Convert a character vector to a DNAString
 Biostrings::DNAString("CATG")
 
 # Convert a list of character vectors to a DNAStringSet
-Biostrings::DNAStringSet(c("CATG",
-                        "GTAC"))
+Biostrings::DNAStringSet(c(
+    "CATG",
+    "GTAC"
+))
 
 # Convert a FASTA file to a DNAStringSet
 Biostrings::readDNAStringSet("path/to/fasta",
-                             format="fasta")
+    format = "fasta"
+)
 ```
 
 
 ## Using packSearch
 
-In this example we search a subset of chromosome 3, from the Arabidopsis thaliana reference sequence; our query will be first 8 bases of the CACTA1 autonomous transposable element's TIR. The CACTA transposons have TSD sequences that are 3 bases long, and the Pack-CACTA elements tend to be between 300 to 3500 bases in width. Since the first 8 bases of the Pack-CACTA TIRs tend to be conserved between elements, the default allowable mismatch of 0 was used. 
+In this example we search a subset of chromosome 3, from the Arabidopsis 
+thaliana reference sequence; our query will be first 8 bases of the CACTA1 
+autonomous transposable element's TIR. The CACTA transposons have TSD 
+sequences that are 3 bases long, and the Pack-CACTA elements tend to be 
+between 300 to 3500 bases in width. Since the first 8 bases of the Pack-CACTA 
+TIRs tend to be conserved between elements, the default allowable mismatch of 
+0 was used. 
 
 ```{r packSearch}
 data("arabidopsisThalianaRefseq")
 
 packMatches <- packSearch(
-  Biostrings::DNAString("CACTACAA"),
-  arabidopsisThalianaRefseq,
-  elementLength = c(300, 3500),
-  tsdLength = 3
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    elementLength = c(300, 3500),
+    tsdLength = 3
 )
 
 head(packMatches)
 ```
 
-In this subset, we identified six potential Pack-TYPE elements, however at this stage it is unclear what genetic information can be found between the inverted TIR sequences __Figure 1__. These elements could contain transposase genes, making them autonomous elements, or may be Pack-TYPE elements that have captured parts of the Arabidopsis thaliana host genome. Additionally, of the Pack-TYPE elements detected, some may share sequences of related chromosomal origin between their TIRs. 
+In this subset, we identified six potential Pack-TYPE elements, however at 
+this stage it is unclear what genetic information can be found between the 
+inverted TIR sequences __Figure 1__. These elements could contain transposase 
+genes, making them autonomous elements, or may be Pack-TYPE elements that 
+have captured parts of the Arabidopsis thaliana host genome. Additionally, 
+of the Pack-TYPE elements detected, some may share sequences of related 
+chromosomal origin between their TIRs. 
+
+`packSearch` returns a dataframe of ranges, in the format produced by 
+coercing a GRanges object to a dataframe: `data.frame(GRanges)`. 
+This format is used to transfer the transposon ranges between the functions 
+in `packFinder`.
 
 # Analysing Potential Transposable Elements using packFinder
 
 ## Clustering of Transposable Elements
 
-In order to make downstream analysis more efficient and understand the relations between the identified elements, we can use VSEARCH to cluster predicted transposons. Here we run VSEARCH with the default parameters, meaning:
+In order to make downstream analysis more efficient and understand the 
+relations between the identified elements, we can use VSEARCH to cluster 
+predicted transposons. Here we run VSEARCH with the default parameters, 
+meaning:
 
 *An identity of 55% between two elements is required to form a cluster
 *The method of identity detection is the VSEARCH default
 
-The identity and method of identity definition can be altered depending on analysis (see VSEARCH documentation). 
+The identity and method of identity definition can be altered depending on 
+analysis (see VSEARCH documentation). 
 
 ```{r packClustData, include=FALSE}
 data(packMatches)
 ```
 ```{r packClust, eval=FALSE}
 packMatches <- packClust(
-  packMatches,
-  arabidopsisThalianaRefseq,
-  saveFolder = "tempOutput",
-  vSearchPath = "path/to/vsearch"
+    packMatches,
+    arabidopsisThalianaRefseq,
+    saveFolder = "tempOutput"
 )
 ```
 ```
 ## Rognes T, Flouri T, Nichols B, Quince C, Mahe F (2016)
 ## VSEARCH: a versatile open source tool for metagenomics
 ## PeerJ 4:e2584 doi: 10.7717/peerj.2584 https://doi.org/10.7717/peerj.2584
-
-## Compiled with support for gzip-compressed files, but the library was not found.
-## Compiled with support for bzip2-compressed files, but the library was not found.
+##
 ## vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
 ## https://github.com/torognes/vsearch
 ##
@@ -158,46 +207,94 @@ packMatches <- packClust(
 ## 6     Chr3 3738747 3741209  2463      + TTG       0
 ```
 
-Of the 6 elements identified in this data subset, only two were found to be in the same cluster. When a new cluster is created, the transposon is designated as being on the forwards strand (+); elements that are subsequently assigned to this cluster are given a strand designation relative to the original element in the cluster. For this data, as there are few clusters, all of the elements have been designated as being on the forwards strand. Adjusting the identity % required or changing the identity definition could lead to more effective clustering, or lead to false-positives. 
+Of the 6 elements identified in this data subset, only two were found to be 
+in the same cluster. When a new cluster is created, the transposon is 
+designated as being on the forwards strand (+); elements that are subsequently 
+assigned to this cluster are given a strand designation relative to the 
+original element in the cluster. 
+
+For this data, as there are few clusters, 
+all of the elements have been designated as being on the forwards strand. 
+Adjusting the identity % required or changing the identity definition could 
+lead to more effective clustering, or lead to false-positives. 
+
+Note, by default `filterWildcards` is called when clustering 
+or aligning sequences; this prevents low quality sequences from clustering 
+together, and by default removes sequences with a proportion of wildcards 
+("N") above 5%. 
 
 ## Reading VSEARCH Output Files
 
-Based on the results of packClust, we found that the second and fourth matches have similar sequences. Additionally, these potential elements have a similar width and so it is feasible that these are elements that have been duplicated by a transposase. To investigate the extent of the similarities, we can read the more detailed VSEARCH output files:
+Based on the results of packClust, we found that the second and fourth matches 
+have similar sequences. Additionally, these potential elements have a similar 
+width and so it is feasible that these are elements that have been duplicated 
+by a transposase. To investigate the extent of the similarities, we can read 
+the more detailed VSEARCH output files:
 
-* USEARCH cluster format (.uc) - containing a summary of the clustering done by VSEARCH
-* BLAST output - a BLAST compatible summary containing details of the BLAST matches between clusters 
+* USEARCH cluster format `.uc` - containing a summary of the clustering done 
+by VSEARCH
+* BLAST output - a BLAST compatible summary containing details of the BLAST 
+matches between clusters 
 
 
 ```{r readClust}
-readUc(system.file("extdata", "packMatches.uc", package = "packFinder"))
-readBlast6Out(system.file("extdata", "packMatches.blast6out", package = "packFinder"))
+readUc(system.file(
+    "extdata",
+    "packMatches.uc",
+    package = "packFinder"
+))
+
+readBlast6Out(system.file(
+    "extdata",
+    "packMatches.blast6out",
+    package = "packFinder"
+))
 ```
 
 ## Clustering of TIR Sequences
 
-Additionally, tirClust can provide a summary of the similarities between the TIR sequences of clustered transposons. While in this example "CACTACAA" has been used as the TIR search query, the CACTA TIR sequence is longer than 8 base pairs - although the rest of the TIR sequence may be less well conserved. For each cluster, tirClust creates a consensus sequence for the forward and reverse TIR regions; in this case we will consider the first 25 base pairs of each TIR. Additionally, clustering of these TIRs is carried out using kmer clustering before being plotted as a dendrogram for visualisation. 
+Additionally, tirClust can provide a summary of the similarities between 
+the TIR sequences of clustered transposons. While in this example "CACTACAA" 
+has been used as the TIR search query, the CACTA TIR sequence is longer than 
+8 base pairs - although the rest of the TIR sequence may be less well 
+conserved. 
+
+For each cluster, tirClust creates a consensus sequence for 
+the forward and reverse TIR regions; in this case we will consider the first 
+25 base pairs of each TIR. Additionally, clustering of these TIRs is carried 
+out using kmer clustering before being plotted as a dendrogram for 
+visualisation. 
 
 ```{r tirClust}
 consensusSeqs <- tirClust(packMatches,
-  arabidopsisThalianaRefseq,
-  tirLength = 25
+    arabidopsisThalianaRefseq,
+    tirLength = 25
 )
 
 head(consensusSeqs)
 ```
 
-As expected, the forward and reverse TIRs of each transposon are very similar; this is also true for the two clustered transposons. From the dendrogram, groups are visible that weren't found by the VSEARCH clustering; this indicates that, while the TIR sequences are related, these groups likely have different genetic material between their TIR sequences.
+As expected, the forward and reverse TIRs of each transposon are very similar; 
+this is also true for the two clustered transposons. From the dendrogram, 
+groups are visible that weren't found by the VSEARCH clustering; this indicates 
+that, while the TIR sequences are related, these groups likely have different 
+genetic material between their TIR sequences.
 
 ## Alignment of Transposable Elements
 
-After clusters of transposable elements have been identified, it may be useful to produce an alignment. Since we know that the transposable elements identified by VSEARCH have a minimum 60% sequence similarity, it will be possible to produce good quality sequence alignments. This can be useful for downstream analysis, such as BLAST searching. In this instance, an alignment was done for cluster 4; so an alignment of only two sequences was carried out. 
+After clusters of transposable elements have been identified, it may be useful 
+to produce an alignment. Since we know that the transposable elements 
+identified by VSEARCH have a minimum 60% sequence similarity, it will be 
+possible to produce good quality sequence alignments. This can be useful 
+for downstream analysis, such as BLAST searching. In this instance, an 
+alignment was done for cluster 4; so an alignment of only two sequences 
+was carried out. 
 
 ```{r align, eval=FALSE}
 packMatches <- packAlign(
-  packMatches,
-  arabidopsisThalianaRefseq,
-  saveFolder = "tempOutput",
-  vSearchPath = "E:/vsearch-2.14.1-win-x86_64/vsearch.exe"
+    packMatches,
+    arabidopsisThalianaRefseq,
+    saveFolder = "tempOutput"
 )
 ```
 ```
@@ -205,8 +302,6 @@ packMatches <- packAlign(
 ## VSEARCH: a versatile open source tool for metagenomics
 ## PeerJ 4:e2584 doi: 10.7717/peerj.2584 https://doi.org/10.7717/peerj.2584
 ##
-## Compiled with support for gzip-compressed files, and the library is loaded.
-## Compiled with support for bzip2-compressed files, but the library was not found.
 ## vsearch v2.14.1_win_x86_64, 7.9GB RAM, 4 cores
 ## https://github.com/torognes/vsearch
 ##
@@ -220,24 +315,47 @@ packMatches <- packAlign(
 ## Matching query sequences: 5 of 6 (83.33%)
 ```
 
-
-As with VSEARCH clustering, a .uc and .blast6out file are created by the alignment. The alignment function returns a summary of the .uc file, however the full details of each file can be recovered as before. 
+As with VSEARCH clustering, a `.uc` and `.blast6out` file are created by the 
+alignment. The alignment function returns a summary of the `.uc` file, 
+however the full details of each file can be recovered as before. 
 
 ## BLAST Analysis
-BLAST search has not been implemented in this package, so it is expected that the user will define clusters of transposable elements above before BLAST investigation. This stage will identify the tranposable elements that are autonomous and confirm which matches are likely pack-TYPE elements. Since this example included only a small subset of the Arabidopsis thaliana genome, and there were very few elements identified, a BLASTn search was carried out for cluster 4. In a larger study, it would have been wise to instead select more interesting clusters and BLAST a subset of these. 
+BLAST search has not been implemented in this package, so it is expected that 
+the user will define clusters of transposable elements above before BLAST 
+investigation. This stage will identify the tranposable elements that are 
+autonomous and confirm which matches are likely pack-TYPE elements. 
+
+Since 
+this example included only a small subset of the Arabidopsis thaliana genome, 
+and there were very few elements identified, a BLASTN search was carried out 
+for cluster 4. In a larger study, it would have been wise to instead select 
+more interesting clusters and BLAST a subset of these. 
 
 ```{r blast}
 # the packMatches dataframe is exported as a FASTA file for NCBI blast search
-packsToFasta(packMatches, "tempOutput/packMatches.fasta", arabidopsisThalianaRefseq)
+packsToFasta(
+    packMatches,
+    "tempOutput/packMatches.fasta",
+    arabidopsisThalianaRefseq
+)
 ```
 
-After running the cluster 4 sequence using NCBI's BLASTX service, two major hits were found (GENBANK: AAD28056.1 and AAF06087.1) for the sequence. One match appeared to be similar to a putative En/Spm-like transposon protein, suggesting that this transposon may not be a Pack-TYPE element as it may not have captured genetic material from the host genome. B
+After running the cluster 4 sequence using NCBI's BLASTX service, two major 
+hits were found (GENBANK: AAD28056.1 and AAF06087.1) for the sequence. One 
+match appeared to be similar to a putative En/Spm-like transposon protein, 
+suggesting that this transposon may not be a Pack-TYPE element as it may not 
+have captured genetic material from the host genome.
 
 # Data Formats and Conversion
 
 ## packSearch Dataframe
 
-Dataframes are used by packFinder to contain the locations of predicted elements and additional metadata, such as TSD sequence and cluster designation. The dataframe is in a similar format to that stored by GenomicRanges. The dataframe can be saved and restored, as below, for longer term storage and export of packFinder results. packMatches refers to the object created in previous steps, by applying packSearch followed by packClust.
+Dataframes are used by packFinder to contain the locations of predicted 
+elements and additional metadata, such as TSD sequence and cluster 
+designation. The dataframe is in a similar format to that stored by 
+GenomicRanges. The dataframe can be saved and restored, as below, for longer 
+term storage and export of packFinder results. packMatches refers to the 
+object created in previous steps, by applying packSearch followed by packClust.
 
 ```{r csvConvert}
 packsToCsv(packMatches, "tempOutput/packMatches.csv")
@@ -246,7 +364,9 @@ print(getPacksFromCsv("tempOutput/packMatches.csv"))
 
 ## GRanges
 
-As mentioned previously, the packFinder dataframe is in a similar format to that stored by GenomicRanges. The data produced by packFinder can therefore be quickly converted to and from a GRanges object, as below. 
+As mentioned previously, the packFinder dataframe is in a similar format to 
+that stored by GenomicRanges. The data produced by packFinder can therefore 
+be quickly converted to and from a GRanges object, as below. 
 
 ```{r grangesConvert}
 packsGRanges <- packsToGRanges(packMatches)
@@ -255,68 +375,126 @@ print(packsGRanges)
 print(getPacksFromGRanges(packsGRanges))
 ```
 
-If many elements are discovered by packFinder it may be necessary to identify overlapping elements, that could not be produced by a transposase, and remove them; this can be done using GenomicRanges. 
+If many elements are discovered by packFinder it may be necessary to identify 
+overlapping elements, that could not be produced by a transposase, and remove 
+them; this can be done using GenomicRanges. 
 
 ## FASTA
 
-Additionally, the dataframe produced by packFinder can be exported to and restored from FASTA formats. While this will not save additional metadata columns, such as cluster designations, the core information will be preserved in the FASTA title field. 
+Additionally, the dataframe produced by packFinder can be exported to and 
+restored from FASTA formats. While this will not save additional metadata 
+columns, such as cluster designations, the core information will be
+preserved in the FASTA title field. 
 
 ```{r fastaConvert}
-packsToFasta(packMatches, "tempOutput/packMatches.fasta", arabidopsisThalianaRefseq)
+packsToFasta(
+    packMatches,
+    "tempOutput/packMatches.fasta",
+    arabidopsisThalianaRefseq
+)
+
 print(getPacksFromFasta("tempOutput/packMatches.fasta"))
 ```
 
 # Step-wise packSearch Functions
 
-While it is recommended to use packSearch to identify potential Pack-TYPE elements, it is possible to run the individual functions that make up the packSearch pipeline. Below are the steps used by packSearch to predict transposons, using the same parameters as the previous example. 
+While it is recommended to use packSearch to identify potential Pack-TYPE 
+elements, it is possible to run the individual functions that make up the 
+packSearch pipeline. Below are the steps used by packSearch to predict 
+transposons, using the same parameters as the previous example. 
 
 ## Identifying Potential TIRs
 
 Potential TIR sequences are first identified by pattern matching. 
 
 ```{r identifyTirMatches}
-forwardMatches <- identifyTirMatches(Biostrings::DNAString("CACTACAA"), 
-                                     arabidopsisThalianaRefseq,
-                                     strand = "+",
-                                     tsdLength = 3)
+forwardMatches <- identifyTirMatches(
+    Biostrings::DNAString("CACTACAA"),
+    arabidopsisThalianaRefseq,
+    strand = "+",
+    tsdLength = 3
+)
 nrow(forwardMatches)
 
-reverseMatches <- identifyTirMatches(Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
-                                     arabidopsisThalianaRefseq,
-                                     strand = "-",
-                                     tsdLength = 3)
+reverseMatches <- identifyTirMatches(
+    Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
+    arabidopsisThalianaRefseq,
+    strand = "-",
+    tsdLength = 3
+)
 nrow(reverseMatches)
 ```
 
 ## Obtaining TSD Sequences 
 
-The function `getTsds` may be used to quickly obtain the TSD sequences for TIRs. This function can also be used for obtaining TSDs from the ranges of known full transposons, given a dataframe in the format produced by packSearch. 
+The function `getTsds` may be used to quickly obtain the TSD sequences for 
+TIRs. This function can also be used for obtaining TSDs from the ranges of 
+known full transposons, given a dataframe in the format produced by packSearch. 
 
 ```{r getTsds}
-forwardMatches$TSD <- getTsds(forwardMatches, arabidopsisThalianaRefseq, 3, strand = "+")
+forwardMatches$TSD <- getTsds(
+    forwardMatches,
+    arabidopsisThalianaRefseq,
+    3,
+    strand = "+"
+)
+
 head(forwardMatches)
 
-reverseMatches$TSD <- getTsds(reverseMatches, arabidopsisThalianaRefseq, 3, strand = "-")
+reverseMatches$TSD <- getTsds(
+    reverseMatches,
+    arabidopsisThalianaRefseq,
+    3,
+    strand = "-"
+)
+
 head(reverseMatches)
 ```
 
 ## Filtering TIR Matches
 
-The main step of the algorithm matches TIR sequences together based on their proximity and TSD sequence. 
+The main step of the algorithm matches TIR sequences together based on their 
+proximity and TSD sequence. 
 
 ```{r identifyPotentialPackElements}
-identifyPotentialPackElements(forwardMatches, reverseMatches, arabidopsisThalianaRefseq, c(300, 3500))
+identifyPotentialPackElements(
+    forwardMatches,
+    reverseMatches,
+    arabidopsisThalianaRefseq,
+    c(300, 3500)
+)
 ```
 
-After attaching the TSD sequences to the dataframe of matches, the output matches that of the previous example run using the packSearch pipeline. 
+After attaching the TSD sequences to the dataframe of matches, the output 
+matches that of the previous example run using the packSearch pipeline. 
 
 ## Get Transposon Sequences 
 
-The function `getSeqs` may be used to obtain transposon sequences from a dataframe in the format produced by packSearch. This could additionally be used on other dataframes of ranges, such as that produced by identifyTirMatches above. 
+The function `getSeqs` may be used to obtain transposon sequences from a 
+dataframe in the format produced by packSearch. This could additionally be 
+used on other dataframes of ranges, such as that produced by 
+identifyTirMatches above. 
 
 ```{r getPackSeqs}
 getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
+
+# References
+Information on the properties of Pack-TYPE transposable elements 
+was obtained from the following papers during the development of 
+`packFinder`.
+
+* Catoni, M. et al. (2019) ‘Mobilization of Pack-CACTA transposons in 
+Arabidopsis suggests the mechanism of gene shuffling’, 
+*Nucleic Acids Research*. Oxford University Press, 47(3), pp. 1311–1320. 
+doi: 10.1093/nar/gky1196.
+* Jiang, N. et al. (2004) ‘Pack-MULE transposable elements mediate gene 
+evolution in plants’, *Nature*, 431(7008), pp. 569–573. 
+doi: 10.1038/nature02953.
+
+The Bioconductor packages `GenomicRanges` and `Biostrings` are 
+used for detection of tranposable elements, and manipulation of 
+DNA sequences. 
 
 # Session Information
 
