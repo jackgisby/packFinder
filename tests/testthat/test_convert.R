@@ -1,13 +1,16 @@
 context("convert")
 
 dir.create("tempTestOutput")
+data("arabidopsisThalianaRefseq")
+print(arabidopsisThalianaRefseq)
 data("packMatches")
 
 packsToCsv(packMatches, file = "tempTestOutput/packMatches.csv")
-print(arabidopsisThalianaRefseq)
+
 packsToFasta(packMatches = packMatches, 
             file = "tempTestOutput/packMatches.fasta", 
             Genome = arabidopsisThalianaRefseq)
+
 packsGRanges <- packsToGRanges(packMatches)
 
 packsFromCsv <- getPacksFromCsv(file = "tempTestOutput/packMatches.csv")
