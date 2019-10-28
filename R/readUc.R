@@ -89,7 +89,7 @@
 #' @examples 
 #' readUc(system.file(
 #'     "extdata", 
-#'     "packmatches.uc", 
+#'     "packMatches.uc", 
 #'     package = "packFinder"
 #' ))
 #' 

@@ -46,7 +46,7 @@
 #' @examples 
 #' readBlast6Out(system.file(
 #'     "extdata", 
-#'     "packmatches.blast6out", 
+#'     "packMatches.blast6out", 
 #'     package = "packFinder"
 #' ))
 #' 

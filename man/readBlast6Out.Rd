@@ -40,7 +40,7 @@ cluster/alignment can be found for each line.
 \examples{
 readBlast6Out(system.file(
     "extdata", 
-    "packmatches.blast6out", 
+    "packMatches.blast6out", 
     package = "packFinder"
 ))
 
