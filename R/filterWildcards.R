@@ -46,8 +46,6 @@
 #' 
 #' @author 
 #' Jack Gisby
-#' 
-#' @export
 
 filterWildcards <- function(packMatches, Genome, maxWildcards = 0.05) {
     badMatches <- vector(mode = "logical", length = nrow(packMatches))
