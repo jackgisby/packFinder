@@ -3,35 +3,11 @@ A package for the de novo discovery of pack-TYPE transposons. Transposons are de
 
 ![**Important structural features of Pack-TYPE transposons**](vignettes/tirSeq.jpg)
 
-## Quick Start
-Users may download packFinder and use the primary function - packSearch - to locate potential transposons in a given Genome. The command line tool "VSEARCH" must be installed prior to use of clustering and alignment functions.
+## Bioconductor Submission
+R CMD check was run in <2 minutes with no warnings, errors or notes. BiocCheck was run with a single note: 
+"Usage of dontrun{} / donttest{} found in man page examples."
 
-### R Package Dependencies
-In addition to CRAN package dependencies, that will be installed automatically upon downloading packFinder, some dependencies must be downloaded from Bioconductor. 
-
-```
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-
-BiocManager::install("Biostrings")
-BiocManager::install("GenomicRanges")
-```
-
-Then, packFinder may be installed.
-
-```
-#devtools must be installed to download packFinder from github
-#install.packages("devtools")
-
-devtools::install_github("jackgisby/packFinder")
-library("packFinder")
-```
-
-### Command Line Dependencies
-While the primary packFinder functions may now be used, VSEARCH must be installed for use of clustering and alignment functions. Detailed installation instructions are available from the README file on the VSEARCH github (https://github.com/torognes/vsearch). The command line can be used to install VSEARCH on Linux and MacOS operating systems (using wget and tar) while VSEARCH can be downloaded and extracted for use on Windows systems. 
-
-For Linux and MacOS systems, correct installation of VSEARCH should allow users to use all functions within packFinder whereas for windows users, the absolute path to the VSEARCH executable file must be specified when calling packFinder clustering and alignment functions.
+Two functions, packClust and packAlign, are not run in examples or vignettes. These functions use the command line tool VSEARCH (https://github.com/torognes/vsearch) to cluster putative transposable elements - could not find an equivalent tool in R that clustered sequences with the same performance and accuracy. Note this is not part of the main package annotation pipeline; the main functions, such as packSearch, can be run without installation of VSEARCH and are run in examples/vignettes in the package. 
 
 ## Using packFinder
-The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette. 
+The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette. Additionally, VSEARCH installation instructions can be found here.
