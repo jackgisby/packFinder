@@ -85,7 +85,11 @@ getTsds <- function(tirMatches, Genome, tsdLength, strand = "+",
             tirMatches$end,
             MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
         )
-        return(TSDs)
+        if (output == "DNAStringSet") {
+            return(Biostrings::DNAStringSet(TSDs))
+        } else {
+            return(TSDs)
+        }
     } else if (strand == "+") {
         TSDs <- mapply(function(seqnames, start, tsdLength, Genome) {
                 seq <- Genome[Genome@ranges@NAMES == seqnames][[1]]

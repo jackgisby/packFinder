@@ -122,7 +122,7 @@
 #' @export
 
 packSearch <- function(tirSeq, Genome, mismatch = 0, 
-                        elementLength, tsdLength) {
+                        elementLength, tsdLength, tsdMismatch = 0) {
     searchCheck(mismatch, tsdLength, elementLength, tirSeq, Genome)
 
     message("Getting forward matches")
@@ -149,7 +149,8 @@ packSearch <- function(tirSeq, Genome, mismatch = 0,
     message("Filtering matches based on TSD sequences")
     packMatches <- identifyPotentialPackElements(
         forwardMatches = forwardMatches, reverseMatches = reverseMatches,
-        Genome = Genome, elementLength = elementLength
+        Genome = Genome, elementLength = elementLength, 
+        tsdMismatch = tsdMismatch
     )
     packMatches$TSD <- getTsds(tirMatches = packMatches, Genome = Genome,
                                 tsdLength = tsdLength, strand = "+")

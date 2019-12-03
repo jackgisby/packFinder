@@ -71,8 +71,8 @@
 #' 
 #' @export
 
-identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
-                                        Genome, elementLength) {
+identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
+                                          Genome, elementLength, tsdMismatch = 0) {
     packMatches <- data.frame(
         seqnames = character(), start = integer(),
         end = integer(), width = integer(), strand = factor()
@@ -87,14 +87,9 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
         if (searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
             searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
         }
-
-        reverseRepeats <- reverseMatches[
-            reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
-            reverseMatches$end > searchRange[1] &
-            reverseMatches$end < searchRange[2] &
-            reverseMatches$strand == "-" &
-            reverseMatches$TSD == as.character(forwardRepeat$TSD),
-            ]
+    
+        reverseRepeats <- filterTsdMatches(reverseMatches, forwardRepeat, 
+                                           tsdMismatch, searchRange)
 
         if (length(reverseRepeats[, 1]) > 0) {
             for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
@@ -113,4 +108,36 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
         }
     }
     return(packMatches)
+}
+
+
+filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch, 
+                             searchRange) {
+    if (tsdMismatch == 0) {
+        reverseRepeats <- reverseMatches[
+            reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
+                reverseMatches$end > searchRange[1] &
+                reverseMatches$end < searchRange[2] &
+                reverseMatches$strand == "-" &
+                reverseMatches$TSD == as.character(forwardRepeat$TSD),
+            ]
+    } else {
+        reverseRepeats <- reverseMatches[
+            reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
+                reverseMatches$end > searchRange[1] &
+                reverseMatches$end < searchRange[2] &
+                reverseMatches$strand == "-",
+            ]
+
+        if (length(reverseRepeats[, 1]) > 0) {
+            reverseRepeats <- reverseRepeats[
+            Biostrings::vcountPattern(as.character(forwardRepeat$TSD),
+                                      reverseRepeats$TSD,
+                                      max.mismatch = tsdMismatch,
+                                      with.indels = TRUE) > 0,
+            ]
+        }
+    }
+
+    return(reverseRepeats)
 }
