@@ -24,6 +24,12 @@
 #' @param elementLength
 #' A vector of two integers containing the minimum and 
 #' maximum transposable element length.
+#' 
+#' @tsdMismatch
+#' An integer referring to the allowable mismatch 
+#' (substitutions or indels) between a transposon's TSD
+#' sequences. \code{\link[Biostrings]{matchPattern}} from Biostrings 
+#' is used for pattern matching. 
 #'
 #' @details
 #' Used by \code{\link{packSearch}} as a primariy filtering 
