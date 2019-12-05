@@ -5,7 +5,7 @@
 \title{Pack Element Filtering}
 \usage{
 identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
-    elementLength)
+  elementLength, tsdMismatch = 0)
 }
 \arguments{
 \item{forwardMatches}{A dataframe containing genomic ranges and names referring 
@@ -21,6 +21,11 @@ in \code{forwardMatches} and \code{reverseMatches}}
 
 \item{elementLength}{A vector of two integers containing the minimum and 
 maximum transposable element length.}
+
+\item{tsdMismatch}{An integer referring to the allowable mismatch 
+(substitutions or indels) between a transposon's TSD
+sequences. \code{\link[Biostrings]{matchPattern}} from Biostrings 
+is used for pattern matching.}
 }
 \value{
 A dataframe, \code{packMatches}, containing the locations 

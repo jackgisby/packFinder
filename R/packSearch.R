@@ -25,7 +25,7 @@
 #' @param tsdLength
 #' Integer referring to the length of the flanking TSD region.
 #' 
-#' @tsdMismatch
+#' @param tsdMismatch
 #' An integer referring to the allowable mismatch 
 #' (substitutions or indels) between a transposon's TSD
 #' sequences. \code{\link[Biostrings]{matchPattern}} from Biostrings 

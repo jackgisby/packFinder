@@ -5,7 +5,7 @@
 \title{Analyse TIR Sequences of Pre-clustered Transposable Elements}
 \usage{
 tirClust(packMatches, Genome, tirLength = 25, plot = TRUE,
-    plotSavePath = NULL, k = 5, output = "consensus")
+  plotSavePath = NULL, k = 5, output = "consensus")
 }
 \arguments{
 \item{packMatches}{A dataframe containing genomic ranges and names referring 

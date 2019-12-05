@@ -4,7 +4,8 @@
 \alias{packSearch}
 \title{packFinder Algorithm Pipeline}
 \usage{
-packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength)
+packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength,
+  tsdMismatch = 0)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} 
@@ -21,6 +22,11 @@ matches (indels + substitions). See
 of two integers. E.g. \code{c(300, 3500)}}
 
 \item{tsdLength}{Integer referring to the length of the flanking TSD region.}
+
+\item{tsdMismatch}{An integer referring to the allowable mismatch 
+(substitutions or indels) between a transposon's TSD
+sequences. \code{\link[Biostrings]{matchPattern}} from Biostrings 
+is used for pattern matching.}
 }
 \value{
 A dataframe, containing elements 
