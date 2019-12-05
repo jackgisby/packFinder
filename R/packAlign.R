@@ -95,14 +95,13 @@ packAlign <- function(packMatches, Genome, identity = 0, threads = 1,
         message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
     }
-    saveFolder <- paste0(saveFolder, "/")
     clustTest(saveFolder, threads, identity, strand = NULL, vSearchPath, 
             identityDefinition, type = "packAlign")
 
     packMatches <- 
         filterWildcards(packMatches, Genome, maxWildcards = maxWildcards)
 
-    packMatchesFile <- paste0(saveFolder, "/packMatches.fasta")
+    packMatchesFile <- file.path(saveFolder, "packMatches.fasta")
     packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
     packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
     Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)

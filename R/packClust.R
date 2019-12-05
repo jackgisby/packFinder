@@ -98,14 +98,13 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
         message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
     }
-    saveFolder <- paste0(saveFolder, "/")
     strand <- clustTest(saveFolder, threads, identity, strand, vSearchPath,
                         identityDefinition, type = "packClust")
 
     packMatches <- filterWildcards(packMatches, Genome, 
                                     maxWildcards = maxWildcards)
 
-    packMatchesFile <- paste0(saveFolder, "packMatches.fasta")
+    packMatchesFile <- file.path(saveFolder, "packMatches.fasta")
     ID <- as.integer(rownames(packMatches))
     packMatches$ID <- ID
     packMatches <- packMatches[order(-packMatches$width), ]
