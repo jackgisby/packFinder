@@ -92,10 +92,10 @@ packAlign <- function(packMatches, Genome, identity = 0, threads = 1,
                     identityDefinition = 2, maxWildcards = 0.05, saveFolder,
                     vSearchPath = "vsearch") {
     if (is.null(saveFolder)) {
+        message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
-    } else {
-        saveFolder <- paste0(saveFolder, "/")
     }
+    saveFolder <- paste0(saveFolder, "/")
     clustTest(saveFolder, threads, identity, strand = NULL, vSearchPath, 
             identityDefinition, type = "packAlign")
 

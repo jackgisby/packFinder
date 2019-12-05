@@ -95,6 +95,7 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
                         strand = "both", saveFolder = NULL,
                         vSearchPath = "vsearch") {
     if (is.null(saveFolder)) {
+        message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
     }
     saveFolder <- paste0(saveFolder, "/")
