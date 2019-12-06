@@ -78,20 +78,19 @@
 #' @export
 
 identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
-                                          Genome, elementLength, tsdMismatch = 0) {
-    packMatches <- data.frame(
-        seqnames = character(), start = integer(),
-        end = integer(), width = integer(), strand = factor()
-    )
+                                          Genome, elementLength, 
+                                          tsdMismatch = 0) {
+    packMatches <- initialisePackMatches()
 
+    # for each forward match, consider/filter each nearby reverse match
     for (forwardMatch in seq_len(length(forwardMatches[, 1]))) {
         forwardRepeat <- forwardMatches[forwardMatch, ]
         chr <- as.character(forwardRepeat[[1]])
         searchRange <- c(forwardRepeat$start + elementLength[1], 
                         forwardRepeat$start + elementLength[2])
 
-        if (searchRange[2] > length(Genome[Genome@ranges@NAMES == chr][[1]])) {
-            searchRange[2] <- length(Genome[Genome@ranges@NAMES == chr][[1]])
+        if (searchRange[2] > length(Genome[names(Genome) == chr][[1]])) {
+            searchRange[2] <- length(Genome[names(Genome) == chr][[1]])
         }
     
         reverseRepeats <- filterTsdMatches(reverseMatches, forwardRepeat, 
@@ -119,6 +118,8 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
 
 filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch, 
                              searchRange) {
+    
+    # filters for exact matches (faster), or uses matchpattern
     if (tsdMismatch == 0) {
         reverseRepeats <- reverseMatches[
             reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
@@ -129,8 +130,8 @@ filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch,
             ]
     } else {
         reverseRepeats <- reverseMatches[
-            reverseMatches$seqnames == as.character(forwardRepeat$seqnames) &
-                reverseMatches$end > searchRange[1] &
+                reverseMatches$seqnames == as.character(forwardRepeat$seqnames)
+                & reverseMatches$end > searchRange[1] &
                 reverseMatches$end < searchRange[2] &
                 reverseMatches$strand == "-",
             ]

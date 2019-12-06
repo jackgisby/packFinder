@@ -43,6 +43,7 @@
 #' @export
 
 getPacksFromGRanges <- function(packGRanges, Genome = NULL, tsdLength = NULL) {
+    # dataframe to GRanges, with the option to get TSDs as metadata
     if (is.null(Genome) | is.null(tsdLength)) {
         return(as.data.frame(packGRanges))
     }

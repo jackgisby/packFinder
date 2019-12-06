@@ -73,8 +73,9 @@ getPackSeqs <- function(packMatches, Genome, output = "DNAStringSet") {
             as 'string' or 'DNAStringSet'")
     }
 
+    # gets each sequence in packMatches
     seqs <- mapply(function(start, end, seqnames, Genome) {
-            seq <- Genome[Genome@ranges@NAMES == seqnames][[1]][start:end]
+            seq <- Genome[names(Genome) == seqnames][[1]][start:end]
             return(as.character(seq))
         },
         packMatches$start,
@@ -87,7 +88,7 @@ getPackSeqs <- function(packMatches, Genome, output = "DNAStringSet") {
         return(seqs)
     } else if (output == "DNAStringSet") {
         seqs <- Biostrings::DNAStringSet(seqs)
-        seqs@ranges@NAMES <- as.character(packMatches$seqnames)
+        names(seqs) <- as.character(packMatches$seqnames)
         return(seqs)
     }
 }

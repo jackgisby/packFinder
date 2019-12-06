@@ -52,8 +52,12 @@
 filterWildcards <- function(packMatches, Genome, maxWildcards = 0.05) {
     badMatches <- vector(mode = "logical", length = nrow(packMatches))
     
+    message(paste0("Removing matches with a proportion of 
+                    wildcards ('N's) above ", maxWildcards))
+    
+    # gets each sequence and removes those with many "N" bases
     for (i in seq_len(nrow(packMatches))) {
-        seq <- Genome[Genome@ranges@NAMES == packMatches$seqnames[i]]
+        seq <- Genome[names(Genome) == packMatches$seqnames[i]]
         seq <- as.character(seq[[1]][packMatches$start[i]:packMatches$end[i]])
         
         if (grepl("N", seq)) {
@@ -63,8 +67,6 @@ filterWildcards <- function(packMatches, Genome, maxWildcards = 0.05) {
         }
     }
 
-    message(paste0("Removing matches with a proportion of 
-                    wildcards ('N's) above ", maxWildcards))
     message(paste0(sum(badMatches), " matches removed"))
     return(packMatches[badMatches == FALSE, ])
 }

@@ -67,6 +67,7 @@
 
 getTsds <- function(tirMatches, Genome, tsdLength, strand = "+",
                         output = "character") {
+    
     if (strand != "+" & strand != "-") {
         stop("Argument 'strand' must be specified as a character, '+' or '-'")
     }
@@ -76,34 +77,30 @@ getTsds <- function(tirMatches, Genome, tsdLength, strand = "+",
             as 'string' or 'DNAStringSet'")
     }
 
+    # get TSD sequence in forward or reverse direction
     if (strand == "-") {
         TSDs <- mapply(function(seqnames, end, tsdLength, Genome) {
-                seq <- Genome[Genome@ranges@NAMES == seqnames][[1]]
+                seq <- Genome[names(Genome) == seqnames][[1]]
                 return(as.character(seq[(end + 1):(end + tsdLength)]))
             },
             tirMatches$seqnames,
             tirMatches$end,
             MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
         )
-        if (output == "DNAStringSet") {
-            return(Biostrings::DNAStringSet(TSDs))
-        } else {
-            return(TSDs)
-        }
     } else if (strand == "+") {
         TSDs <- mapply(function(seqnames, start, tsdLength, Genome) {
-                seq <- Genome[Genome@ranges@NAMES == seqnames][[1]]
+                seq <- Genome[names(Genome) == seqnames][[1]]
                 return(as.character(seq[(start - tsdLength):(start - 1)]))
             },
             tirMatches$seqnames,
             tirMatches$start,
             MoreArgs = list(tsdLength = tsdLength, Genome = Genome)
-            )
-
-        if (output == "DNAStringSet") {
-            return(Biostrings::DNAStringSet(TSDs))
-        } else {
-            return(TSDs)
-        }
+        )
+    }
+    
+    if (output == "DNAStringSet") {
+        return(Biostrings::DNAStringSet(TSDs))
+    } else {
+        return(TSDs)
     }
 }

@@ -41,26 +41,15 @@
 #' @export
 
 getPacksFromFasta <- function(file) {
-    if (!is.null(file)) {
-        if (!(file.access(file, 4) == 0) |
-            !(file.access(file, 4) == 0) |
-            !(file.access(file, 2) == 0)) {
-            stop("file does not exist, or R does not 
-                have read/write permissions")
-        }
-    }
-
+    checkPermissions(file)
     fileCon <- file(file, "r")
-    packMatches <- data.frame(
-        seqnames = character(),
-        start = integer(),
-        end = integer(),
-        width = integer(),
-        strand = character(),
-        TSD = character()
-    )
+    
+    packMatches <- initialisePackMatches(TSD = TRUE)
+    
     while (TRUE) {
         seqName <- readLines(fileCon, n = 1)
+        
+        # read FASTA until end of file
         if ((length(seqName) == 0) | (length(seq) == 0)) {
             break
         } else if (substr(seqName, 1, 1) != ">") {
@@ -68,6 +57,7 @@ getPacksFromFasta <- function(file) {
         }
         seq <- readLines(fileCon, n = 1)
 
+        # read package-specific FASTA file into dataframe
         seqName <- gsub(">", "", seqName)
         seqName <- gsub("start =", "", seqName)
         seqName <- gsub("end =", "", seqName)
@@ -78,14 +68,47 @@ getPacksFromFasta <- function(file) {
         seqName <- strsplit(seqName, "|", fixed = TRUE)[[1]]
         names(seqName) <- c("seqnames", "start", "end", 
                             "width", "strand", "TSD")
-        packMatches <- rbind(packMatches,
-            seqName,
-            stringsAsFactors = FALSE
-        )
+        
+        packMatches <- rbind(packMatches, seqName, stringsAsFactors = FALSE)
         seqName <- NULL
     }
+    
     close(fileCon)
     colnames(packMatches) <- c("seqnames", "start", "end", 
                                 "width", "strand", "TSD")
+    return(packMatches)
+}
+
+checkPermissions <- function(file) {
+    if (!is.null(file)) {
+        # check for read/write permissions
+        if (!(file.access(file, 4) == 0) |
+            !(file.access(file, 2) == 0)) {
+            stop("File does not exist, or R does not 
+                have read/write permissions")
+        }
+    }
+}
+
+initialisePackMatches <- function(TSD = FALSE) {
+    if (TSD == TRUE) {
+        packMatches <- data.frame(
+            seqnames = character(),
+            start = integer(),
+            end = integer(),
+            width = integer(),
+            strand = character(),
+            TSD = character()
+        )
+    } else {
+        packMatches <- data.frame(
+            seqnames = character(),
+            start = integer(),
+            end = integer(),
+            width = integer(),
+            strand = character()
+        )
+    }
+    
     return(packMatches)
 }
