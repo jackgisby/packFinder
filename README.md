@@ -1,13 +1,17 @@
 # packFinder <img src="inst/packFinder_hex.png" align="right" height="174" width="150" />
+
 A package for the de novo discovery of pack-TYPE transposons. Transposons are detected in DNA sequences based on conserved terminal inverted repeat sequences and presence of terminal site duplications. packFinder allows users to search a given Genome for Pack-TYPE transposons with minimal input and setup.
 
-![**Important structural features of Pack-TYPE transposons**](vignettes/tirSeq.jpg)
+## Installation
+packFinder has been submitted to Bioconductor; once the package has been approved it can be downloaded as below:
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 
-## Bioconductor Submission
-R CMD check was run in <2 minutes with no warnings, errors or notes. BiocCheck was run with a single note: 
-"Usage of dontrun{} / donttest{} found in man page examples."
+BiocManager::install("packFinder")
+```
 
-Two functions, packClust and packAlign, are not run in examples or vignettes. These functions use the command line tool VSEARCH (https://github.com/torognes/vsearch) to cluster putative transposable elements - could not find an equivalent tool in R that clustered sequences with the same performance and accuracy. Note this is not part of the main package annotation pipeline; the main functions, such as packSearch, can be run without installation of VSEARCH and are run in examples/vignettes in the package. 
+Additionally, in order to use the functions packClust and packAlign, the VSEARCH command line tool must be installed. For Linux and MacOS systems, correct installation of VSEARCH should allow users to use all functions within packFinder; for windows users, the absolute path to the VSEARCH executable file must be specified when calling packFinder clustering and alignment functions. See the vignette, documentation or the VSEARCH github for further information (https://github.com/torognes/vsearch).
 
 ## Using packFinder
-The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette. Additionally, VSEARCH installation instructions can be found here.
+The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette ().

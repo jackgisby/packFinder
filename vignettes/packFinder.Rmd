@@ -98,7 +98,7 @@ Bioconductor's `Biostrings` provides methods for the conversion of various
 formats to `DNAString` objects, including from character vectors and 
 fasta files.
 
-```{r biostrings, eval=FALSE}
+```{r biostrings}
 # Convert a character vector to a DNAString
 Biostrings::DNAString("CATG")
 
@@ -109,7 +109,8 @@ Biostrings::DNAStringSet(c(
 ))
 
 # Convert a FASTA file to a DNAStringSet
-Biostrings::readDNAStringSet("path/to/fasta",
+Biostrings::readDNAStringSet(
+    system.file("extdata", "packMatches.fasta", package = "packFinder"),
     format = "fasta"
 )
 ```

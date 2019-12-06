@@ -5,7 +5,7 @@
 \title{Identify Terminal Inverted Repeat Matches}
 \usage{
 identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*",
-  tsdLength)
+    tsdLength)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} 
@@ -19,7 +19,10 @@ objects to be searched.}
 \item{mismatch}{The allowable mismatch between \code{tirSeq} and a 
 given slice of \code{Genome}. Includes indels.}
 
-\item{strand}{The directionality of the search string ("+", "-" or "*").}
+\item{strand}{The directionality of the search string ("+" or "-"). Note
+that this does affect the search for tirSeqs, if you wish 
+to search the reverse strand you should use the reverse 
+complement of your sequence.}
 
 \item{tsdLength}{Integer referring to the length of the flanking TSD region.}
 }
@@ -47,7 +50,8 @@ data(arabidopsisThalianaRefseq)
 forwardMatches <- identifyTirMatches(
     Biostrings::DNAString("CACTACAA"),
     arabidopsisThalianaRefseq,
-    tsdLength = 3
+    tsdLength = 3,
+    strand = "+"
 )
 
 }

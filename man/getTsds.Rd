@@ -5,7 +5,7 @@
 \title{Get Flanking Terminal Site Duplication Sequences}
 \usage{
 getTsds(tirMatches, Genome, tsdLength, strand = "+",
-  output = "character")
+    output = "character")
 }
 \arguments{
 \item{tirMatches}{A dataframe containing genomic ranges and names referring 

@@ -87,11 +87,13 @@
 
 tirClust <- function(packMatches, Genome, tirLength = 25, plot = TRUE,
                         plotSavePath = NULL, k = 5, output = "consensus") {
+    
     if (output != "consensus" & output != "dendrogram") {
         stop("Argument 'output' must be specified 
             as 'consensus' or 'dendrogram'")
     }
     
+    # use biostrings to get consensus sequences for each cluster's TIRs
     consensusSeqs <- getConsensusSeqs(packMatches, tirLength, Genome)
     
     dend <- stats::as.dendrogram(stats::hclust(
@@ -128,7 +130,7 @@ getConsensusSeqs <- function(packMatches, tirLength, Genome) {
         reverseTirs <- vector("list", length = length(clust[, 1]))
         
         for (i in seq_len(length(clust[, 1]))) {
-            seq <- Genome[Genome@ranges@NAMES == clust$seqnames[i]][[1]]
+            seq <- Genome[names(Genome) == clust$seqnames[i]][[1]]
             if (clust$strand[i] == "+") {
                 fSeq <- seq[clust$start[i]:(clust$start[i] + tirLength)]
                 rSeq <- seq[(clust$end[i] - tirLength):clust$end[i]]
@@ -150,9 +152,11 @@ getConsensusSeqs <- function(packMatches, tirLength, Genome) {
     
     fConsensusSeqs <- Biostrings::DNAStringSet(unlist(fConsensusSeqs))
     rConsensusSeqs <- Biostrings::DNAStringSet(unlist(rConsensusSeqs))
-    fConsensusSeqs@ranges@NAMES <- 
+    
+    names(fConsensusSeqs) <- 
         paste0("f", as.character(unique(packMatches$cluster)))
-    rConsensusSeqs@ranges@NAMES <- 
+    names(rConsensusSeqs) <- 
         paste0("r", as.character(unique(packMatches$cluster)))
+    
     return(c(fConsensusSeqs, rConsensusSeqs))
 }

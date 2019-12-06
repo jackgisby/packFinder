@@ -91,10 +91,12 @@
 packAlign <- function(packMatches, Genome, identity = 0, threads = 1, 
                     identityDefinition = 2, maxWildcards = 0.05, saveFolder,
                     vSearchPath = "vsearch") {
+    
     if (is.null(saveFolder)) {
         message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
     }
+    
     clustTest(saveFolder, threads, identity, strand = NULL, vSearchPath, 
             identityDefinition, type = "packAlign")
 
@@ -103,25 +105,19 @@ packAlign <- function(packMatches, Genome, identity = 0, threads = 1,
 
     packMatchesFile <- file.path(saveFolder, "packMatches.fasta")
     packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
-    packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
+    names(packMatchesSet) <- as.character(rownames(packMatches))
     Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
 
     system2(command = vSearchPath, args = paste0(
-        "--allpairs_global ", packMatchesFile, " \ ",
-        "--id ", identity, " \ ",
-        "--output_no_hits \ ",
-        "--iddef ", identityDefinition, " \ ",
+        "--allpairs_global ", packMatchesFile, " \ ", "--id ", identity, " \ ", 
+        "--output_no_hits \ ", "--iddef ", identityDefinition, " \ ", 
         "--threads ", threads, " \ ",
-        "--uc ", file.path(saveFolder, paste0("vSearchPairwiseAlignment", 
-                                                ".uc")), " \ ",
-        "--fastapairs ", file.path(saveFolder, paste0("alignmentPairs.fasta")), 
-        " \ ",
+        "--uc ", file.path(saveFolder, "vSearchPairwiseAlignment.uc"), " \ ",
+        "--fastapairs ", file.path(saveFolder, "alignmentPairs.fasta"), " \ ",
         "--blast6out ", file.path(saveFolder, 
-                                    paste0("vSearchPairwiseAlignment",
-                                            ".blast6out")), " \ ")
+                                "vSearchPairwiseAlignment.blast6out"), " \ ")
     )
 
-    return(readUc(file.path(saveFolder,
-                            paste0("vSearchPairwiseAlignment", ".uc")), 
+    return(readUc(file.path(saveFolder, "vSearchPairwiseAlignment.uc"), 
                             output = "alignment"))
 }

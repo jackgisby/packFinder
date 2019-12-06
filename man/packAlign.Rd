@@ -5,8 +5,8 @@
 \title{Global Alignment with VSEARCH}
 \usage{
 packAlign(packMatches, Genome, identity = 0, threads = 1,
-  identityDefinition = 2, maxWildcards = 0.05, saveFolder,
-  vSearchPath = "vsearch")
+    identityDefinition = 2, maxWildcards = 0.05, saveFolder,
+    vSearchPath = "vsearch")
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements, 

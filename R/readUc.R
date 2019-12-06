@@ -99,13 +99,7 @@
 #' @export
 
 readUc <- function(file, output = "cluster") {
-    if (!is.null(file)) {
-        if (!(file.access(file, 4) == 0) |
-            !(file.access(file, 2) == 0)) {
-            stop("file does not exist, or R does not have 
-                read/write permissions")
-        }
-    }
+    checkPermissions(file)
 
     if (output != "cluster" & output != "alignment") {
         stop("Argument 'output' must be specified as 'cluster' or 'alignment'")
@@ -128,6 +122,7 @@ readUc <- function(file, output = "cluster") {
     cluster <- packClusts$cluster
     strand <- packClusts$strand
 
+    # different parts of the uc file are required for different purposes
     if (output == "cluster") {
         return(subset(packClusts, select = -c(6, 7)))
     } else if (output == "alignment") {

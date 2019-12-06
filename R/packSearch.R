@@ -129,6 +129,7 @@
 
 packSearch <- function(tirSeq, Genome, mismatch = 0, 
                         elementLength, tsdLength, tsdMismatch = 0) {
+    
     searchCheck(mismatch, tsdLength, elementLength, tirSeq, Genome)
 
     message("Getting forward matches")

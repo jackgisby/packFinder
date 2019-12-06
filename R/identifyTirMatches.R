@@ -20,7 +20,10 @@
 #' given slice of \code{Genome}. Includes indels.
 #'
 #' @param strand
-#' The directionality of the search string ("+", "-" or "*").
+#' The directionality of the search string ("+" or "-"). Note
+#' that this does affect the search for tirSeqs, if you wish 
+#' to search the reverse strand you should use the reverse 
+#' complement of your sequence. 
 #'
 #' @param tsdLength
 #' Integer referring to the length of the flanking TSD region.
@@ -50,7 +53,8 @@
 #' forwardMatches <- identifyTirMatches(
 #'     Biostrings::DNAString("CACTACAA"),
 #'     arabidopsisThalianaRefseq,
-#'     tsdLength = 3
+#'     tsdLength = 3,
+#'     strand = "+"
 #' )
 #' 
 #' @author
@@ -60,20 +64,16 @@
 
 identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*", 
                             tsdLength) {
-    if (strand != "-" & strand != "+" & strand != "*") {
-        stop("Argument 'strand' must be specified as '-', '+' or '*'")
+    if (strand != "-" & strand != "+") {
+        stop("Argument 'strand' must be specified as '-' or '+'")
     }
 
-    tirMatches <- data.frame(
-        seqnames = factor(),
-        start = integer(),
-        end = integer(),
-        width = integer(),
-        strand = factor()
-    )
+    tirMatches <- initialisePackMatches()
 
+    # get tir matches
     for (i in seq_len(length(Genome))) {
-        matches <- Biostrings::matchPattern(tirSeq,
+        matches <- Biostrings::matchPattern(
+            tirSeq,
             Genome[[i]],
             max.mismatch = mismatch,
             with.indels = TRUE
@@ -82,18 +82,20 @@ identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*",
         if (length(matches) > 0) {
             tirMatches <- rbind(tirMatches, data.frame(
                 seqnames = names(Genome)[i],
-                start = matches@ranges@start,
-                end = matches@ranges@start + matches@ranges@width - 1,
-                width = matches@ranges@width,
+                start = GenomicRanges::start(matches),
+                end = GenomicRanges::start(matches) + 
+                    GenomicRanges::width(matches) - 1,
+                width = GenomicRanges::width(matches),
                 strand = strand
             ))
         }
     }
 
+    # remove matches whose TSD sequences do not exist (index range)
     if (strand == "-") {
         removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
-                seq <- Genome[Genome@ranges@NAMES == seqnames][[1]]
-                return((end + tsdLength) > seq@length)
+                seq <- Genome[names(Genome) == seqnames][[1]]
+                return((end + tsdLength) > length(seq))
             },
             tirMatches$end,
             tirMatches$seqnames,

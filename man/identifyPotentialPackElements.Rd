@@ -5,7 +5,7 @@
 \title{Pack Element Filtering}
 \usage{
 identifyPotentialPackElements(forwardMatches, reverseMatches, Genome,
-  elementLength, tsdMismatch = 0)
+    elementLength, tsdMismatch = 0)
 }
 \arguments{
 \item{forwardMatches}{A dataframe containing genomic ranges and names referring 
@@ -55,13 +55,15 @@ data(arabidopsisThalianaRefseq)
 forwardMatches <- identifyTirMatches(
     Biostrings::DNAString("CACTACAA"),
     arabidopsisThalianaRefseq,
-    tsdLength = 3
+    tsdLength = 3,
+    strand = "+"
 )
 
 reverseMatches <- identifyTirMatches(
     Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
     arabidopsisThalianaRefseq,
-    tsdLength = 3
+    tsdLength = 3,
+    strand = "-"
 )
 
 packMatches <- identifyPotentialPackElements(

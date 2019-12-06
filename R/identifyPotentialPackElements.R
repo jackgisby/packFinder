@@ -56,13 +56,15 @@
 #' forwardMatches <- identifyTirMatches(
 #'     Biostrings::DNAString("CACTACAA"),
 #'     arabidopsisThalianaRefseq,
-#'     tsdLength = 3
+#'     tsdLength = 3,
+#'     strand = "+"
 #' )
 #' 
 #' reverseMatches <- identifyTirMatches(
 #'     Biostrings::reverseComplement(Biostrings::DNAString("CACTACAA")),
 #'     arabidopsisThalianaRefseq,
-#'     tsdLength = 3
+#'     tsdLength = 3,
+#'     strand = "-"
 #' )
 #' 
 #' packMatches <- identifyPotentialPackElements(
@@ -78,8 +80,8 @@
 #' @export
 
 identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
-                                          Genome, elementLength, 
-                                          tsdMismatch = 0) {
+                                            Genome, elementLength, 
+                                            tsdMismatch = 0) {
     packMatches <- initialisePackMatches()
 
     # for each forward match, consider/filter each nearby reverse match
@@ -94,7 +96,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
         }
     
         reverseRepeats <- filterTsdMatches(reverseMatches, forwardRepeat, 
-                                           tsdMismatch, searchRange)
+                                            tsdMismatch, searchRange)
 
         if (length(reverseRepeats[, 1]) > 0) {
             for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
@@ -104,8 +106,8 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
                         seqnames = forwardRepeat$seqnames,
                         start = forwardRepeat$start,
                         end = reverseRepeats[reverseMatch, ]$end,
-                        width = reverseRepeats[reverseMatch, ]$end 
-                                - forwardRepeat$start + 1,
+                        width = reverseRepeats[reverseMatch, ]$end
+                            - forwardRepeat$start + 1,
                         strand = "*"
                     )
                 )
@@ -117,7 +119,7 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
 
 
 filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch, 
-                             searchRange) {
+                                searchRange) {
     
     # filters for exact matches (faster), or uses matchpattern
     if (tsdMismatch == 0) {
@@ -139,9 +141,9 @@ filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch,
         if (length(reverseRepeats[, 1]) > 0) {
             reverseRepeats <- reverseRepeats[
             Biostrings::vcountPattern(as.character(forwardRepeat$TSD),
-                                      reverseRepeats$TSD,
-                                      max.mismatch = tsdMismatch,
-                                      with.indels = TRUE) > 0,
+                                        reverseRepeats$TSD,
+                                        max.mismatch = tsdMismatch,
+                                        with.indels = TRUE) > 0,
             ]
         }
     }

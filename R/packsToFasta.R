@@ -53,9 +53,12 @@
 #' @export
 
 packsToFasta <- function(packMatches, file, Genome) {
+    
     file.create(file)
+    
+    # create package-specific FASTA file
     for (match in seq_len(length(packMatches[, 1]))) {
-        seq <- Genome[Genome@ranges@NAMES == packMatches$seqnames[match]][[1]]
+        seq <- Genome[names(Genome) == packMatches$seqnames[match]][[1]]
         seq <- seq[packMatches$start[match]:packMatches$end[match]]
         write(c(
             paste0(
@@ -72,5 +75,6 @@ packsToFasta <- function(packMatches, file, Genome) {
         append = TRUE
         )
     }
+    
     return(print(paste0("FASTA written to ", file)))
 }

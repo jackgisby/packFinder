@@ -94,10 +94,12 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
                         identityDefinition = 2, maxWildcards = 0.05, 
                         strand = "both", saveFolder = NULL,
                         vSearchPath = "vsearch") {
+    
     if (is.null(saveFolder)) {
         message("Results will be saved in the working directory: ", getwd())
         saveFolder <- getwd()
     }
+    
     strand <- clustTest(saveFolder, threads, identity, strand, vSearchPath,
                         identityDefinition, type = "packClust")
 
@@ -109,22 +111,20 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
     packMatches$ID <- ID
     packMatches <- packMatches[order(-packMatches$width), ]
     packMatchesSet <- getPackSeqs(packMatches, Genome, output = "DNAStringSet")
-    packMatchesSet@ranges@NAMES <- as.character(rownames(packMatches))
+    names(packMatchesSet) <- as.character(rownames(packMatches))
     Biostrings::writeXStringSet(packMatchesSet, packMatchesFile)
 
     system2(command = vSearchPath, args = paste0(
         "--cluster_smallmem ", packMatchesFile, " \ ", "--id ", identity, 
         " \ ", "--strand ", strand, " \ ", "--iddef ", identityDefinition, 
         " \ ", "--threads ", threads, " \ ", "--qmask none \ ", 
-        "--log ", file.path(saveFolder, paste0("packMatches", ".log")), " \ ", 
-        "--uc ", file.path(saveFolder, paste0("packMatches", ".uc")), " \ ", 
-        "--blast6out ", 
-        file.path(saveFolder, paste0("packMatches", ".blast6out")), " \ ", 
+        "--log ", file.path(saveFolder, "packMatches.log"), " \ ", 
+        "--uc ", file.path(saveFolder, "packMatches.uc"), " \ ", 
+        "--blast6out ", file.path(saveFolder, "packMatches.blast6out"), " \ ", 
         "--sizeout")
     )
 
-    vSearchClusts <- readUc(file = file.path(saveFolder, 
-        paste0("packMatches", ".uc")))
+    vSearchClusts <- readUc(file = file.path(saveFolder, "packMatches.uc"))
     vSearchClusts <- vSearchClusts[vSearchClusts$type != "C", ]
 
     packMatches$strand <- mapply(function(strand) {
