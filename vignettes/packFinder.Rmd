@@ -62,11 +62,15 @@ of clustering and alignment functions.
 
 CRAN and Bioconductor packages will be automatically installed 
 when downloading `packFinder`. The package may be installed 
-from github by running the following chunk:
+from the development branch of Bioconductor, as long as R version 
+4.0.0 is installed. 
 
 ```{r packFinderInstall, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
 
 BiocManager::install("packFinder")
 ```
@@ -161,7 +165,7 @@ relations between the identified elements, we can use VSEARCH to cluster
 predicted transposons. Here we run VSEARCH with the default parameters, 
 meaning:
 
-*An identity of 55% between two elements is required to form a cluster
+*An identity of 60% between two elements is required to form a cluster
 *The method of identity detection is the VSEARCH default
 
 The identity and method of identity definition can be altered depending on 
