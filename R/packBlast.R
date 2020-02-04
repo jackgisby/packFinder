@@ -1,5 +1,5 @@
 #' @title
-#' BLAST Analysis of PackTYPE Elements 
+#' Pipeline for BLAST/Classification of PackTYPE Elements
 #'
 #' @description
 #' Run BLAST against user-specified databases of 
@@ -33,6 +33,25 @@
 #'
 #' @export
 
-packBlast <- function() {
+packBlast <- function(packMatches, Genome, blastPath, proteinDb, autoDb,
+                      minE = 1e-3, blastTask = "blastn-short", maxHits = 100,
+                      threads = 1, saveFolder = NULL, tirCutoff = 100,
+                      autoCutoff = 1e-5, autoLength = 150, autoIdentity = 70,
+                      autoScope = NULL, protCutoff = 1e-5, protLength = 250, 
+                      protIdentity = 70, protScope = 0.3) {
     
+    blastAnalysis(packMatches, Genome, proteinDb = proteinDb, autoDb = autoDb, 
+                  blastPath = blastPath, minE = minE, blastTask = blastTask,
+                  maxHits = maxHits, threads = threads, saveFolder = saveFolder,
+                  tirCutoff = tirCutoff)
+    
+    autoHits <- readBlast("autoHits.blast", cutoff = autoCutoff, length = autoLength, identity = autoIdentity,
+                          removeExactMatches = TRUE, 
+                          Scope = autoScope, packMatches = packMatches)
+    
+    protHits <- readBlast("protHits.blast", cutoff = protCutoff, length = protLength, identity = protIdentity,
+              removeExactMatches = FALSE, 
+              Scope = protScope, packMatches = packMatches)
+    
+    return(blastAnnotate(protHits, autoHits, packMatches))
 }

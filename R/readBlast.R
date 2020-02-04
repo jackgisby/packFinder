@@ -25,11 +25,11 @@
 #'
 #' @export
 
-readBlast <- function(hits, cutoff = 1, length = 0, identity = 0,
+readBlast <- function(blastData, cutoff = 1, length = 0, identity = 0,
                       removeExactMatches = FALSE, 
                       Scope = NULL, packMatches = NULL) {
     
-    blastData <- read.table(hits, sep = "\t", 
+    blastData <- read.table(blastData, sep = "\t", 
                            header = FALSE, stringsAsFactors = FALSE)
     
     colnames(blastData) <- c("query_id", "subject_id","identity", 

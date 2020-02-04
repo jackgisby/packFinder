@@ -33,8 +33,8 @@
 #'
 #' @export
 
-blastAnalysis <- function(packMatches, Genome, proteinDb = NULL, autoDb = NULL, 
-                          blastPath, minE = 1e-3, blastTask = "blastn-short",
+blastAnalysis <- function(packMatches, Genome, blastPath, proteinDb = NULL, autoDb = NULL, 
+                          minE = 1e-3, blastTask = "blastn-short",
                           maxHits = 100, threads = 1, saveFolder = NULL,
                           tirCutoff = 0) {
     
