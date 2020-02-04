@@ -45,6 +45,6 @@ makeBlastDb <- function(fastaFile, dbPath, blastPath, dbType = "nucl") {
         "-in ", file.path(getwd(), fastaFile), " ", 
         "-input_type fasta -dbtype ", dbType, 
         " -parse_seqids -out ", dbPath, " ",
-        "-title packfinder DB"   
+        "-title packfinder_DB"   
     ))
 }

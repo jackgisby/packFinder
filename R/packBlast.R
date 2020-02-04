@@ -18,7 +18,7 @@
 #' packMatches <- data(packMatches)
 #' Genome <- data(arabidopsisThalianaRefseq)
 #' packBlast(packMatches, Genome, 
-#'     proteinDb = ", 
+#'     protDb = ", 
 #'     autoDb, 
 #'     blastPath)
 #' }
@@ -33,25 +33,33 @@
 #'
 #' @export
 
-packBlast <- function(packMatches, Genome, blastPath, proteinDb, autoDb,
+packBlast <- function(packMatches, Genome, blastPath, protDb, autoDb,
                       minE = 1e-3, blastTask = "blastn-short", maxHits = 100,
                       threads = 1, saveFolder = NULL, tirCutoff = 100,
                       autoCutoff = 1e-5, autoLength = 150, autoIdentity = 70,
                       autoScope = NULL, protCutoff = 1e-5, protLength = 250, 
                       protIdentity = 70, protScope = 0.3) {
     
-    blastAnalysis(packMatches, Genome, proteinDb = proteinDb, autoDb = autoDb, 
+    if (is.null(saveFolder)) {
+        saveFolder <- getwd()
+    }
+    
+    blastAnalysis(packMatches, Genome, protDb = protDb, autoDb = autoDb, 
                   blastPath = blastPath, minE = minE, blastTask = blastTask,
                   maxHits = maxHits, threads = threads, saveFolder = saveFolder,
                   tirCutoff = tirCutoff)
     
-    autoHits <- readBlast("autoHits.blast", cutoff = autoCutoff, length = autoLength, identity = autoIdentity,
-                          removeExactMatches = TRUE, 
+    packMatches$id <- rownames(packMatches)
+    
+    autoHits <- readBlast(file.path(saveFolder, "autoHits.blast"), 
+                          cutoff = autoCutoff, length = autoLength, 
+                          identity = autoIdentity, removeExactMatches = FALSE, 
                           Scope = autoScope, packMatches = packMatches)
     
-    protHits <- readBlast("protHits.blast", cutoff = protCutoff, length = protLength, identity = protIdentity,
-              removeExactMatches = FALSE, 
-              Scope = protScope, packMatches = packMatches)
+    protHits <- readBlast(file.path(saveFolder, "protHits.blast"), 
+                          cutoff = protCutoff, length = protLength, 
+                          identity = protIdentity, removeExactMatches = TRUE,
+                          Scope = protScope, packMatches = packMatches)
     
     return(blastAnnotate(protHits, autoHits, packMatches))
 }

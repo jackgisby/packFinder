@@ -29,8 +29,9 @@ blastAnnotate <- function(protHits, autoHits, packMatches) {
     matchType <- vector("character", length=nrow(packMatches))
     
     for (rowname in 1:nrow(packMatches)) {
-        protHit <- nrow(protHits[blastData$query_id == as.integer(rowname),])
-        autoHit <- nrow(autoHits[muleHits$query_id == as.integer(rowname),])
+        # fix this
+        protHit <- nrow(protHits[protHits$query_id == as.integer(rowname),])
+        autoHit <- nrow(autoHits[autoHits$query_id == as.integer(rowname),])
         
         if (autoHit > 0) {
             matchType[rowname] <- "auto"

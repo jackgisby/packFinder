@@ -25,11 +25,11 @@
 #'
 #' @export
 
-readBlast <- function(blastData, cutoff = 1, length = 0, identity = 0,
+readBlast <- function(blastDataFile, cutoff = 1, length = 0, identity = 0,
                       removeExactMatches = FALSE, 
                       Scope = NULL, packMatches = NULL) {
     
-    blastData <- read.table(blastData, sep = "\t", 
+    blastData <- read.table(blastDataFile, sep = "\t", 
                            header = FALSE, stringsAsFactors = FALSE)
     
     colnames(blastData) <- c("query_id", "subject_id","identity", 
@@ -41,7 +41,7 @@ readBlast <- function(blastData, cutoff = 1, length = 0, identity = 0,
     blastData <- blastData[blastData$alignment_length > length,]
     blastData <- blastData[blastData$identity > identity,]
     
-    if (removePerfect) {
+    if (removeExactMatches) {
         blastData <- blastData[blastData$identity < 100,]
     }
     
@@ -50,7 +50,7 @@ readBlast <- function(blastData, cutoff = 1, length = 0, identity = 0,
         scope <- vector("numeric", nrow(blastData))
         
         for (rowname in 1:nrow(blastData)) {
-            width[rowname] <- clusteredMatches$width[clusteredMatches$id == blastData[rowname,]$query_id]
+            width[rowname] <- packMatches$width[packMatches$id == blastData[rowname,]$query_id]
             scope[rowname] <- blastData[rowname,]$alignment_length / width[rowname]
         }
         
