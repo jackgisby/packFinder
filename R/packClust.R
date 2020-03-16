@@ -121,7 +121,7 @@ packClust <- function(packMatches, Genome, identity = 0.6, threads = 1,
         "--log ", file.path(saveFolder, "packMatches.log"), " \ ", 
         "--uc ", file.path(saveFolder, "packMatches.uc"), " \ ", 
         "--blast6out ", file.path(saveFolder, "packMatches.blast6out"), " \ ", 
-        "--sizeout")
+        "--sizeout --minseqlength 10")
     )
 
     vSearchClusts <- readUc(file = file.path(saveFolder, "packMatches.uc"))
