@@ -249,7 +249,7 @@ readUc(system.file(
     package = "packFinder"
 ))
 
-readBlast6Out(system.file(
+readBlast(system.file(
     "extdata",
     "packMatches.blast6out",
     package = "packFinder"
@@ -320,7 +320,7 @@ packMatches <- packAlign(
 ## Matching query sequences: 5 of 6 (83.33%)
 ```
 
-As with VSEARCH clustering, a `.uc` and `.blast6out` file are created by the 
+As with VSEARCH clustering, a `.uc` and `.blast` file are created by the 
 alignment. The alignment function returns a summary of the `.uc` file, 
 however the full details of each file can be recovered as before. 
 

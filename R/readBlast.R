@@ -8,7 +8,7 @@
 #' @param file
 #' The file path of the blast file.
 #' 
-#' @param cutoff
+#' @param minE
 #' Blast results with e values greater than
 #' the specified cutoff will be ignored.
 #' 
@@ -96,13 +96,13 @@
 #'
 #' @export
 
-readBlast <- function(blastDataFile, cutoff = 1, length = 0, identity = 0,
+readBlast <- function(file, minE = 1, length = 0, identity = 0,
                       removeExactMatches = FALSE, 
                       scope = NULL, packMatches = NULL) {
     
     checkPermissions(file)
     
-    blastData <- read.table(blastDataFile, sep = "\t", 
+    blastData <- read.table(file, sep = "\t", 
                            header = FALSE, stringsAsFactors = FALSE)
     
     colnames(blastData) <- c("query_id", "subject_id","identity", 
@@ -110,7 +110,7 @@ readBlast <- function(blastDataFile, cutoff = 1, length = 0, identity = 0,
                              "q.start", "q.end", "s.start", "s.end", "evalue", 
                              "bit_score")
     
-    blastData <- blastData[blastData$evalue < cutoff,]
+    blastData <- blastData[blastData$evalue < minE,]
     blastData <- blastData[blastData$alignment_length > length,]
     blastData <- blastData[blastData$identity > identity,]
     

@@ -3,7 +3,7 @@ context("conversion functions")
 dir.create("tempTestOutput")
 ucClust <- readUc("data-raw/clustOutput.uc")
 ucAlign <- readUc("data-raw/alignOutput.uc")
-blast6Out <- readBlast6Out("data-raw/clustOutput.blast6out")
+blast6Out <- readBlast("data-raw/clustOutput.blast6out")
 
 test_that("object type is as expected", {
     expect_type(ucClust, "list")
