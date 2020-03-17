@@ -4,8 +4,14 @@
 \alias{packSearch}
 \title{packFinder Algorithm Pipeline}
 \usage{
-packSearch(tirSeq, Genome, mismatch = 0, elementLength, tsdLength,
-    tsdMismatch = 0)
+packSearch(
+  tirSeq,
+  Genome,
+  mismatch = 0,
+  elementLength,
+  tsdLength,
+  tsdMismatch = 0
+)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} 

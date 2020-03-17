@@ -4,7 +4,9 @@
 \name{packMatches}
 \alias{packMatches}
 \title{Sample packFinder Output}
-\format{A dataframe of 9 obs. and 7 variables.}
+\format{
+A dataframe of 9 obs. and 7 variables.
+}
 \usage{
 data(packMatches)
 }

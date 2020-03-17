@@ -4,9 +4,16 @@
 \alias{packAlign}
 \title{Global Alignment with VSEARCH}
 \usage{
-packAlign(packMatches, Genome, identity = 0, threads = 1,
-    identityDefinition = 2, maxWildcards = 0.05, saveFolder,
-    vSearchPath = "vsearch")
+packAlign(
+  packMatches,
+  Genome,
+  identity = 0,
+  threads = 1,
+  identityDefinition = 2,
+  maxWildcards = 0.05,
+  saveFolder,
+  vSearchPath = "vsearch"
+)
 }
 \arguments{
 \item{packMatches}{A dataframe of potential Pack-TYPE transposable elements, 
@@ -80,7 +87,7 @@ further information.
 }
 \seealso{
 \code{\link{tirClust}}, \code{\link{packClust}}, 
-\code{\link{readBlast6Out}}, \code{\link{readUc}},
+\code{\link{readBlast}}, \code{\link{readUc}},
 \code{\link{filterWildcards}}, \code{\link{packSearch}}
 }
 \author{

@@ -4,8 +4,7 @@
 \alias{identifyTirMatches}
 \title{Identify Terminal Inverted Repeat Matches}
 \usage{
-identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*",
-    tsdLength)
+identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*", tsdLength)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} 

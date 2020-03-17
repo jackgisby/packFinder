@@ -4,10 +4,12 @@
 \name{arabidopsisThalianaRefseq}
 \alias{arabidopsisThalianaRefseq}
 \title{Arabidopsis thaliana Refseq Genome Chromosome 3 Subset}
-\format{A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
+\format{
+A \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} 
 object containing a 
 \code{\link[Biostrings:XString-class]{DNAString}} for 
-Arabidopsis thaliana's chromosome 3 sequence.}
+Arabidopsis thaliana's chromosome 3 sequence.
+}
 \source{
 The Arabidopsis thaliana genome was downloaded from the 
 NCBI refseq database on 20/SEP/2019, using 
