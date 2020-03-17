@@ -57,7 +57,7 @@
 #'
 #' @seealso
 #' \code{\link{tirClust}}, \code{\link{packClust}}, 
-#' \code{\link{readBlast6Out}}, \code{\link{readUc}},
+#' \code{\link{readBlast}}, \code{\link{readUc}},
 #' \code{\link{filterWildcards}}, \code{\link{packSearch}}
 #' 
 #' 

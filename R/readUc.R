@@ -78,7 +78,7 @@
 #' 
 #' @seealso
 #' code{\link{tirClust}}, code{\link{packAlign}}, 
-#' code{\link{readBlast6Out}}, code{\link{packClust}}
+#' code{\link{readBlast}}, code{\link{packClust}}
 #'
 #' @references
 #' VSEARCH may be downloaded from 
