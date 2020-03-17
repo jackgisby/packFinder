@@ -22,6 +22,7 @@ test_that("dimensions of packMatches are correct", {
 
 test_that("packSearch returns correct results", {
     packMatchesTest$strand <- "+"
+    packMatchesTest$seqnames <- as.factor(packMatchesTest$seqnames)
     expect_equal(packMatchesTest, subset(packMatches, select = -c(cluster)))
 })
 
