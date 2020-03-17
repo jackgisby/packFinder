@@ -58,7 +58,7 @@
 #' @export
 
 collapseSeqs <- function(packMatches, Genome) {
-    uniqueMatches <- unique(packMatches[,1:5])
+    uniqueMatches <- unique(packMatches[,seq_len(5)])
     collapsedMatches <- uniqueMatches[0,]
     
     uniqueRanges <- packsToGRanges(uniqueMatches)
@@ -74,10 +74,10 @@ collapseSeqs <- function(packMatches, Genome) {
         if (length(overlaps) == 0) {
             collapsedRanges <- c(collapsedRanges, query)
         } else {
-            queryStart <- start(query)
+            queryStart <- GenomicRanges::start(query)
             queryEnd <- queryStart + GenomicRanges::width(query) - 1
-            overlapStart <- start(uniqueRanges[S4Vectors::to(overlaps)[1]])
             overlap <- uniqueRanges[S4Vectors::to(overlaps)[1]]
+            overlapStart <- GenomicRanges::start(overlap)
             overlapEnd <- overlapStart + GenomicRanges::width(overlap) - 1
             
             IRanges::ranges(uniqueRanges[S4Vectors::to(overlaps)[1]]) <- 

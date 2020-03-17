@@ -27,7 +27,9 @@
 #' @param scope
 #' If specified, blast results below the specified value
 #' will be ignored. Note that the dataframe of transposon
-#' matches must also be supplied to calculate scope.
+#' matches must also be supplied to calculate scope. Scope is 
+#' the proportion of the transposon's internal sequence 
+#' occupied by the BLAST hit. 
 #' 
 #' @param packMatches
 #' taframe containing genomic ranges and names referring 
@@ -102,7 +104,7 @@ readBlast <- function(file, minE = 1, length = 0, identity = 0,
     
     checkPermissions(file)
     
-    blastData <- read.table(file, sep = "\t", 
+    blastData <- utils::read.table(file, sep = "\t", 
                            header = FALSE, stringsAsFactors = FALSE)
     
     colnames(blastData) <- c("query_id", "subject_id","identity", 
@@ -122,9 +124,12 @@ readBlast <- function(file, minE = 1, length = 0, identity = 0,
         width <- vector("integer", nrow(blastData))
         scope_filter <- vector("numeric", nrow(blastData))
         
-        for (rowname in 1:nrow(blastData)) {
-            width[rowname] <- packMatches$width[packMatches$id == blastData[rowname,]$query_id]
-            scope_filter[rowname] <- blastData[rowname,]$alignment_length / width[rowname]
+        for (rowname in seq_len(nrow(blastData))) {
+            width[rowname] <- 
+                packMatches$width[
+                    packMatches$id == blastData[rowname,]$query_id]
+            scope_filter[rowname] <- 
+                blastData[rowname,]$alignment_length / width[rowname]
         }
         
         blastData$width <- width

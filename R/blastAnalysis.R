@@ -20,13 +20,65 @@
 #' in \code{packMatches} (the object originally used to 
 #' predict the transposons \code{\link{packSearch}}). 
 #' 
+#' @param blastPath
+#' Path to the BLAST+ executable, or name of 
+#' the BLAST+ application for Linux/MacOS users.
+#' 
+#' @param protDb
+#' For assigning Pack-TYPE elements. 
+#' Path to the blast database containing nucleotide or protein
+#' sequences to be matched against internal transposon 
+#' sequences. Can be generated 
+#' using BLAST+, or with 
+#' \code{link{makeBlastDb}}.
+#' 
+#' @param autoDb
+#' For assigning autonomous elements. 
+#' Path to the blast database containing nucleotide or protein
+#' sequences to be matched against internal transposon 
+#' sequences. Can be generated 
+#' using BLAST+, or with 
+#' \code{link{makeBlastDb}}.
+#' 
+#' @param minE
+#' Blast results with e values greater than
+#' the specified cutoff will be ignored.
+#' 
+#' @param blastTask
+#' Type of BLAST+ task, defaults to "blastn-short".
+#' 
+#' @param maxHits
+#' Maximum hits returned by BLAST+ per query.
+#' 
+#' @param threads
+#' Allowable number of threads to be utilised by BLAST+.
+#' 
+#' @param saveFolder
+#' Directory to save BLAST+ results in; defaults 
+#' to the working directory.
+#' 
+#' @param tirCutoff
+#' How many bases to ignore at the terminal ends of the 
+#' transposons to prevent hits to TIR sequences.
+#' 
+#' @return 
+#' No return value; executes BLAST+ to generate hits 
+#' which are stored in a .blast file in the chosen 
+#' directory.
 #'     
 #' @seealso 
-#' \code{\link{packSearch}}
+#' \code{\link{blastAnnotate}},
+#' \code{\link{readBlast}}, \code{\link{packBlast}}
 #' 
 #' @examples
 #' \dontrun{
+#' packMatches <- data(packMatches)
+#' Genome <- data(arabidopsisThalianaRefseq)
 #' 
+#' blastAnalysis(packMatches, Genome, 
+#'     protDb = "C:/data/TAIR10_CDS", 
+#'     autoDb = "C:/data/TAIR10_transposons", 
+#'     blastPath = "C:/blast/bin/blastn.exe")
 #' }
 #' 
 #' @references 

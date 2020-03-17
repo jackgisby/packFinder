@@ -21,6 +21,10 @@
 #' @param dbType
 #' Type of BLAST database to create, e.g. "nucl"
 #' for a nucleotide database. 
+#' 
+#' @return 
+#' No return value; generates a blast database in 
+#' the chosen directory. 
 #'     
 #' @seealso 
 #' \code{\link{packSearch}}

@@ -82,10 +82,9 @@ getPacksFromFasta <- function(file) {
 checkPermissions <- function(file) {
     if (!is.null(file)) {
         # check for read/write permissions
-        if (!(file.access(file, 4) == 0) |
-            !(file.access(file, 2) == 0)) {
+        if (!(file.access(file, 2) == 0)) {
             stop("File does not exist, or R does not 
-                have read/write permissions")
+                have read permissions")
         }
     }
 }
