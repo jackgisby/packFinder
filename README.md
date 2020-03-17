@@ -14,7 +14,9 @@ BiocManager::install(version='devel')
 BiocManager::install("packFinder")
 ```
 
-Additionally, in order to use the functions packClust and packAlign, the VSEARCH command line tool must be installed. For Linux and MacOS systems, correct installation of VSEARCH should allow users to use all functions within packFinder; for windows users, the absolute path to the VSEARCH executable file must be specified when calling packFinder clustering and alignment functions. See the vignette, documentation or the VSEARCH github for further information (https://github.com/torognes/vsearch).
+In order to use the functions packClust and packAlign, the VSEARCH command line tool must be installed. For Linux and MacOS systems, correct installation of VSEARCH should allow users to use all functions within packFinder; for windows users, the absolute path to the VSEARCH executable file must be specified when calling packFinder clustering and alignment functions. See the vignette, documentation or the VSEARCH github for further information (https://github.com/torognes/vsearch).
+
+Additionally, utilites are provided with the package for the functional annotation of internal transposon sequences using BLAST+; this application can be installed from NCBI (https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 
 ## Using packFinder
-The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette ().
+The packFinder vignette includes a full walkthrough of the package. To get started quickly, it is easiest to download a genome of interest using the biomartr package and follow the steps outlined in the vignette (https://bioconductor.org/packages/devel/bioc/vignettes/packFinder/inst/doc/packFinder.html).
