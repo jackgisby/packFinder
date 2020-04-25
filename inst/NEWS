@@ -1,2 +1,10 @@
+Version 1.0.0 (2020-04-25):
++ Minor bugfixes
++ Generate package graphics
++ Allow for partial TSD matching
++ Add methods for BLAST classification
++ Add method to collapse overlapping sequences
+
 Version 0.99.0 (2019-10-28):
 + Package Submitted to Bioconductor
++ Core package functionality implemented
