@@ -1,7 +1,7 @@
 Package: packFinder
 Type: Package
 Title: de novo Annotation of Pack-TYPE Transposable Elements
-Version: 1.3.0
+Version: 1.4.0
 Authors@R: c(person(given = "Jack", family = "Gisby", role = c("aut", "cre"), email = "jackgisby@gmail.com"), person(given = "Marco", family = "Catoni", role = "aut", email="m.catoni@bham.ac.uk"))
 Description: Algorithm and tools for in silico pack-TYPE transposon discovery. Filters a given genome for properties unique to DNA transposons and provides tools for the investigation of returned matches. Sequences are input in DNAString format, and ranges are returned as a dataframe (in the format returned by as.dataframe(GRanges)).
 License: GPL-2
