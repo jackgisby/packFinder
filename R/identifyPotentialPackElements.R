@@ -99,19 +99,17 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
                                             tsdMismatch, searchRange)
 
         if (length(reverseRepeats[, 1]) > 0) {
-            for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
-                packMatches <- rbind(
-                    packMatches,
-                    data.frame(
-                        seqnames = forwardRepeat$seqnames,
-                        start = forwardRepeat$start,
-                        end = reverseRepeats[reverseMatch, ]$end,
-                        width = reverseRepeats[reverseMatch, ]$end
-                            - forwardRepeat$start + 1,
-                        strand = "*"
-                    )
+            
+            packMatches <- rbind(
+                packMatches,
+                data.frame(
+                    seqnames = forwardRepeat$seqnames,
+                    start = forwardRepeat$start,
+                    end = min(reverseRepeats$end),
+                    width = min(reverseRepeats$end) - forwardRepeat$start + 1,
+                    strand = "*"
                 )
-            }
+            )
         }
     }
     return(packMatches)
