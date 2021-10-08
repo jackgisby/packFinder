@@ -76,18 +76,24 @@ identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*",
             tirSeq,
             Genome[[i]],
             max.mismatch = mismatch,
-            with.indels = TRUE
+            with.indels = TRUE,
+            fixed = FALSE
         )
 
-        if (length(matches) > 0) {
-            tirMatches <- rbind(tirMatches, data.frame(
-                seqnames = names(Genome)[i],
-                start = GenomicRanges::start(matches),
-                end = GenomicRanges::start(matches) + 
-                    GenomicRanges::width(matches) - 1,
-                width = GenomicRanges::width(matches),
-                strand = strand
-            ))
+        if (length(reverseRepeats[, 1]) > 0) {
+            for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
+                packMatches <- rbind(
+                    packMatches,
+                    data.frame(
+                        seqnames = forwardRepeat$seqnames,
+                        start = forwardRepeat$start,
+                        end = reverseRepeats[reverseMatch, ]$end,
+                        width = reverseRepeats[reverseMatch, ]$end
+                        - forwardRepeat$start + 1,
+                        strand = "*"
+                    )
+                )
+            }
         }
     }
 
