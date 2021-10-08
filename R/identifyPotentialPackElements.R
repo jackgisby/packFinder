@@ -80,41 +80,42 @@
 #' @export
 
 identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
-                                            Genome, elementLength, 
-                                            tsdMismatch = 0) {
+                                          Genome, elementLength, 
+                                          tsdMismatch = 0) {
     packMatches <- initialisePackMatches()
-
+    
     # for each forward match, consider/filter each nearby reverse match
     for (forwardMatch in seq_len(length(forwardMatches[, 1]))) {
         forwardRepeat <- forwardMatches[forwardMatch, ]
         chr <- as.character(forwardRepeat[[1]])
         searchRange <- c(forwardRepeat$start + elementLength[1], 
-                        forwardRepeat$start + elementLength[2])
-
+                         forwardRepeat$start + elementLength[2])
+        
         if (searchRange[2] > length(Genome[names(Genome) == chr][[1]])) {
             searchRange[2] <- length(Genome[names(Genome) == chr][[1]])
         }
-    
+        
         reverseRepeats <- filterTsdMatches(reverseMatches, forwardRepeat, 
-                                            tsdMismatch, searchRange)
-
+                                           tsdMismatch, searchRange)
+        
         if (length(reverseRepeats[, 1]) > 0) {
-            
-            packMatches <- rbind(
-                packMatches,
-                data.frame(
-                    seqnames = forwardRepeat$seqnames,
-                    start = forwardRepeat$start,
-                    end = min(reverseRepeats$end),
-                    width = min(reverseRepeats$end) - forwardRepeat$start + 1,
-                    strand = "*"
+            for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
+                packMatches <- rbind(
+                    packMatches,
+                    data.frame(
+                        seqnames = forwardRepeat$seqnames,
+                        start = forwardRepeat$start,
+                        end = reverseRepeats[reverseMatch, ]$end,
+                        width = reverseRepeats[reverseMatch, ]$end
+                        - forwardRepeat$start + 1,
+                        strand = "*"
+                    )
                 )
-            )
+            }
         }
     }
     return(packMatches)
 }
-
 
 filterTsdMatches <- function(reverseMatches, forwardRepeat, tsdMismatch, 
                                 searchRange) {

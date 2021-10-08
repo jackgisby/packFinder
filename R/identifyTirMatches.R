@@ -63,13 +63,13 @@
 #' @export
 
 identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*", 
-                            tsdLength) {
+                               tsdLength) {
     if (strand != "-" & strand != "+") {
         stop("Argument 'strand' must be specified as '-' or '+'")
     }
-
+    
     tirMatches <- initialisePackMatches()
-
+    
     # get tir matches
     for (i in seq_len(length(Genome))) {
         matches <- Biostrings::matchPattern(
@@ -79,38 +79,33 @@ identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*",
             with.indels = TRUE,
             fixed = FALSE
         )
-
-        if (length(reverseRepeats[, 1]) > 0) {
-            for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
-                packMatches <- rbind(
-                    packMatches,
-                    data.frame(
-                        seqnames = forwardRepeat$seqnames,
-                        start = forwardRepeat$start,
-                        end = reverseRepeats[reverseMatch, ]$end,
-                        width = reverseRepeats[reverseMatch, ]$end
-                        - forwardRepeat$start + 1,
-                        strand = "*"
-                    )
-                )
-            }
+        
+        if (length(matches) > 0) {
+            tirMatches <- rbind(tirMatches, data.frame(
+                seqnames = names(Genome)[i],
+                start = GenomicRanges::start(matches),
+                end = GenomicRanges::start(matches) + 
+                    GenomicRanges::width(matches) - 1,
+                width = GenomicRanges::width(matches),
+                strand = strand
+            ))
         }
     }
-
+    
     # remove matches whose TSD sequences do not exist (index range)
     if (strand == "-") {
         removeMatch <- mapply(function(end, seqnames, tsdLength, Genome) {
-                seq <- Genome[names(Genome) == seqnames][[1]]
-                return((end + tsdLength) > length(seq))
-            },
-            tirMatches$end,
-            tirMatches$seqnames,
-            MoreArgs = list(tsdLength, Genome)
+            seq <- Genome[names(Genome) == seqnames][[1]]
+            return((end + tsdLength) > length(seq))
+        },
+        tirMatches$end,
+        tirMatches$seqnames,
+        MoreArgs = list(tsdLength, Genome)
         )
         tirMatches <- tirMatches[removeMatch == FALSE, ]
     } else if (strand == "+") {
         tirMatches <- tirMatches[tirMatches$start > tsdLength, ]
     }
-
+    
     return(tirMatches)
 }
