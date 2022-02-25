@@ -1,7 +1,7 @@
 Package: packFinder
 Type: Package
 Title: de novo Annotation of Pack-TYPE Transposable Elements
-Version: 1.7.3
+Version: 1.7.4
 Authors@R: c(
     person(given = "Jack", 
            family = "Gisby", 
