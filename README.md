@@ -1,6 +1,6 @@
 # packFinder <img src="inst/packFinder_hex.png" align="right" height="174" width="150" />
 
-A package for the *de novo* discovery of Pack-TYPE transposons. Transposons are detected in DNA sequences based on conserved terminal inverted repeat sequences and presence of terminal site duplications. `packFinder` allows users to search a given Genome for Pack-TYPE transposons with minimal input and setup. For a more in-depth explanation, see our [paper in PLoS Genetics](https://doi.org/10.1371/journal.pgen.1010078).
+A package for the *de novo* discovery of Pack-TYPE transposons. Transposons are detected in DNA sequences based on conserved terminal inverted repeat sequences and presence of terminal site duplications. `packFinder` allows users to search a given Genome for Pack-TYPE transposons with minimal input and setup. For a more in-depth explanation, see our [paper in PLOS Genetics](https://doi.org/10.1371/journal.pgen.1010078).
 
 ## Installation
 `packFinder` is available from the [Bioconductor project](https://bioconductor.org/packages/packFinder/). With R >=4.0.0 installed, the following code can be used to install the package:
