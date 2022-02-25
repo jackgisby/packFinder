@@ -2,11 +2,11 @@ citEntry(entry="article",
          title = "The widespread nature of Pack-TYPE transposons reveals their importance for plant genome evolution",
          author = personList( as.person("Jack S. Gisby"),
                               as.person("Marco Catoni")),
-         year = 2021,
-         journal = "bioRxiv",
-         doi = "10.1101/2021.06.18.448592",
+         year = 2022,
+         journal = "PLOS Genetics",
+         doi = "10.1371/journal.pgen.1010078",
          textVersion = 
-         paste("Gisby, J. S. & Catoni, M.", 
+         paste("Gisby, J. S. & Catoni, M. (2022)", 
                "The widespread nature of Pack-TYPE transposons reveals their importance for plant genome evolution.",
-               "bioRxiv 2021.06.18.448592 (2021)") 
+               "PLOS Genetics 18(2): e1010078.") 
     )
