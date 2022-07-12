@@ -8,5 +8,5 @@ citEntry(entry="article",
          textVersion = 
          paste("Gisby, J. S. & Catoni, M. (2022)", 
                "The widespread nature of Pack-TYPE transposons reveals their importance for plant genome evolution.",
-               "PLOS Genetics 18(2): e1010078.") 
+               "PLOS Genetics 18(2): e1010078.")
     )

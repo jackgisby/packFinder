@@ -485,7 +485,7 @@ getPackSeqs(packMatches, arabidopsisThalianaRefseq)
 ```
 
 # References
-Information on the properties of Pack-TYPE transposable elements 
+Much of the information on the properties of Pack-TYPE transposable elements 
 was obtained from the following papers during the development of 
 `packFinder`.
 
@@ -497,9 +497,16 @@ doi: 10.1093/nar/gky1196.
 evolution in plants’, *Nature*, 431(7008), pp. 569–573. 
 doi: 10.1038/nature02953.
 
-The Bioconductor packages `GenomicRanges` and `Biostrings` are 
-used for detection of tranposable elements, and manipulation of 
+The Bioconductor packages `GenomicRanges` and `Biostrings` were 
+used extensively for detection of tranposable elements, and manipulation of 
 DNA sequences. 
+
+Finally, the `packFinder` package has now been described in *PLOS Genetics*:
+
+Gisby, J. S. & Catoni, M. (2022) The widespread nature of Pack-TYPE transposons 
+reveals their importance for plant genome evolution. *PLOS Genetics* 18(2): 
+e1010078. doi: 
+[10.1371/journal.pgen.1010078](https://doi.org/10.1371/journal.pgen.1010078)
 
 # Session Information
 
