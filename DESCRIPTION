@@ -1,7 +1,7 @@
 Package: packFinder
 Type: Package
 Title: de novo Annotation of Pack-TYPE Transposable Elements
-Version: 1.9.2
+Version: 1.9.3
 Authors@R: c(
     person(given = "Jack", 
            family = "Gisby", 
@@ -18,7 +18,7 @@ Description: Algorithm and tools for in silico pack-TYPE transposon discovery. F
 License: GPL-2
 Encoding: UTF-8
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.1.0)
 Imports: 
     Biostrings,
     GenomicRanges,
@@ -36,7 +36,7 @@ Suggests:
     biocViews,
     BiocCheck,
     BiocStyle
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 URL: https://github.com/jackgisby/packFinder
 BugReports: https://github.com/jackgisby/packFinder/issues

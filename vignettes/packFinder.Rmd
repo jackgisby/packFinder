@@ -172,6 +172,7 @@ The identity and method of identity definition can be altered depending on
 analysis (see VSEARCH documentation). 
 
 ```{r packClustData, include=FALSE}
+# We don't have the dependencies for clustering, so get pre-clustered results
 data(packMatches)
 ```
 ```{r packClust, eval=FALSE}
