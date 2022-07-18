@@ -82,10 +82,11 @@
 identifyPotentialPackElements <- function(forwardMatches, reverseMatches, 
                                           Genome, elementLength, 
                                           tsdMismatch = 0) {
-    packMatches <- initialisePackMatches()
+    packMatches_list <- list()
     
     # for each forward match, consider/filter each nearby reverse match
     for (forwardMatch in seq_len(length(forwardMatches[, 1]))) {
+
         forwardRepeat <- forwardMatches[forwardMatch, ]
         chr <- as.character(forwardRepeat[[1]])
         searchRange <- c(forwardRepeat$start + elementLength[1], 
@@ -100,20 +101,20 @@ identifyPotentialPackElements <- function(forwardMatches, reverseMatches,
         
         if (length(reverseRepeats[, 1]) > 0) {
             for (reverseMatch in seq_len(length(reverseRepeats[, 1]))) {
-                packMatches <- rbind(
-                    packMatches,
-                    data.frame(
-                        seqnames = forwardRepeat$seqnames,
-                        start = forwardRepeat$start,
-                        end = reverseRepeats[reverseMatch, ]$end,
-                        width = reverseRepeats[reverseMatch, ]$end
-                        - forwardRepeat$start + 1,
-                        strand = "*"
-                    )
+                
+                packMatches_list[[forwardMatch]] <- data.frame(
+                    seqnames = forwardRepeat$seqnames,
+                    start = forwardRepeat$start,
+                    end = reverseRepeats[reverseMatch, ]$end,
+                    width = reverseRepeats[reverseMatch, ]$end
+                    - forwardRepeat$start + 1,
+                    strand = "*"
                 )
             }
         }
     }
+    
+    packMatches <- do.call("rbind", packMatches_list)
     return(packMatches)
 }
 
