@@ -27,6 +27,11 @@
 #'
 #' @param tsdLength
 #' Integer referring to the length of the flanking TSD region.
+#' 
+#' @param fixed
+#' Logical that will be passed to the `fixed` argument of 
+#' \code{\link[Biostrings]{matchPattern}}. Determines the behaviour of IUPAC
+#' ambiguity codes when searching for TIR sequences.
 #'
 #' @details 
 #' Called by \code{\link{packSearch}}. Used by 
@@ -63,7 +68,7 @@
 #' @export
 
 identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*", 
-                               tsdLength) {
+                               tsdLength, fixed=TRUE) {
     if (strand != "-" & strand != "+") {
         stop("Argument 'strand' must be specified as '-' or '+'")
     }
@@ -72,12 +77,13 @@ identifyTirMatches <- function(tirSeq, Genome, mismatch = 0, strand = "*",
     
     # get tir matches
     for (i in seq_len(length(Genome))) {
+
         matches <- Biostrings::matchPattern(
             tirSeq,
             Genome[[i]],
             max.mismatch = mismatch,
             with.indels = TRUE,
-            fixed = FALSE
+            fixed = fixed
         )
         
         if (length(matches) > 0) {

@@ -4,7 +4,14 @@
 \alias{identifyTirMatches}
 \title{Identify Terminal Inverted Repeat Matches}
 \usage{
-identifyTirMatches(tirSeq, Genome, mismatch = 0, strand = "*", tsdLength)
+identifyTirMatches(
+  tirSeq,
+  Genome,
+  mismatch = 0,
+  strand = "*",
+  tsdLength,
+  fixed = TRUE
+)
 }
 \arguments{
 \item{tirSeq}{A \code{\link[Biostrings:DNAString-class]{DNAString}} 
@@ -24,6 +31,10 @@ to search the reverse strand you should use the reverse
 complement of your sequence.}
 
 \item{tsdLength}{Integer referring to the length of the flanking TSD region.}
+
+\item{fixed}{Logical that will be passed to the `fixed` argument of 
+\code{\link[Biostrings]{matchPattern}}. Determines the behaviour of IUPAC
+ambiguity codes when searching for TIR sequences.}
 }
 \value{
 A dataframe, \code{tirMatches}, containing identified 

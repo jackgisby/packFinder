@@ -25,6 +25,11 @@
 #' @param tsdLength
 #' Integer referring to the length of the flanking TSD region.
 #' 
+#' @param fixed
+#' Logical that will be passed to the `fixed` argument of 
+#' \code{\link[Biostrings]{matchPattern}}. Determines the behaviour of IUPAC
+#' ambiguity codes when searching for TIR sequences.
+#' 
 #' @param tsdMismatch
 #' An integer referring to the allowable mismatch 
 #' (substitutions or indels) between a transposon's TSD
@@ -127,27 +132,28 @@
 #' 
 #' @export
 
-packSearch <- function(tirSeq, Genome, mismatch = 0, 
-                        elementLength, tsdLength, tsdMismatch = 0) {
+packSearch <- function(tirSeq, Genome, mismatch = 0, elementLength, tsdLength, 
+                       tsdMismatch = 0, fixed = TRUE) {
     
     searchCheck(mismatch, tsdLength, elementLength, tirSeq, Genome)
 
     message("Getting forward matches")
     forwardMatches <- identifyTirMatches(tirSeq = tirSeq, Genome = Genome,
-        mismatch = mismatch, strand = "+", tsdLength = tsdLength)
+        mismatch = mismatch, strand = "+", tsdLength = tsdLength, fixed = fixed)
+    
     forwardMatches$TSD <- getTsds(tirMatches = forwardMatches, Genome = Genome,
         tsdLength = tsdLength, strand = "+")
-
     message(length(forwardMatches[, 1]), " forward matches identified.")
+    
     message("Getting reverse matches")
     reverseMatches <- identifyTirMatches(
         tirSeq = Biostrings::reverseComplement(tirSeq), Genome = Genome, 
-        mismatch = mismatch, strand = "-", tsdLength = tsdLength
-    )
+        mismatch = mismatch, strand = "-", tsdLength = tsdLength, fixed = fixed)
+    
     reverseMatches$TSD <- getTsds(tirMatches = reverseMatches, Genome = Genome,
         tsdLength = tsdLength, strand = "-")
-
     message(length(reverseMatches[, 1]), " reverse matches identified.")
+    
     if (length(forwardMatches[, 1]) == 0 | length(reverseMatches[, 1]) == 0) {
         message("No matches identified")
         return(NULL)
@@ -159,6 +165,7 @@ packSearch <- function(tirSeq, Genome, mismatch = 0,
         Genome = Genome, elementLength = elementLength, 
         tsdMismatch = tsdMismatch
     )
+    
     packMatches$TSD <- getTsds(tirMatches = packMatches, Genome = Genome,
                                 tsdLength = tsdLength, strand = "+")
     

@@ -47,6 +47,4 @@ data(arabidopsisThalianaRefseq)
 }
 \author{
 Jack Gisby
-
-Jack Gisby
 }

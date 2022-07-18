@@ -10,7 +10,8 @@ packSearch(
   mismatch = 0,
   elementLength,
   tsdLength,
-  tsdMismatch = 0
+  tsdMismatch = 0,
+  fixed = TRUE
 )
 }
 \arguments{
@@ -33,6 +34,10 @@ of two integers. E.g. \code{c(300, 3500)}}
 (substitutions or indels) between a transposon's TSD
 sequences. \code{\link[Biostrings]{matchPattern}} from Biostrings 
 is used for pattern matching.}
+
+\item{fixed}{Logical that will be passed to the `fixed` argument of 
+\code{\link[Biostrings]{matchPattern}}. Determines the behaviour of IUPAC
+ambiguity codes when searching for TIR sequences.}
 }
 \value{
 A dataframe, containing elements 
